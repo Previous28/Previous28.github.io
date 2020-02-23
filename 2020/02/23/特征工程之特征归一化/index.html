@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="en">
+<html class="theme-next gemini use-motion" lang="en">
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -89,8 +89,8 @@
 <meta property="og:image" content="http://yoursite.com/2020/02/23/img/img1.png">
 <meta property="og:image" content="http://yoursite.com/2020/02/23/img/img2.png">
 <meta property="article:published_time" content="2020-02-23T03:58:36.000Z">
-<meta property="article:modified_time" content="2020-02-23T09:06:45.819Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:modified_time" content="2020-02-23T10:02:34.687Z">
+<meta property="article:author" content="Jonathan Shu">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/2020/02/23/img/img1.png">
 
@@ -100,7 +100,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
@@ -238,7 +238,7 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="Jonathan Shu">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -305,20 +305,18 @@
         <p>特征归一化一般是针对数值特征来说的。</p>
 <h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。</p>
 <p>下面详细解释这两个方面。</p>
-<h4 id="量纲大小不同对数据分析的影响"><a href="#量纲大小不同对数据分析的影响" class="headerlink" title="量纲大小不同对数据分析的影响"></a>量纲大小不同对数据分析的影响</h4><p>为什么说不同的量纲会对数据分析产生影响？不妨举一个网上很常见的例子。假设房子的价格只有两个影响因素，一个是房子到最近地铁口的距离，另一个是房子的房间数，房子的价格可以表示为：$$y = \theta_1x_1 + \theta_2x_2$$</p>
+<h4 id="量纲大小不同对数据分析的影响"><a href="#量纲大小不同对数据分析的影响" class="headerlink" title="量纲大小不同对数据分析的影响"></a>量纲大小不同对数据分析的影响</h4><p>为什么说不同的量纲会对数据分析产生影响？不妨举一个网上很常见的例子。假设房子的价格只有两个影响因素，一个是房子到最近地铁口的距离，另一个是房子的房间数，房子的价格可以表示为：<script type="math/tex">y = \theta_1x_1 + \theta_2x_2</script></p>
 <p>根据生活经验我们可以假设房子到地铁口的距离 $x_1$ 的范围为 0-1000(米)，而房间数 $x_2$ 的范围大概在 1-10(个) 。在系数大小相近的情况下，最终房子的价格肯定是受到“距离”这个因素的影响更大，而且如果“距离”改变了 10(米)，对结果的影响比“房间数”改变了 5(个) 还要大，这是不符合实际的，因为我们知道 10(米) 对“距离”来说是一个非常小的变动，而 5(个) 对“房间数”来说是一个非常大的变动。</p>
 <p><strong>那既然如此，我们能不能通过改变系数的大小来抵消这种区别呢？</strong>还是上面那个例子，让“房间” $x_2$ 对应的系数 $\theta_2$是“距离” $x_1$对应的系数 $\theta_1 $的 100 倍，这样子似乎两个变量对于房价的影响就相近了。但这又带来了新的问题。如果对$\theta_1$、$\theta_2 $随机初始化为 0 附近的正态随机数，则相对于较小的系数$\theta_1 $，较大的系数$\theta_2 $需要多得多的训练次数来达到其最佳值。另外，由于每次训练更新的梯度大小跟对应特征的量纲有关，量纲大的特征每次梯度的更新幅度很大，而我们又期望它的系数“相对很小”，这将导致训练的困难以及精确度的降低；量纲小的特征每次梯度更新的幅度小，想要达到“相对很大”的系数值，则需要很长的训练时间。即使我们把这两个特征的系数初始化为我们期望的数量级，后一个问题仍然存在。</p>
-<h4 id="量纲大小不同对寻找最优解的影响"><a href="#量纲大小不同对寻找最优解的影响" class="headerlink" title="量纲大小不同对寻找最优解的影响"></a>量纲大小不同对寻找最优解的影响</h4><p>对于房价的预测表达式：$$y = \theta_1x_1 + \theta_2x_2$$ ，使用梯度下降法求最优的 $\theta_1$ 和 $\theta_2$。这里 $\theta_1$、$\theta_2 $ 是自变量，$J(\theta_1, \theta_2)$是因变量，图画起来是一个三维图像，我们可以用“等高线”的形式把它变成二维视图。具体的做法是用许多个 $J$ 值固定的平面水平地切割对应的三维曲线，将切割得到的图形映射到二维平面中。</p>
+<h4 id="量纲大小不同对寻找最优解的影响"><a href="#量纲大小不同对寻找最优解的影响" class="headerlink" title="量纲大小不同对寻找最优解的影响"></a>量纲大小不同对寻找最优解的影响</h4><p>对于房价的预测表达式：<script type="math/tex">y = \theta_1x_1 + \theta_2x_2</script> ，使用梯度下降法求最优的 $\theta_1$ 和 $\theta_2$。这里 $\theta_1$、$\theta_2 $ 是自变量，$J(\theta_1, \theta_2)$是因变量，图画起来是一个三维图像，我们可以用“等高线”的形式把它变成二维视图。具体的做法是用许多个 $J$ 值固定的平面水平地切割对应的三维曲线，将切割得到的图形映射到二维平面中。</p>
 <p>还没有进行归一化的时候，表达式可以为$J(\theta_1, \theta_2) = (800\theta_1 + 4\theta_2 - y_{correct})^2$ ，这是一个类似椭圆形状的曲线（回顾下椭圆的曲线是$Ax^2+Bxy+Cy^2+Dx+Ey+F = 0$），所以最终的结果大概是下图：</p>
-<img src="../img/img1.png" style="zoom:45%;" />
-
+<p><img src="../img/img1.png" style="zoom:45%;" /></p>
 <p>训练过程中寻找最优解的路径如图中箭头所示。由于特征 $x_1$ 的量纲相对很大，所以基本上每次梯度的更新方向更多地被特征1主导了，而且由于特征1的量纲很大，梯度更新的精度也会受损，最终梯度的更新过程是很曲折陡峭的。</p>
 <p>进行归一化之后，表达式变成$J(\theta_1, \theta_2) = (0.8\theta_1 + 0.4\theta_2 - y_{correct})^2$，相对于前面的式子，这个式子更接近一个圆形，此时的损失函数等高线图大概为：</p>
-<img src="../img/img2.png" style="zoom:40%;" />
-
+<p><img src="../img/img2.png" style="zoom:40%;" /></p>
 <p>我们可以看到，由于不同系数的梯度相近，梯度的更新变得平缓，少走了很多“弯路”，加快了最优值的寻找过程。</p>
 <h4 id="一点小思考"><a href="#一点小思考" class="headerlink" title="一点小思考"></a>一点小思考</h4><p>在理解上面的图的过程中，我产生了一个梯度下降时关于系数的问题：在进行梯度下降的时候，不同的系数是同增同减的吗？</p>
-<p>首先列出梯度更新的一般式子：$ 𝜃<em>𝑖=𝜃_𝑖−𝛼\sum</em>{j=0}^{m}(ℎ<em>𝜃(x</em>{0}^{(j)},x_{1}^{(j)},…x_{n}^{(j)})−𝑦<em>𝑗)x</em>{i}^{(j)}$ 。我们可以看到在一次梯度更新中，对于每个系数来说，$𝛼\sum_{j=0}^{m}(ℎ<em>𝜃(x</em>{0}^{(j)},x_{1}^{(j)},…x_{n}^{(j)})−𝑦_𝑗)$这一部分是相同的，所以更新时是增加还是减少取决于 $x_i$ 的符号，如果是负号则 $\theta_i$ 增加，正号则是减少。所以当 $x$ 的符号相同的时候，梯度更新中系数应该是同增同减的，这样可以理解吗？</p>
+<p>首先列出梯度更新的一般式子：$ 𝜃_𝑖=𝜃_𝑖−𝛼\sum_{j=0}^{m}(ℎ_𝜃(x_{0}^{(j)},x_{1}^{(j)},…x_{n}^{(j)})−𝑦_𝑗)x_{i}^{(j)}$ 。我们可以看到在一次梯度更新中，对于每个系数来说，$𝛼\sum_{j=0}^{m}(ℎ_𝜃(x_{0}^{(j)},x_{1}^{(j)},…x_{n}^{(j)})−𝑦_𝑗)$这一部分是相同的，所以更新时是增加还是减少取决于 $x_i$ 的符号，如果是负号则 $\theta_i$ 增加，正号则是减少。所以当 $x$ 的符号相同的时候，梯度更新中系数应该是同增同减的，这样可以理解吗？</p>
 <ul>
 <li>如果特征都是正数，此时系数同增，说明预测值 $h_\theta$ 小于真实值，那么系数增加是正确的；</li>
 <li>如果特征都是负数，此时系数同增，说明预测值 $h_\theta$ 大于真实值，增大系数会使得预测值变小，从而更接近真实值，所以也是正确的；</li>
@@ -419,7 +417,7 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">John Doe</p>
+              <p class="site-author-name" itemprop="name">Jonathan Shu</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -491,7 +489,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">Jonathan Shu</span>
 
   
 </div>
@@ -505,7 +503,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
 
 
@@ -605,6 +603,13 @@
   
   
 
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
 <script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
@@ -614,24 +619,7 @@
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
 
 
 
@@ -684,6 +672,45 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
 
   
 
