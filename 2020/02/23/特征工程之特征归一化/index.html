@@ -5,15 +5,22 @@
   
 
   
-  <title>Hexo</title>
+  <title>特征工程之特征归一化 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="特征归一化一般是针对数值特征来说的。 为什么为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。 下面详细解释这两个方面。 量纲大小不同对数据分析的影响为什么说不同的量纲会对数据分析产生影响？不妨举一个网上很常见的例子。假设房子的价格只有两个影响因素，一个是房子到最近地铁口的距离，另一个是房子的房间数，房子的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="特征工程之特征归一化">
+<meta property="og:url" content="http://yoursite.com/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="特征归一化一般是针对数值特征来说的。 为什么为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。 下面详细解释这两个方面。 量纲大小不同对数据分析的影响为什么说不同的量纲会对数据分析产生影响？不妨举一个网上很常见的例子。假设房子的价格只有两个影响因素，一个是房子到最近地铁口的距离，另一个是房子的房间数，房子的">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/02/23/img/img1.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/23/img/img2.png">
+<meta property="article:published_time" content="2020-02-23T03:58:36.000Z">
+<meta property="article:modified_time" content="2020-02-23T09:06:45.819Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/23/img/img1.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -62,9 +69,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-特征工程之特征归一化" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-特征工程之特征归一化" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/" class="article-date">
   <time datetime="2020-02-23T03:58:36.000Z" itemprop="datePublished">2020-02-23</time>
@@ -77,8 +82,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/">特征工程之特征归一化</a>
+    <h1 class="article-title" itemprop="name">
+      特征工程之特征归一化
     </h1>
   
 
@@ -131,60 +136,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/02/06/hello-world/" class="article-date">
-  <time datetime="2020-02-06T04:11:29.328Z" itemprop="datePublished">2020-02-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/06/hello-world/">Hello World</a>
-    </h1>
+    <a href="/2020/02/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/02/06/hello-world/" data-id="ck6yt6dd10000hi9tfnim8xlp" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
