@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="特征归一化一般是针对数值特征来说的。 1. 为什么">
+<meta name="description" content="特征归一化一般是针对数值特征来说的。 为什么为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。 下面详细解释这两个方面。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="特征工程之特征归一化">
 <meta property="og:url" content="http://shujh.top/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/index.html">
-<meta property="og:site_name" content="学而思而记">
-<meta property="og:description" content="特征归一化一般是针对数值特征来说的。 1. 为什么">
+<meta property="og:site_name" content="过程就是奖励">
+<meta property="og:description" content="特征归一化一般是针对数值特征来说的。 为什么为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。 下面详细解释这两个方面。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://shujh.top/2020/02/23/img/img1.png">
-<meta property="og:image" content="http://shujh.top/2020/02/23/img/img2.png">
+<meta property="og:image" content="http://shujh.top/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/img1.png">
+<meta property="og:image" content="http://shujh.top/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/img2.png">
 <meta property="article:published_time" content="2020-02-23T03:58:36.000Z">
-<meta property="article:modified_time" content="2020-02-23T11:45:38.220Z">
+<meta property="article:modified_time" content="2020-02-23T15:37:17.502Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="特征工程">
 <meta property="article:tag" content="归一化">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://shujh.top/2020/02/23/img/img1.png">
+<meta name="twitter:image" content="http://shujh.top/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/img1.png">
 
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>特征工程之特征归一化 | 学而思而记</title>
+  <title>特征工程之特征归一化 | 过程就是奖励</title>
   
 
 
@@ -160,7 +160,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">学而思而记</span>
+        <span class="site-title">过程就是奖励</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -195,8 +195,18 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
+          <a href="/categories" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -206,9 +216,9 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
+          <a href="/archives" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
             
             Archives
           </a>
@@ -252,11 +262,11 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.png">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="学而思而记">
+      <meta itemprop="name" content="过程就是奖励">
     </span>
 
     
@@ -337,21 +347,20 @@
 
       
         <p>特征归一化一般是针对数值特征来说的。</p>
-<h2 id="1-为什么"><a href="#1-为什么" class="headerlink" title="1. 为什么"></a>1. 为什么</h2><a id="more"></a>
-<p>为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。</p>
-<p>下面详细解释这两个方面。<br><!-- more --></p>
-<h3 id="1-1-量纲大小不同对数据分析的影响"><a href="#1-1-量纲大小不同对数据分析的影响" class="headerlink" title="1.1 量纲大小不同对数据分析的影响"></a>1.1 量纲大小不同对数据分析的影响</h3><p>为什么说不同的量纲会对数据分析产生影响？不妨举一个网上很常见的例子。假设房子的价格只有两个影响因素，一个是房子到最近地铁口的距离，另一个是房子的房间数，房子的价格可以表示为：<script type="math/tex">y = \theta_1x_1 + \theta_2x_2</script></p>
+<h2 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h2><p>为什么要进行特征归一化？一方面特征归一化可以消除由于量纲大小的不同对数据分析的影响；另一方面，可以使得通过梯度下降寻找最优解的过程更快更平缓。</p>
+<p>下面详细解释这两个方面。<br><a id="more"></a></p>
+<h3 id="量纲大小不同对数据分析的影响"><a href="#量纲大小不同对数据分析的影响" class="headerlink" title="量纲大小不同对数据分析的影响"></a>量纲大小不同对数据分析的影响</h3><p>为什么说不同的量纲会对数据分析产生影响？不妨举一个网上很常见的例子。假设房子的价格只有两个影响因素，一个是房子到最近地铁口的距离，另一个是房子的房间数，房子的价格可以表示为：<script type="math/tex">y = \theta_1x_1 + \theta_2x_2</script></p>
 <p>根据生活经验我们可以假设房子到地铁口的距离 $x_1$ 的范围为 0-1000(米)，而房间数 $x_2$ 的范围大概在 1-10(个) 。在系数大小相近的情况下，最终房子的价格肯定是受到“距离”这个因素的影响更大，而且如果“距离”改变了 10(米)，对结果的影响比“房间数”改变了 5(个) 还要大，这是不符合实际的，因为我们知道 10(米) 对“距离”来说是一个非常小的变动，而 5(个) 对“房间数”来说是一个非常大的变动。</p>
 <p><strong>那既然如此，我们能不能通过改变系数的大小来抵消这种区别呢？</strong>还是上面那个例子，让“房间” $x_2$ 对应的系数 $\theta_2$是“距离” $x_1$对应的系数 $\theta_1 $的 100 倍，这样子似乎两个变量对于房价的影响就相近了。但这又带来了新的问题。如果对 $\theta_1$、$\theta_2 $ 随机初始化为 0 附近的正态随机数，则相对于较小的系数 $\theta_1 $，较大的系数 $\theta_2 $ 需要多得多的训练次数来达到其最佳值。另外，由于每次训练更新的梯度大小跟对应特征的量纲有关，量纲大的特征每次梯度的更新幅度很大，而我们又期望它的系数“相对很小”，这将导致训练的困难以及精确度的降低；量纲小的特征每次梯度更新的幅度小，想要达到“相对很大”的系数值，则需要很长的训练时间。即使我们把这两个特征的系数初始化为我们期望的数量级，后一个问题仍然存在。</p>
-<h3 id="1-2-量纲大小不同对寻找最优解的影响"><a href="#1-2-量纲大小不同对寻找最优解的影响" class="headerlink" title="1.2 量纲大小不同对寻找最优解的影响"></a>1.2 量纲大小不同对寻找最优解的影响</h3><p>对于房价的预测表达式：<script type="math/tex">y = \theta_1x_1 + \theta_2x_2</script> ，使用梯度下降法求最优的 $\theta_1$ 和 $\theta_2$。这里 $\theta_1$、$\theta_2 $ 是自变量，$J(\theta_1, \theta_2)$是因变量，图画起来是一个三维图像，我们可以用“等高线”的形式把它变成二维视图。具体的做法是用许多个 $J$ 值固定的平面水平地切割对应的三维曲线，将切割得到的图形映射到二维平面中。</p>
-<p>还没有进行归一化的时候，表达式可以为$J(\theta_1, \theta_2) = (800\theta_1 + 4\theta_2 - y_{correct})^2$ ，这是一个类似椭圆形状的曲线（回顾下椭圆的曲线是$Ax^2+Bxy+Cy^2+Dx+Ey+F = 0$），所以最终的结果大概是下图：</p>
-<p><img src="../img/img1.png" style="zoom:40%;" /></p>
+<h3 id="量纲大小不同对寻找最优解的影响"><a href="#量纲大小不同对寻找最优解的影响" class="headerlink" title="量纲大小不同对寻找最优解的影响"></a>量纲大小不同对寻找最优解的影响</h3><p>对于房价的预测表达式：<script type="math/tex">y = \theta_1x_1 + \theta_2x_2</script> ，使用梯度下降法求最优的 $\theta_1$ 和 $\theta_2$。这里 $\theta_1$、$\theta_2 $ 是自变量，$J(\theta_1, \theta_2)$是因变量，图画起来是一个三维图像，我们可以用“等高线”的形式把它变成二维视图。具体的做法是用许多个 $J$ 值固定的平面水平地切割对应的三维曲线，将切割得到的图形映射到二维平面中。</p>
+<p>还没有进行归一化的时候，表达式可以为$J(\theta_1, \theta_2) = (800\theta_1 + 4\theta_2 - y_&#123;correct&#125;)^2$ ，这是一个类似椭圆形状的曲线（回顾下椭圆的曲线是$Ax^2+Bxy+Cy^2+Dx+Ey+F = 0$），所以最终的结果大概是下图：</p>
+<p><img src="/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/img1.png" style="zoom:40%;"></p>
 <p>训练过程中寻找最优解的路径如图中箭头所示。由于特征 $x_1$ 的量纲相对很大，所以基本上每次梯度的更新方向更多地被特征1主导了，而且由于特征1的量纲很大，梯度更新的精度也会受损，最终梯度的更新过程是很曲折陡峭的。</p>
-<p>进行归一化之后，表达式变成$J(\theta_1, \theta_2) = (0.8\theta_1 + 0.4\theta_2 - y_{correct})^2$，相对于前面的式子，这个式子更接近一个圆形，此时的损失函数等高线图大概为：</p>
-<p><img src="../img/img2.png" style="zoom:35%;" /></p>
+<p>进行归一化之后，表达式变成$J(\theta_1, \theta_2) = (0.8\theta_1 + 0.4\theta_2 - y_&#123;correct&#125;)^2$，相对于前面的式子，这个式子更接近一个圆形，此时的损失函数等高线图大概为：</p>
+<p><img src="/2020/02/23/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B9%8B%E7%89%B9%E5%BE%81%E5%BD%92%E4%B8%80%E5%8C%96/img2.png" style="zoom:35%;"></p>
 <p>我们可以看到，由于不同系数的梯度相近，梯度的更新变得平缓，少走了很多“弯路”，加快了最优值的寻找过程。</p>
-<h3 id="1-3-一点小思考"><a href="#1-3-一点小思考" class="headerlink" title="1.3 一点小思考"></a>1.3 一点小思考</h3><p>在理解上面的图的过程中，我产生了一个梯度下降时关于系数的问题：在进行梯度下降的时候，不同的系数是同增同减的吗？</p>
-<p>首先列出梯度更新的一般式子：$ 𝜃_𝑖=𝜃_𝑖−𝛼\sum_{j=0}^{m}(ℎ_𝜃(x_{0}^{(j)},x_{1}^{(j)},…x_{n}^{(j)})−𝑦_𝑗)x_{i}^{(j)}$ 。我们可以看到在一次梯度更新中，对于每个系数来说，$𝛼\sum_{j=0}^{m}(ℎ_𝜃(x_{0}^{(j)},x_{1}^{(j)},…x_{n}^{(j)})−𝑦_𝑗)$这一部分是相同的，所以更新时是增加还是减少取决于 $x_i$ 的符号，如果是负号则 $\theta_i$ 增加，正号则是减少。所以当 $x$ 的符号相同的时候，梯度更新中系数应该是同增同减的，这样可以理解吗？</p>
+<h3 id="一点小思考"><a href="#一点小思考" class="headerlink" title="一点小思考"></a>一点小思考</h3><p>在理解上面的图的过程中，我产生了一个梯度下降时关于系数的问题：在进行梯度下降的时候，不同的系数是同增同减的吗？</p>
+<p>首先列出梯度更新的一般式子：$ 𝜃_𝑖=𝜃_𝑖−𝛼\sum_&#123;j=0&#125;^&#123;m&#125;(ℎ_𝜃(x_&#123;0&#125;^&#123;(j)&#125;,x_&#123;1&#125;^&#123;(j)&#125;,…x_&#123;n&#125;^&#123;(j)&#125;)−𝑦_𝑗)x_&#123;i&#125;^&#123;(j)&#125;$ 。我们可以看到在一次梯度更新中，对于每个系数来说，$𝛼\sum_&#123;j=0&#125;^&#123;m&#125;(ℎ_𝜃(x_&#123;0&#125;^&#123;(j)&#125;,x_&#123;1&#125;^&#123;(j)&#125;,…x_&#123;n&#125;^&#123;(j)&#125;)−𝑦_𝑗)$这一部分是相同的，所以更新时是增加还是减少取决于 $x_i$ 的符号，如果是负号则 $\theta_i$ 增加，正号则是减少。所以当 $x$ 的符号相同的时候，梯度更新中系数应该是同增同减的，这样可以理解吗？</p>
 <ul>
 <li>如果特征都是正数，此时系数同增，说明预测值 $h_\theta$ 小于真实值，那么系数增加是正确的；</li>
 <li>如果特征都是负数，此时系数同增，说明预测值 $h_\theta$ 大于真实值，增大系数会使得预测值变小，从而更接近真实值，所以也是正确的；</li>
@@ -359,17 +368,17 @@
 <li>如果特征都是负数，此时系数同减，说明预测值 $h_\theta$ 小于真实值，增大系数会使得预测值变大，那么系数减少是正确的；</li>
 </ul>
 <p>当然，很多情况下特征并不都是同号的，特别是进行归一化之后，所以梯度下降的时候不同的系数的增加减少并没有什么规律。</p>
-<h2 id="2-怎么做"><a href="#2-怎么做" class="headerlink" title="2. 怎么做"></a>2. 怎么做</h2><h3 id="2-1-归一化的方法和区别-1"><a href="#2-1-归一化的方法和区别-1" class="headerlink" title="2.1 归一化的方法和区别[1]"></a>2.1 归一化的方法和区别[1]</h3><p>具体地，有两种归一化的方法，习惯上称为“归一化”和“标准化”。</p>
+<h2 id="怎么做"><a href="#怎么做" class="headerlink" title="怎么做"></a>怎么做</h2><h3 id="归一化的方法和区别-1"><a href="#归一化的方法和区别-1" class="headerlink" title="归一化的方法和区别[1]"></a>归一化的方法和区别[1]</h3><p>具体地，有两种归一化的方法，习惯上称为“归一化”和“标准化”。</p>
 <ul>
-<li>归一化：$\frac{X-X_{min}}{X_{max} - X_{min}}$，归一化将原始特征线性映射到[0,1]区间上，实现对原始数据的等比缩放。</li>
-<li>标准化：$\frac{x-\mu }{\sigma }$，其中 $\mu$ 是原始特征的均值，$ \sigma$为原始特征的标准差。标准化将原始特征映射到均值为0，标准差为1的正态分布上。</li>
+<li>归一化：$\frac&#123;X-X_&#123;min&#125;&#125;&#123;X_&#123;max&#125; - X_&#123;min&#125;&#125;$，归一化将原始特征线性映射到[0,1]区间上，实现对原始数据的等比缩放。</li>
+<li>标准化：$\frac&#123;x-\mu &#125;&#123;\sigma &#125;$，其中 $\mu$ 是原始特征的均值，$ \sigma$为原始特征的标准差。标准化将原始特征映射到均值为0，标准差为1的正态分布上。</li>
 </ul>
 <p>可以看到，归一化只跟数据的最值有关，而标准化是跟数据中的每个点有关，因为标准差和均值跟每个点有关。</p>
 <p>如果数据比较集中，那么对应的 $\sigma$ 会比较小，经过标准化之后数据的分布就会比较分散；如果数据比较集中，对应的 $\sigma$ 会比较大，标准化之后数据的分布会集中起来。</p>
-<h3 id="2-2-归一化的本质"><a href="#2-2-归一化的本质" class="headerlink" title="2.2 归一化的本质"></a>2.2 归一化的本质</h3><p>以上两种数据缩放的方法都可以化成$\frac{x}{a}-c$的形式，所以本质上，数据缩放就是对原始数据进行线性变换，由于线性变换的特性，归一化之后数据之间的相对大小顺序不会改变。</p>
-<h3 id="2-3-如何选择-1"><a href="#2-3-如何选择-1" class="headerlink" title="2.3 如何选择[1]"></a>2.3 如何选择[1]</h3><p>如果对输出范围有要求，或者数据比较稳定没有极端的最值，可以使用归一化。</p>
+<h3 id="归一化的本质"><a href="#归一化的本质" class="headerlink" title="归一化的本质"></a>归一化的本质</h3><p>以上两种数据缩放的方法都可以化成$\frac&#123;x&#125;&#123;a&#125;-c$的形式，所以本质上，数据缩放就是对原始数据进行线性变换，由于线性变换的特性，归一化之后数据之间的相对大小顺序不会改变。</p>
+<h3 id="如何选择-1"><a href="#如何选择-1" class="headerlink" title="如何选择[1]"></a>如何选择[1]</h3><p>如果对输出范围有要求，或者数据比较稳定没有极端的最值，可以使用归一化。</p>
 <p>如果数据存在较多的异常值和噪声，可以使用标准化减小这些影响。</p>
-<h2 id="3-参考内容"><a href="#3-参考内容" class="headerlink" title="3. 参考内容"></a>3. 参考内容</h2><p>[1] <a href="https://www.zhihu.com/question/20455227/answer/370658612" target="_blank" rel="noopener">https://www.zhihu.com/question/20455227/answer/370658612</a></p>
+<h2 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h2><p>[1] <a href="https://www.zhihu.com/question/20455227/answer/370658612" target="_blank" rel="noopener">https://www.zhihu.com/question/20455227/answer/370658612</a></p>
 
       
     </div>
@@ -460,6 +469,10 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.png"
+                alt="Jonathan Shu" />
+            
               <p class="site-author-name" itemprop="name">Jonathan Shu</p>
               <p class="site-description motion-element" itemprop="description">The Journey Is the Reward</p>
           </div>
@@ -469,7 +482,7 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/%7C%7C%20archive">
+                <a href="/archives">
               
                   <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">posts</span>
@@ -481,10 +494,10 @@
               
               
               <div class="site-state-item site-state-categories">
-                
+                <a href="/categories/index.html">
                   <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">categories</span>
-                
+                </a>
               </div>
             
 
@@ -492,10 +505,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
+                <a href="/tags/index.html">
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -526,7 +539,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-为什么"><span class="nav-number">1.</span> <span class="nav-text">1. 为什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-量纲大小不同对数据分析的影响"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 量纲大小不同对数据分析的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-量纲大小不同对寻找最优解的影响"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 量纲大小不同对寻找最优解的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-一点小思考"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 一点小思考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-怎么做"><span class="nav-number">2.</span> <span class="nav-text">2. 怎么做</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-归一化的方法和区别-1"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 归一化的方法和区别[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-归一化的本质"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 归一化的本质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-如何选择-1"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 如何选择[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-参考内容"><span class="nav-number">3.</span> <span class="nav-text">3. 参考内容</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么"><span class="nav-number">1.</span> <span class="nav-text">为什么</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#量纲大小不同对数据分析的影响"><span class="nav-number">1.1.</span> <span class="nav-text">量纲大小不同对数据分析的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#量纲大小不同对寻找最优解的影响"><span class="nav-number">1.2.</span> <span class="nav-text">量纲大小不同对寻找最优解的影响</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一点小思考"><span class="nav-number">1.3.</span> <span class="nav-text">一点小思考</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么做"><span class="nav-number">2.</span> <span class="nav-text">怎么做</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#归一化的方法和区别-1"><span class="nav-number">2.1.</span> <span class="nav-text">归一化的方法和区别[1]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#归一化的本质"><span class="nav-number">2.2.</span> <span class="nav-text">归一化的本质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何选择-1"><span class="nav-number">2.3.</span> <span class="nav-text">如何选择[1]</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考内容"><span class="nav-number">3.</span> <span class="nav-text">参考内容</span></a></li></ol></div>
             
 
           </div>
