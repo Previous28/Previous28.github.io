@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="线性回归,机器学习," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="The Journey Is the Reward">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://shujh.top/categories/index.html">
+<meta name="description" content="这篇博文总结跟线性回归有关的一些知识点，包括：什么是线性回归，什么是Lasso回归、岭回归、最小二乘法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线性回归">
+<meta property="og:url" content="http://shujh.top/2020/03/18/linear-regression/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="The Journey Is the Reward">
+<meta property="og:description" content="这篇博文总结跟线性回归有关的一些知识点，包括：什么是线性回归，什么是Lasso回归、岭回归、最小二乘法。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-02-23T12:36:31.000Z">
-<meta property="article:modified_time" content="2020-02-23T12:40:53.934Z">
+<meta property="article:published_time" content="2020-03-18T03:06:50.000Z">
+<meta property="article:modified_time" content="2020-03-18T04:20:13.604Z">
 <meta property="article:author" content="Jonathan Shu">
+<meta property="article:tag" content="线性回归">
+<meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/categories/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/18/linear-regression/"/>
 
 
 
 
 
-  <title>categories | 过程就是奖励</title>
+  <title>线性回归 | 过程就是奖励</title>
   
 
 
@@ -240,40 +242,188 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/18/linear-regression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jonathan Shu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="过程就是奖励">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <div class="category-all-page">
-            <div class="category-all-title">
-                5 categories in total
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0/">模型评估</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/">特征工程</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E5%9F%BA%E7%A1%80%E7%AE%97%E6%B3%95/">基础算法</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/">机器学习算法</a><span class="category-list-count">4</span></li></ul></li></ul>
-            </div>
-          </div>
+          <h1 class="post-title" itemprop="name headline">线性回归</h1>
         
-      </div>
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-18T11:06:50+08:00">
+                2020-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
       
+
+      
+        <p>这篇博文总结跟线性回归有关的一些知识点，包括：什么是线性回归，什么是Lasso回归、岭回归、最小二乘法。</p>
+<a id="more"></a>
+<h4 id="什么是线性回归"><a href="#什么是线性回归" class="headerlink" title="什么是线性回归"></a>什么是线性回归</h4><p>简单来说，线性回归就是找到一条线，使得这条线能够尽可能拟合所有数据点。</p>
+<p>线性回归常用的优化方法有梯度下降法和最小二乘法。</p>
+<p>为了防止线性回归过拟合，常常使用正则化的方法。加入L1正则项的线性回归又叫Lasso回归；加入L2正则项的线性回归又叫岭回归。</p>
+<h4 id="最小二乘法"><a href="#最小二乘法" class="headerlink" title="最小二乘法"></a>最小二乘法</h4><p>最小二乘法其实就是一个用来求函数极值的方法。比如说我们要让损失函数最小，可以将损失函数对参数分别求导得到一个方程组，解开这个方程组直接得到使得损失函数最小的参数值。</p>
+<p>最小二乘法看起来简洁高效，但是也有局限性。由于现在基本上都是使用矩阵进行最小二乘法的求解，但是这需要计算一个逆矩阵，如果这个逆矩阵不存在，则无法使用最小二乘，如果样本特征非常大，则这个计算会非常耗时。<strong>如果拟合函数不是线性的，无法使用最小二乘法。</strong></p>
+<p>特殊情况：方程数小于系数数量，方程组无法求解。</p>
+<h4 id="坐标轴下降法"><a href="#坐标轴下降法" class="headerlink" title="坐标轴下降法"></a>坐标轴下降法</h4><p>Lasso回归由于加入的L1正则项不可导，不能使用梯度下降这种基于导数的方法求解。一般是使用坐标轴下降法。坐标轴下降法的数学原理是：如果存在某个点 $\theta_m$，使得损失函数 $J(\theta)$ 在每个坐标轴上都是最小值，那么 $J(\theta_m)$ 就是一个全局最小值。</p>
+<p>坐标轴下降法是迭代方法，每次迭代我们都尽可能使得 $J(\theta)$ 在每个维度上最小。具体地，我们首先将第一个系数 $\theta_1$ 当成变量，固定其他系数，求使得 $J(\theta)$ 最小化时的 $\theta_1$；然后选择 $\theta_2$ 为变量，固定其他系数，计算 $\theta_2$ ……每次迭代更新所有系数值为使得损失函数最小时的取值。到达终止条件时，我们就得到了最终的$\theta$。</p>
+
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/" rel="tag"># 线性回归</a>
+          
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/17/decision-tree/" rel="next" title="决策树算法小结">
+                <i class="fa fa-chevron-left"></i> 决策树算法小结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -306,8 +456,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -371,6 +530,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是线性回归"><span class="nav-number">1.</span> <span class="nav-text">什么是线性回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最小二乘法"><span class="nav-number">2.</span> <span class="nav-text">最小二乘法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#坐标轴下降法"><span class="nav-number">3.</span> <span class="nav-text">坐标轴下降法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
