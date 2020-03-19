@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="决策树,机器学习," />
+  <meta name="keywords" content="机器学习,集成学习," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="什么是决策树？决策树是一种自上而下的对样本数据进行分类的过程。决策树的每个非叶子节点代表一个划分条件，这个划分条件取自于样本的某些特征或者说属性；每个叶子节点代表一个类别。所有数据从根节点开始，被一层层地往下划分直到属于某个叶子节点。">
+<meta name="description" content="集成学习的思想简单来说就是对于训练数据，我们训练出若干个个体学习器，并通过一定结合策略达到博采众长的目的，可以得到一个强学习器。 一般来说个体学习器的效果都是比较差的，这样可以防止过拟合。我们通过将多个弱学习器结合起来提高效果，形成一个强学习器。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="决策树算法小结">
-<meta property="og:url" content="http://shujh.top/2020/03/17/decision-tree/index.html">
+<meta property="og:title" content="集成学习">
+<meta property="og:url" content="http://shujh.top/2020/03/19/ensemble-learning/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="什么是决策树？决策树是一种自上而下的对样本数据进行分类的过程。决策树的每个非叶子节点代表一个划分条件，这个划分条件取自于样本的某些特征或者说属性；每个叶子节点代表一个类别。所有数据从根节点开始，被一层层地往下划分直到属于某个叶子节点。">
+<meta property="og:description" content="集成学习的思想简单来说就是对于训练数据，我们训练出若干个个体学习器，并通过一定结合策略达到博采众长的目的，可以得到一个强学习器。 一般来说个体学习器的效果都是比较差的，这样可以防止过拟合。我们通过将多个弱学习器结合起来提高效果，形成一个强学习器。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-17T10:10:41.000Z">
-<meta property="article:modified_time" content="2020-03-18T02:58:29.056Z">
+<meta property="article:published_time" content="2020-03-19T04:47:53.000Z">
+<meta property="article:modified_time" content="2020-03-19T06:33:51.843Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="决策树">
 <meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="集成学习">
 <meta name="twitter:card" content="summary">
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/17/decision-tree/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/19/ensemble-learning/"/>
 
 
 
 
 
-  <title>决策树算法小结 | 过程就是奖励</title>
+  <title>集成学习 | 过程就是奖励</title>
   
 
 
@@ -254,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/17/decision-tree/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/19/ensemble-learning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -271,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">决策树算法小结</h1>
+          <h1 class="post-title" itemprop="name headline">集成学习</h1>
         
 
         <div class="post-meta">
@@ -283,8 +283,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-17T18:10:41+08:00">
-                2020-03-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-19T12:47:53+08:00">
+                2020-03-19
               </time>
             
 
@@ -354,71 +354,19 @@
       
 
       
-        <h4 id="什么是决策树？"><a href="#什么是决策树？" class="headerlink" title="什么是决策树？"></a>什么是决策树？</h4><p>决策树是一种自上而下的对样本数据进行分类的过程。决策树的每个非叶子节点代表一个划分条件，这个划分条件取自于样本的某些特征或者说属性；每个叶子节点代表一个类别。所有数据从根节点开始，被一层层地往下划分直到属于某个叶子节点。</p>
+        <p>集成学习的思想简单来说就是对于训练数据，我们训练出若干个个体学习器，并通过一定结合策略达到博采众长的目的，可以得到一个强学习器。</p>
+<p>一般来说个体学习器的效果都是比较差的，这样可以防止过拟合。我们通过将多个弱学习器结合起来提高效果，形成一个强学习器。</p>
 <a id="more"></a>
-<p>决策树既可以用于回归也可以用于分类。用于回归时，样本的输出值是其所属的叶子节点的所有样本的平均值；用于分类时，其输出类别是所属的叶子结点中数量最多的类别。</p>
-<p>决策树算法常用的有三种类型，这三种类型在所用的启发式函数以及其他细节上各有不同。</p>
-<h4 id="ID3"><a href="#ID3" class="headerlink" title="ID3"></a>ID3</h4><p>ID3使用信息增益来决定当前节点应该使用什么特征来进行数据划分。关于什么是信息增益，首先需要提到两个概念。一个是熵。随机变量X的熵等于其不同取值的概率乘以这个概率的对数值，求和后取负：</p>
-<p>$H(X)=-\sum_{i=1}^{n}p_ilog_2p_i$</p>
-<p>另一个概念是条件熵。条件熵类似于条件概率，度量了我们在知道Y之后剩下的不确定性。条件熵的值等于y取不同值之后随机变量X的熵的加权和。比如说y取某个值，我们可以把y属于这个值的样本给划分出来成为一个子集，计算这个子集的随机变量X的熵，然后将y的不同取值形成的不同子集计算出来的熵进行一个加权求和，每个熵对应的权重就是y取对应的值的概率。其公式为：</p>
-<p>$H(X|Y)=\sum_{j=1}^{k}p(y_k)H(X|y_k)$</p>
-<p>信息增益就是熵减去知道特征Y的值之后的条件熵的差，衡量了不确定性减少的程度。ID3选择信息增益最大的特征作为当前节点的划分特征。</p>
-<p>决定了当前结点使用什么特征进行划分之后，根据该特征的取值我们将数据集划分成对应的几个部分，作为新的子节点。因此ID3算法生成的决策树并不一定是二叉树。</p>
-<h5 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h5><ul>
-<li>由于ID3算法没有考虑到如何处理连续值，所以该算法只能用于离散特征。</li>
-<li>采用信息增益作为选择特征的依据，会更倾向于选择取值较多的特征（取值较多的特征，不确定性会下降得更多）。但是这样容易导致模型过拟合（比如，按照DNA划分是最优的，但是这种分类的泛化能力是非常弱的）。</li>
-<li>没有考虑缺失值的问题。</li>
-<li>没有考虑过拟合的问题。</li>
-<li>使用信息增益作为选择划分特征的方法，决定了ID3只能用于分类任务。</li>
+<p>关于集成学习有两个要点，一是如何训练个体学习器，二是个体学习器之间的结合策略是什么。</p>
+<h4 id="个体学习器"><a href="#个体学习器" class="headerlink" title="个体学习器"></a>个体学习器</h4><p>首先个体学习器可以分为同质和异质。异质指的是学习器之间使用的模型是不同的；同质是指相同的。一般来说，现在同质学习器使用的比较多。此外，对于个体学习器之间的关系也分两种。一种是个体学习器之间互相独立，可以并行训练，这种思想也叫做bagging，代表模型是随机森林；另一种是个体学习器之间强相关，后一个个体学习器训练的数据需要根据前一个个体学习器的结果得到，不同学习器之间的训练需要串行进行，这种思想叫做boosting，代表模型是Adaboost和GBDT。</p>
+<h4 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h4><p>Bagging是思想是，对原始数据集进行采样得到不同的训练集和测试集，用这些来训练得到不同的个体学习器，再通过一定的结合策略结合成强学习器。</p>
+<p>Bagging使用的随机采样一般是bootstrap自助法，是通过有放回的随机采样出m个样本作为训练集，没选到的作为测试集。</p>
+<h4 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h4><p>boosting的思想是，首先使用权重一样的原始数据集训练得到一个个体学习器，然后根据这个个体学习器的表现来更新样本的权重，使得这个弱学习器误差高的样本权重变大。然后用更新后的数据集去训练下一个个体学习器。最后得到一定数量的个体学习器，通过结合策略合成强学习器。</p>
+<h4 id="结合策略"><a href="#结合策略" class="headerlink" title="结合策略"></a>结合策略</h4><ul>
+<li>对于数值类的回归预测问题，一般使用的是平均法或者加权平均法。</li>
+<li>对于分类问题，一般使用的是投票法或者加权投票法。</li>
+<li>还有一种方法是Stacking。Stacking是利用一个新的模型，将个体学习器的学习结果作为模型的输入，训练集的输出作为模型的输出，训练一个新的模型，这个模型就是最终用来预测的模型。</li>
 </ul>
-<h4 id="C4-5"><a href="#C4-5" class="headerlink" title="C4.5"></a>C4.5</h4><p>C4.5算法是针对ID3的不足进行改进的。首先是对信息增益的改进。在C4.5中，使用的是信息增益比来选择划分的特征。信息增益比是信息增益和特征熵的比值。特征熵等于特征的不同取值的概率乘以这个概率的对数值，不同取值的这个计算结果求和后取负。由于取值多的特征对应的特征熵比较大，将它作为分母，可以校正信息增益偏向取值较多的特征的问题。</p>
-<p>特征A的特征熵：</p>
-<p>$H_A(D) = -\sum_{i=1}^{k}\frac{D_i}{D}log_2\frac{D_i}{D}$</p>
-<p>对于ID3不能用于连续特征的问题。C4.5的做法是将连续特征离散化。具体的做法是将连续特征A的所有取值按照从小到大排列，去除重复值。取相邻两个样本值的平均数作为划分点。如果有m个不同的取值，则一共可以得到m-1个划分点。根据每个划分点，可以把数据集按照相对大小划分为两个部分，计算划分后的信息增益比，选择最大的信息增益比作为使用这个特征进行划分的信息增益比。有一个细节就是，<strong>如果当前节点使用连续特征进行划分，则这个连续特征在后面仍然可以参加子节点的选择过程</strong>。</p>
-<p>对于缺失值的处理。有两个子问题，一个是当特征的取值有缺失值时怎么计算信息增益比，另一个是选择有缺失值的特征作为划分依据之后，如何处理缺失特征的样本。</p>
-<p>对于第一个问题。C4.5的做法是将数据集划分成是否缺失值两部分。计算没有缺失值部分的信息增益比，然后乘上一个这部分数据集的占比作为权重，得到该特征对应的信息增益比。对于第二个问题，C4.5的做法是将缺失值样本划分到所有子节点中，不过要乘上一个权重，该权重是对应的划分到子节点的样本的占比。</p>
-<h5 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h5><p>C4.5在ID3的基础上作了不少改进，但还是存在很多问题，比如：</p>
-<ul>
-<li>跟ID3一样，C4.5只能用于分类任务。</li>
-<li>生成的是多叉树，没有二叉树效率高。</li>
-<li>熵的对数计算还是比较耗时的，如果是连续特征还有排序操作，也是一个费时的操作。</li>
-</ul>
-<h4 id="CART"><a href="#CART" class="headerlink" title="CART"></a>CART</h4><p>在CART算法中，使用的是基尼系数来选择划分的特征。基尼系数描述的是数据的纯度。对于给定样本D，一共有K个类别，属于不同类别的样本数为  $D_k$，则基尼系数的公式为：</p>
-<p>$Gini(D)=\sum_{k=1}^{K}\frac{|D_k|}{|D|}(1-\frac{|D_k|}{|D|})=1-\sum_{k=1}^{K}\frac{|D_k|}{|D|}^2$</p>
-<p>基尼系数越小，数据的纯度越高。每次选择基尼系数最小的特征作为划分特征。</p>
-<h5 id="对于CART作为分类树："><a href="#对于CART作为分类树：" class="headerlink" title="对于CART作为分类树："></a>对于CART作为分类树：</h5><p><strong>CART对于连续值的处理跟C4.5是一样的。</strong>与ID3和C4.5不同的是，CART建立的是一棵二叉树。对于离散值，CART采用的是不断二分的方法。每次都考虑根据离散特征将样本集划分成两部分的所有情况，选择基尼系数最小的划分作为这个特征的代表。如果本次划分没有把这个离散特征的取值完全分开，<strong>则这个离散特征后面可以继续参加到子节点的选择过程</strong>。</p>
-<p>由于CART每次将样本集只分成两个部分，所以基尼系数的计算更加简单了:</p>
-<p>$Gini(D)=\frac{|D_1|}{|D|}(1-\frac{|D_1|}{|D|})+\frac{|D_2|}{|D|}(1-\frac{|D_2|}{|D|})=2\frac{|D_1|}{|D|}(1-\frac{|D_1|}{|D|})$</p>
-<p>另外，对于缺失值的处理，CART和C4.5是一样的。</p>
-<h5 id="对于CART作为回归树："><a href="#对于CART作为回归树：" class="headerlink" title="对于CART作为回归树："></a>对于CART作为回归树：</h5><p>不是采用基尼系数来度量不同特征作为划分点的优劣，而是使用方差和的来度量。</p>
-<h4 id="决策树的剪枝"><a href="#决策树的剪枝" class="headerlink" title="决策树的剪枝"></a>决策树的剪枝</h4><p>决策树的剪枝是决策树的一个核心要点。剪枝包含预剪枝和后剪枝。</p>
-<h5 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h5><p>预剪枝是在树的生长过程中提前停止生长。常见的方法有：</p>
-<ul>
-<li>树到达一定深度的时候停止生长</li>
-<li>当叶子节点的样本数量小于阈值的时候停止增长。</li>
-<li>计算每次分别对测试集准确度的提升，如果这个提升小于某个阈值，则不继续扩展。</li>
-</ul>
-<p>可能有欠拟合的风险。可能这个节点增长的不多，但是这个节点的下一个节点增长很多。</p>
-<h5 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h5><p>后剪枝我们主要介绍CART的后剪枝策略。</p>
-<p>CART的剪枝策略是，每次选择误差增加率最小的结点进行剪枝。误差增加率的计算方法为：剪枝前的损失函数值减去剪枝后的损失函数值再除以子树的叶子节点的数量（除以这个数量是为了惩罚叶子结点数较多的子树，较多-&gt;则误差更低，损失函数增加值更大）。</p>
-<p>每次剪枝都在上一次剪枝的基础上进行。最后我们可以得到一个子树序列，可以使用交叉验证的方法选择最优的子树，就是我们剪枝后的决策树。</p>
-<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>简单总结一下啊决策树的优缺点。</p>
-<p>优点：</p>
-<ul>
-<li>不需要预处理、不需要归一化、处理缺失值这些</li>
-<li>使用决策树进行预测效率高</li>
-<li>在逻辑上可以得到很好的解释</li>
-<li>对异常点的容错能力好</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>容易过拟合</li>
-<li>样本发生一点改动，可能导致整棵树结构的剧烈变化</li>
-<li>容易偏向某些样本比例较大的特征</li>
-</ul>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6050306.html#!comments" target="_blank" rel="noopener">决策树算法原理上</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/6053344.html#!comments" target="_blank" rel="noopener">决策树算法原理下</a></p>
-<p>葫芦书</p>
 
       
     </div>
@@ -436,9 +384,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="tag"># 决策树</a>
-          
             <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" rel="tag"># 集成学习</a>
           
         </div>
       
@@ -451,8 +399,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/16/overfitting-regular/" rel="next" title="过拟合、欠拟合、正则化">
-                <i class="fa fa-chevron-left"></i> 过拟合、欠拟合、正则化
+              <a href="/2020/03/18/word2vec/" rel="next" title="Word2Vec">
+                <i class="fa fa-chevron-left"></i> Word2Vec
               </a>
             
           </div>
@@ -460,10 +408,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/18/linear-regression/" rel="prev" title="线性回归">
-                线性回归 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -599,7 +543,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是决策树？"><span class="nav-number">1.</span> <span class="nav-text">什么是决策树？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ID3"><span class="nav-number">2.</span> <span class="nav-text">ID3</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点："><span class="nav-number">2.1.</span> <span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C4-5"><span class="nav-number">3.</span> <span class="nav-text">C4.5</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缺点：-1"><span class="nav-number">3.1.</span> <span class="nav-text">缺点：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CART"><span class="nav-number">4.</span> <span class="nav-text">CART</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对于CART作为分类树："><span class="nav-number">4.1.</span> <span class="nav-text">对于CART作为分类树：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对于CART作为回归树："><span class="nav-number">4.2.</span> <span class="nav-text">对于CART作为回归树：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#决策树的剪枝"><span class="nav-number">5.</span> <span class="nav-text">决策树的剪枝</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#预剪枝"><span class="nav-number">5.1.</span> <span class="nav-text">预剪枝</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#后剪枝"><span class="nav-number">5.2.</span> <span class="nav-text">后剪枝</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点"><span class="nav-number">6.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#个体学习器"><span class="nav-number">1.</span> <span class="nav-text">个体学习器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Bagging"><span class="nav-number">2.</span> <span class="nav-text">Bagging</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Boosting"><span class="nav-number">3.</span> <span class="nav-text">Boosting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结合策略"><span class="nav-number">4.</span> <span class="nav-text">结合策略</span></a></li></ol></div>
             
 
           </div>
