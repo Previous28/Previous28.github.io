@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="聚类算法," />
+  <meta name="keywords" content="集成学习," />
 
 
 
@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="记录一下聚类算法的学习笔记，根据学习内容更新。">
+<meta name="description" content="通过XGBoost与GBDT的区别来简要介绍XGBoost。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="聚类算法学习笔记">
-<meta property="og:url" content="http://shujh.top/2020/03/14/notes-on-clustering-algorithm/index.html">
+<meta property="og:title" content="XGBoost">
+<meta property="og:url" content="http://shujh.top/2020/03/20/XGBoost/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="记录一下聚类算法的学习笔记，根据学习内容更新。">
+<meta property="og:description" content="通过XGBoost与GBDT的区别来简要介绍XGBoost。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-14T09:39:55.000Z">
-<meta property="article:modified_time" content="2020-03-21T02:44:12.805Z">
+<meta property="article:published_time" content="2020-03-20T14:36:43.000Z">
+<meta property="article:modified_time" content="2020-03-21T02:55:55.071Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="聚类算法">
+<meta property="article:tag" content="集成学习">
 <meta name="twitter:card" content="summary">
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/14/notes-on-clustering-algorithm/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/20/XGBoost/"/>
 
 
 
 
 
-  <title>聚类算法学习笔记 | 过程就是奖励</title>
+  <title>XGBoost | 过程就是奖励</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/14/notes-on-clustering-algorithm/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/20/XGBoost/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">聚类算法学习笔记</h1>
+          <h1 class="post-title" itemprop="name headline">XGBoost</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T17:39:55+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-20T22:36:43+08:00">
+                2020-03-20
               </time>
             
 
@@ -353,39 +353,36 @@
       
 
       
-        <p>记录一下聚类算法的学习笔记，根据学习内容更新。<br><a id="more"></a></p>
-<h4 id="Kmeans"><a href="#Kmeans" class="headerlink" title="Kmeans"></a>Kmeans</h4><p>缺点：</p>
+        <p>通过XGBoost与GBDT的区别来简要介绍XGBoost。</p>
+<a id="more"></a>
+<h4 id="XGBoost所做的改进"><a href="#XGBoost所做的改进" class="headerlink" title="XGBoost所做的改进"></a>XGBoost所做的改进</h4><p>XGBoost可以说是GBDT算法的工程实现。相对于GBDT，XGBoost主要作了以下改进：</p>
+<p>一是算法本身的优化：</p>
 <ul>
-<li>受初值和离群点的影响比较大。因此比较不稳定，结果通常不是全局最优而是局部最优</li>
-<li>无法很好地解决数据簇分布差别比较大（如100倍）的情况</li>
-<li>不太适用于离散分类</li>
+<li>相对于GBDT使用CART作为弱学习器，XGBoost的弱学习器可以是其他模型。</li>
+<li>XGBoost对损失函数进行了正则化</li>
+<li>相比于GBDT只是对损失函数进行负梯度展开（一阶泰勒展开），XGBoost对损失函数进行了二阶泰勒展开。</li>
 </ul>
-<p>优点：</p>
+<p>二是算法运行效率的优化：</p>
 <ul>
-<li>对于大数据集也可以保持高效运行，因为其时间复杂度接近于线性</li>
-<li>实践证明，一般情况下kmeans达到的局部最优已经可以满足聚类的需求</li>
+<li>XGBoost在决定决策树分裂点时，对所有特征和特征值进行并行选择。每个特征选择前，先对特征值进行排序，先默认所有样本都在右子树，然后逐个放入左子树，避免很多不必要的比较。</li>
 </ul>
-<p>优化：</p>
+<p>三是健壮性的优化：</p>
 <ul>
-<li>由于kmeans是基于欧氏距离进行划分的，均值和方差大的维度将对聚类效果产生比较大的影响，因此需要先对数据进行归一化处理。</li>
-<li>对异常值进行预处理会比较好</li>
-<li>K值的选取：手肘法</li>
-<li>当数据簇并不呈现球形分布时，可以使用核函数将输入空间中的数据点映射到高维的特征空间中，在新的特征空间进行聚类可能达到更好的效果。</li>
+<li>对于缺失值，建树时会判断是将缺失值放到左子树好还是右子树好。</li>
+<li>相比起GBDT选择所有的数据构建决策树，XGBoost则支持对数据进行采样。</li>
 </ul>
-<p>改进的算法：</p>
-<ul>
-<li>KMeans++：优化初值的选取。首先随机选择一个点作为初始中心，然后计算所有点与其最近聚类中心的距离，选择这个距离中最大的点作为新的聚类中心。以此类推直至选取k个点。</li>
-<li>距离计算优化：可以利用三角形三边长的性质，减少一些计算距离的步骤。</li>
-<li>针对大数据集优化：mini batch KMeans：无放回采样。多跑几次选择最优，以降低没有使用全部样本所带来的准确性的损失。</li>
-</ul>
-<h4 id="聚类算法评估"><a href="#聚类算法评估" class="headerlink" title="聚类算法评估"></a>聚类算法评估</h4><p>聚类算法的评估主要是估计在数据集上进行聚类的可行性，以及聚类结果的质量。</p>
-<h5 id="估计聚类趋势"><a href="#估计聚类趋势" class="headerlink" title="估计聚类趋势"></a>估计聚类趋势</h5><p>如果数据集中的数据是随机分布的，则聚类是没有意义的。我们可以通过观察聚类类别数的增加，聚类误差有没有单调变化，如果没有明显的单调变化，则说明数据并不适合聚类，没有明显的聚集现象。</p>
-<h5 id="测定聚类质量"><a href="#测定聚类质量" class="headerlink" title="测定聚类质量"></a>测定聚类质量</h5><p>可以使用“轮廓系数”来判断聚类的质量。本质思想是根据簇内的紧凑程度和簇间的分离程度来评估。给定一个点p，我们可以计算点p到同一簇中其他点的平均距离，记为 $a(p)$，来表示簇内的紧凑程度，计算到另一个最近的不同的簇之间的点的距离，记为 $b(p)$ ，来表示簇间的分离程度。则“轮廓系数”为：</p>
-<script type="math/tex; mode=display">s(p) = \frac{b(p)-a(p)}{max(a(p),b(p))}</script><p>显然轮廓系数越大越好，我们用所有点的轮廓系数平均值来表示聚类效果。</p>
-<p>我们还可以通过数据集中所有点对之间的距离与对应簇中心之间距离的乘积的平均值，来判断聚类结果与样本的原始距离的吻合度。</p>
-<p>还可以人为地构造不同类型的数据集，观察聚类算法在这些数据集上面的效果？</p>
-<h4 id="参考学习资料："><a href="#参考学习资料：" class="headerlink" title="参考学习资料："></a>参考学习资料：</h4><p>《百面机器学习》</p>
-<p><a href="https://www.cnblogs.com/pinard/p/6164214.html" target="_blank" rel="noopener">刘建平博客</a></p>
+<h4 id="XGBoost的损失函数"><a href="#XGBoost的损失函数" class="headerlink" title="XGBoost的损失函数"></a>XGBoost的损失函数</h4><p>下面详细说明XGBoost对损失函数的处理。在GBDT的基础上，XGBoost加入了正则化项：</p>
+<script type="math/tex; mode=display">\gamma J+\frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><p>其中 $J$ 表示叶子节点的个数，$w_{tj}$  表示第j个叶子节点的最优值。最后XGBoost的损失函数为：</p>
+<script type="math/tex; mode=display">L_t=\sum\limits_{i=1}^{m}L(y_i,f_{t-1}(x_i)+h_t(x_i))+\gamma J+\frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><p>对于损失函数，GBDT直接拟合负梯度（一阶泰勒）来优化它，二XGBoost使用的是，最小化损失函数的二阶泰勒展开来优化他。</p>
+<script type="math/tex; mode=display">L_t = \sum\limits_{i=1}^mL(y_i, f_{t-1}(x_i)+ h_t(x_i)) + \gamma J + \frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><script type="math/tex; mode=display">\approx   \sum\limits_{i=1}^m( L(y_i, f_{t-1}(x_i)) + \frac{\partial L(y_i, f_{t-1}(x_i) }{\partial f_{t-1}(x_i)}h_t(x_i) + \frac{1}{2}\frac{\partial^2 L(y_i, f_{t-1}(x_i) }{\partial f_{t-1}^2(x_i)} h_t^2(x_i)) +  \gamma J + \frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><p>令：</p>
+<script type="math/tex; mode=display">g_{ti} = \frac{\partial L(y_i, f_{t-1}(x_i)) }{\partial f_{t-1}(x_i)}, \; h_{ti} =\frac{\partial^2 L(y_i, f_{t-1}(x_i))}{\partial f_{t-1}^2(x_i)}</script><script type="math/tex; mode=display">G_{tj} = \sum\limits_{x_i \in R_{tj}}g_{ti},\; H_{tj} = \sum\limits_{x_i \in R_{tj}}h_{ti}</script><p>可以化简得：</p>
+<script type="math/tex; mode=display">L_t = \sum\limits_{j=1}^J [G_{tj}w_{tj} +\frac{1}{2}(H_{tj}+\lambda)w_{tj}^2] +\gamma J</script><p>根据这个损失函数的表达式，假设决策树的结构已知，我们可以通过令损失函数相对于$w_{tj}$ 的导数为9求出最小化损失函数的各个叶子结点上的预测值：</p>
+<script type="math/tex; mode=display">w_{tj} = - \frac{G_{tj}}{H_{tj} + \lambda}</script><p>至于如何决定最优分裂点，XGBoost采用的既不是信息增益也不是基尼系数，而是选择能够最小化损失函数的分裂点！</p>
+<p>首先我们将 $w_{tj}$ 取得最优解的值代入损失函数：</p>
+<script type="math/tex; mode=display">L_t = -\frac{1}{2}\sum\limits_{j=1}^J\frac{G_{tj}^2}{H_{tj} + \lambda} +\gamma J</script><p>通过这个式子我们容易得出每次分裂之后损失函数的差值：</p>
+<script type="math/tex; mode=display">\max \frac{1}{2}\frac{G_L^2}{H_L + \lambda} + \frac{1}{2}\frac{G_R^2}{H_R+\lambda} -\frac{1}{2}\frac{(G_L+G_R)^2}{H_L+H_R+ \lambda} - \gamma</script><p>max表示我们期望每次分裂使得这个差值最大化。这就是XGBoost选择分裂点的标准。</p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/10979808.html" target="_blank" rel="noopener">刘老师博客</a></p>
+<p>葫芦书相关章节</p>
 
       
     </div>
@@ -403,7 +400,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/" rel="tag"># 聚类算法</a>
+            <a href="/tags/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" rel="tag"># 集成学习</a>
           
         </div>
       
@@ -416,8 +413,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/13/sort-algo/" rel="next" title="9个基本的排序算法简单总结">
-                <i class="fa fa-chevron-left"></i> 9个基本的排序算法简单总结
+              <a href="/2020/03/19/adaboost-GBDT/" rel="next" title="Adaboost、GBDT、随机森林">
+                <i class="fa fa-chevron-left"></i> Adaboost、GBDT、随机森林
               </a>
             
           </div>
@@ -425,10 +422,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/15/notes-on-probabilistic-graphical-model/" rel="prev" title="概率图模型学习笔记">
-                概率图模型学习笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -564,7 +557,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kmeans"><span class="nav-number">1.</span> <span class="nav-text">Kmeans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚类算法评估"><span class="nav-number">2.</span> <span class="nav-text">聚类算法评估</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#估计聚类趋势"><span class="nav-number">2.1.</span> <span class="nav-text">估计聚类趋势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#测定聚类质量"><span class="nav-number">2.2.</span> <span class="nav-text">测定聚类质量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考学习资料："><span class="nav-number">3.</span> <span class="nav-text">参考学习资料：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#XGBoost所做的改进"><span class="nav-number">1.</span> <span class="nav-text">XGBoost所做的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XGBoost的损失函数"><span class="nav-number">2.</span> <span class="nav-text">XGBoost的损失函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
