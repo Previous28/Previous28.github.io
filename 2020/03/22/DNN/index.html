@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习,NLP,词向量," />
+  <meta name="keywords" content="决策树,机器学习," />
 
 
 
@@ -79,19 +79,18 @@
 
 
 
-<meta name="description" content="Word2Vec是一种神经网络模型。它主要是基于两种神经网络结构，分别是CBOW和skip-gram。">
+<meta name="description" content="这篇文章旨在用文字尽量讲清楚DNN是什么。主要面向的场景是面试时面试官的提问。 主要内容有：什么是DNN？反向传播是什么？什么是梯度爆炸和梯度消失？关于损失函数和激活函数的选择。神经网络的正则化。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Word2Vec">
-<meta property="og:url" content="http://shujh.top/2020/03/18/word2vec/index.html">
+<meta property="og:title" content="DNN">
+<meta property="og:url" content="http://shujh.top/2020/03/22/DNN/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="Word2Vec是一种神经网络模型。它主要是基于两种神经网络结构，分别是CBOW和skip-gram。">
+<meta property="og:description" content="这篇文章旨在用文字尽量讲清楚DNN是什么。主要面向的场景是面试时面试官的提问。 主要内容有：什么是DNN？反向传播是什么？什么是梯度爆炸和梯度消失？关于损失函数和激活函数的选择。神经网络的正则化。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-18T08:36:26.000Z">
-<meta property="article:modified_time" content="2020-03-19T01:58:52.982Z">
+<meta property="article:published_time" content="2020-03-22T09:31:02.000Z">
+<meta property="article:modified_time" content="2020-03-22T14:37:01.597Z">
 <meta property="article:author" content="Jonathan Shu">
+<meta property="article:tag" content="决策树">
 <meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="NLP">
-<meta property="article:tag" content="词向量">
 <meta name="twitter:card" content="summary">
 
 
@@ -122,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/18/word2vec/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/22/DNN/"/>
 
 
 
 
 
-  <title>Word2Vec | 过程就是奖励</title>
+  <title>DNN | 过程就是奖励</title>
   
 
 
@@ -255,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/18/word2vec/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/22/DNN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -272,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Word2Vec</h1>
+          <h1 class="post-title" itemprop="name headline">DNN</h1>
         
 
         <div class="post-meta">
@@ -284,8 +283,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-18T16:36:26+08:00">
-                2020-03-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-22T17:31:02+08:00">
+                2020-03-22
               </time>
             
 
@@ -318,8 +317,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/NLP/" itemprop="url" rel="index">
-                    <span itemprop="name">NLP</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
                   </a>
                 </span>
 
@@ -355,28 +354,38 @@
       
 
       
-        <p>Word2Vec是一种神经网络模型。它主要是基于两种神经网络结构，分别是CBOW和skip-gram。</p>
+        <p>这篇文章旨在用文字尽量讲清楚DNN是什么。主要面向的场景是面试时面试官的提问。</p>
+<p>主要内容有：什么是DNN？反向传播是什么？什么是梯度爆炸和梯度消失？关于损失函数和激活函数的选择。神经网络的正则化。</p>
 <a id="more"></a>
-<p>CBOW的目标是根据上下文出现的词语来预测当前词的生成概率；而Skip-gram是根据当前词来预测上下文中各词的生成概率。</p>
-<h3 id="CBOW"><a href="#CBOW" class="headerlink" title="CBOW"></a>CBOW</h3><p>CBOW的输入是当前所关注的词的上下文对应的词向量。这里的上下文需要我们给定一个窗口的大小，比如，w，那么上下文的单词就是当前单词的前 $\frac{w}{2}$ 个词与后 $\frac{w}{2}$ 个词。词向量是使用独热编码的方式表示。输出的维度是单词总数量N。每一维表示的是对应单词的生成概率。CBOW优化的目标就是当前所关注的词的生成概率最高。</p>
-<p>CBOW中间的隐藏层维度为K，从输入层到隐藏层的系数矩阵大小为N x K，而隐藏层到输出层的系数矩阵的大小为K x N。在优化过程中，模型的系数也在不断的变化，最后训练得到这两个系数矩阵的值，我们可以选择其中一个来表示这N个词的维度为k的词向量。</p>
-<h3 id="Skip-gram"><a href="#Skip-gram" class="headerlink" title="Skip-gram"></a>Skip-gram</h3><p>Skip-gram的输入是当前所关注的词，输出是上下文单词的生成概率。模型的优化目标就是上下文单词的生成概率最大化。</p>
-<p>同样的，输入层到隐藏层的系数矩阵为N x K，隐藏层到输出层的系数矩阵为K x N。模型训练完之后，我们可以选择其中一个系数矩阵来表示N个词的维度为k的词向量。</p>
-<h3 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h3><p>Word2Vec对上面两个神经网络的结构进行了优化。有两个优化的方法，分别是基于分层softmax和基于Negative Sampling的。</p>
-<h4 id="分层softmax"><a href="#分层softmax" class="headerlink" title="分层softmax"></a>分层softmax</h4><p>在这个方法中，Word2Vec使用一棵哈夫曼树来代替神经网络。哈夫曼树的根节点接受模型的输入。哈夫曼树的叶子节点相当于神经网络输出层的神经元，叶子数量是词汇表的大小。这样子每个词从根到叶子节点的路径都不同，其对应的softmax就是沿着树形结构进行计算的。每个非叶子节点都是一个sigmoid函数，将词向量作为sigmoid函数的输入，根据概率值来判断应该往哪个方向走。从根节点走到某个叶子节点的概率等于经过的每个非叶子节点计算出来的概率的乘积。</p>
-<h5 id="CBOW-1"><a href="#CBOW-1" class="headerlink" title="CBOW"></a>CBOW</h5><p>对于CBOW模型，输入是词w上下文的k个词向量，对这k个词向量求和后取平均输入到哈夫曼树的根节点。然后我们期望从根节点走到词w对应的叶子结点的路径，计算出来的softmax尽可能大。由于这个概率值是一系列概率的乘积，我们可以使用对其取对数，然后通过梯度上升法来最大化这个概率。</p>
-<p>需要注意的是，每一次我们计算完梯度之后，更新的是对应路径非叶子节点的sigmoid函数的系数，以及上下文k个词的词向量。</p>
-<p>一轮迭代包括把所有词都当成过中心点进行训练。</p>
-<h5 id="Skip-gram-1"><a href="#Skip-gram-1" class="headerlink" title="Skip-gram"></a>Skip-gram</h5><p>对于Skip-gram模型，输入的是中心词的词向量。直接作为哈夫曼树的输入。我们期望从根节点走到其上下文的k个词的叶子结点输出的softmax值都尽可能大。而上下文这个概念又是相对的，希望中心词的某个相邻词的softmax值最大，反过来也期望从相邻词到中心词的softmax值最大。所以在skip-gram中，我们根据输入的中心词w得到k个上下文词，然后依次从这些词出发，计算到达中心词的softmax。通过梯度上升法来更新这些词的词向量，以最大化这个概率。因此skip-gram是对k个输出向量进行更新的。</p>
-<h4 id="负采样"><a href="#负采样" class="headerlink" title="负采样"></a>负采样</h4><p>负采样的方法使用的模型是二元逻辑回归。对于一个由中心词w以及其上下文k个单词组成的正例，我们通过负采样得到neg个其他的词作为中心词，这neg个假的中心词跟原来的上下文k个单词组成了neg个负例。正例和负例组成了一个训练样本。我们将这个训练样本输入到二元逻辑回归中，训练的目标是正例概率的最大化以及负例概率的最小化。</p>
-<p>至于如何进行负采样，在Word2Vec中，负采样的方法是，首先将一条线段分为M份，将这M份分配给所有单词，每份对应一个单词。当然M远大于单词的数量，有可能多份线段对应同一个单词，这里的分配原则是，出现频率高的单词分配的线段数量多。</p>
-<p>负采样的CBOW和skip-gram具体过程就是把模型换成二元逻辑回归而已，这里不展开。可以参考<a href="https://www.cnblogs.com/pinard/p/7249903.html#!comments" target="_blank" rel="noopener">刘老师的博客</a>。</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ol>
-<li><a href="https://www.cnblogs.com/pinard/p/7160330.html" target="_blank" rel="noopener">word2vec原理(一) CBOW与Skip-Gram模型基础</a></li>
-<li><a href="https://www.cnblogs.com/pinard/p/7243513.html" target="_blank" rel="noopener">word2vec原理(二) 基于Hierarchical Softmax的模型</a></li>
-<li><a href="https://www.cnblogs.com/pinard/p/7249903.html" target="_blank" rel="noopener">word2vec原理(三) 基于Negative Sampling的模型</a></li>
-<li>葫芦书</li>
+<h4 id="什么是DNN"><a href="#什么是DNN" class="headerlink" title="什么是DNN"></a>什么是DNN</h4><p>DNN中文全称是深度神经网络。它主要由三个部分组成，输入层，隐藏层和输出层。数据从输入层进入模型，经过中间的隐藏层，最后从输出层输出。由于DNN可以有多个中间隐藏层，所以叫做深度神经网络。</p>
+<p>DNN的每一层都是由一个或者多个神经元组成的。神经元是这么一种结构，它可以接受一个或者多个数作为输入，并将这些数据进行线性组合之后再经过一次函数映射进行输出。最后这个映射函数我们一般称为激活函数。</p>
+<p>DNN的层与层之间是全连接的。也就是说前一层的任意一个神经元一定与后一层的任意一个神经元相连。前一层神经元的输出将作为后一层神经元的输入。数据从输入层进入网络，经过输入层和一层层隐藏层的计算，最后由输出层输出。这个过程叫做前向传播。</p>
+<p>由于每个神经元都有若干个线性关系系数和偏移量，这些是一个神经元的参数。神经网络中所有神经元的参数组合起来的话就是神经网络的参数。每一层神经网络的参数可以用一个参数矩阵表示。我们一般用反向传播来更新神经网络的参数。</p>
+<h4 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h4><p>我们使用梯度下降的方法来优化神经网络的参数。在定义好神经网络的损失函数之后，可以用损失函数对每一层的参数进行求导并进行梯度更新。由于根据求导的链式法则，每一层的梯度是在其后一层的梯度的基础上更新的，类似于梯度是从后往前一层层传播的，所以这个过程叫做反向传播。</p>
+<h4 id="梯度爆炸和梯度消失"><a href="#梯度爆炸和梯度消失" class="headerlink" title="梯度爆炸和梯度消失"></a>梯度爆炸和梯度消失</h4><p>简单的说就是在反向传播的过程中，我们使用了求导的链式法则，每层的梯度都有一大串连乘，而且越往后连乘越多，如果：</p>
+<ol>
+<li>每次连乘的数小于1，则梯度会越来越小甚至逼近0。这个现象叫做梯度消失。梯度消失的时候每一层的系数更新幅度都特别小甚至没有更新，影响模型收敛。</li>
+<li>每次连乘的数大于1，则梯度会越来越大。这个现象叫做梯度爆炸。</li>
 </ol>
+<h4 id="关于损失函数和激活函数的选择"><a href="#关于损失函数和激活函数的选择" class="headerlink" title="关于损失函数和激活函数的选择"></a>关于损失函数和激活函数的选择</h4><p><a href="https://www.cnblogs.com/pinard/p/6437495.html" target="_blank" rel="noopener">刘建平老师的博客总结：</a></p>
+<blockquote>
+<ol>
+<li>激活函数为 sigmoid 函数，则交叉熵损失函数一般比均方差损失函数好。</li>
+<li>如果DNN 用于分类，则一般使用 softmax 激活函数和对数似然损失函数。</li>
+<li>ReLU 激活函数对梯度消失问题有一定程度的解决，尤其是在 CNN 模型中。</li>
+</ol>
+</blockquote>
+<h4 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h4><ol>
+<li>可以对损失函数加入L1或L2正则化项</li>
+<li>可以通过集成学习之Bagging的思想进行正则化</li>
+<li>使用dropout</li>
+</ol>
+<h5 id="dropout"><a href="#dropout" class="headerlink" title="dropout"></a>dropout</h5><p>所谓的dropout是指在训练神经网络的时候，在一批数据迭代时，随机地隐藏掉一部分隐藏层的神经元。对于当前迭代，只更新保留的神经元的参数，被隐藏的神经元的参数不会被更新。当前迭代结束后，恢复被隐藏的神经元，下一次迭代的时候重新进行随机隐藏，重复这一过程。</p>
+<h5 id="dropout为什么能防止过拟合"><a href="#dropout为什么能防止过拟合" class="headerlink" title="dropout为什么能防止过拟合"></a>dropout为什么能防止过拟合</h5><p>dropout其实相当于使用不同的训练数据训练不同的模型。最后将所有模型的效果综合起来，这有点类似于集成学习的Bagging的思想。</p>
+<p>由于dropout策略，两个神经元不一定每次都在同一个网络中出现，减少了某些特征仅仅在其他特征下才有效果的情况，也就是说，模型不应该对某些特定的线索很敏感，这迫使模型去学习更鲁棒的特征。</p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6422831.html" target="_blank" rel="noopener">深度神经网络（DNN）反向传播算法(BP)</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/6437495.html" target="_blank" rel="noopener">深度神经网络（DNN）损失函数和激活函数的选择</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/6472666.html" target="_blank" rel="noopener">深度神经网络（DNN）的正则化</a></p>
 
       
     </div>
@@ -394,11 +403,9 @@
       
         <div class="post-tags">
           
+            <a href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="tag"># 决策树</a>
+          
             <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
-          
-            <a href="/tags/NLP/" rel="tag"># NLP</a>
-          
-            <a href="/tags/%E8%AF%8D%E5%90%91%E9%87%8F/" rel="tag"># 词向量</a>
           
         </div>
       
@@ -411,8 +418,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/18/short-notes/" rel="next" title="学习笔记">
-                <i class="fa fa-chevron-left"></i> 学习笔记
+              <a href="/2020/03/21/SVM/" rel="next" title="SVM">
+                <i class="fa fa-chevron-left"></i> SVM
               </a>
             
           </div>
@@ -420,10 +427,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/19/ensemble-learning/" rel="prev" title="集成学习">
-                集成学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -559,7 +562,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CBOW"><span class="nav-number">1.</span> <span class="nav-text">CBOW</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Skip-gram"><span class="nav-number">2.</span> <span class="nav-text">Skip-gram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Word2Vec"><span class="nav-number">3.</span> <span class="nav-text">Word2Vec</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分层softmax"><span class="nav-number">3.1.</span> <span class="nav-text">分层softmax</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CBOW-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">CBOW</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Skip-gram-1"><span class="nav-number">3.1.2.</span> <span class="nav-text">Skip-gram</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#负采样"><span class="nav-number">3.2.</span> <span class="nav-text">负采样</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是DNN"><span class="nav-number">1.</span> <span class="nav-text">什么是DNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#反向传播"><span class="nav-number">2.</span> <span class="nav-text">反向传播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#梯度爆炸和梯度消失"><span class="nav-number">3.</span> <span class="nav-text">梯度爆炸和梯度消失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于损失函数和激活函数的选择"><span class="nav-number">4.</span> <span class="nav-text">关于损失函数和激活函数的选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正则化"><span class="nav-number">5.</span> <span class="nav-text">正则化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dropout"><span class="nav-number">5.1.</span> <span class="nav-text">dropout</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dropout为什么能防止过拟合"><span class="nav-number">5.2.</span> <span class="nav-text">dropout为什么能防止过拟合</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
