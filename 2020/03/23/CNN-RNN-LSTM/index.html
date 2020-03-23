@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="机器学习," />
+  <meta name="keywords" content="神经网络,深度学习," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="记录一些比较散乱的知识点。按学习内容更新。 目前已有：Cross Validation、随机梯度下降法的改进、评估指标、关于分类问题的思考、词袋模型、逻辑回归">
+<meta name="description" content="这篇文章旨在用文字简要讲清楚CNN、RNN、LSTM是什么。主要面向的场景是面试时面试官的提问。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习笔记">
-<meta property="og:url" content="http://shujh.top/2020/03/18/short-notes/index.html">
+<meta property="og:title" content="CNN、RNN、LSTM简述">
+<meta property="og:url" content="http://shujh.top/2020/03/23/CNN-RNN-LSTM/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="记录一些比较散乱的知识点。按学习内容更新。 目前已有：Cross Validation、随机梯度下降法的改进、评估指标、关于分类问题的思考、词袋模型、逻辑回归">
+<meta property="og:description" content="这篇文章旨在用文字简要讲清楚CNN、RNN、LSTM是什么。主要面向的场景是面试时面试官的提问。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-18T06:30:43.000Z">
-<meta property="article:modified_time" content="2020-03-23T03:21:39.666Z">
+<meta property="article:published_time" content="2020-03-23T06:16:26.000Z">
+<meta property="article:modified_time" content="2020-03-23T08:02:52.733Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="神经网络">
+<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
 
 
@@ -120,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/18/short-notes/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/23/CNN-RNN-LSTM/"/>
 
 
 
 
 
-  <title>学习笔记 | 过程就是奖励</title>
+  <title>CNN、RNN、LSTM简述 | 过程就是奖励</title>
   
 
 
@@ -253,7 +254,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/18/short-notes/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/23/CNN-RNN-LSTM/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -270,7 +271,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">学习笔记</h1>
+          <h1 class="post-title" itemprop="name headline">CNN、RNN、LSTM简述</h1>
         
 
         <div class="post-meta">
@@ -282,8 +283,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-18T14:30:43+08:00">
-                2020-03-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-23T14:16:26+08:00">
+                2020-03-23
               </time>
             
 
@@ -305,8 +306,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9D%82/" itemprop="url" rel="index">
-                    <span itemprop="name">杂</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
                   </a>
                 </span>
 
@@ -342,30 +354,26 @@
       
 
       
-        <p>记录一些比较散乱的知识点。按学习内容更新。</p>
-<p>目前已有：Cross Validation、随机梯度下降法的改进、评估指标、关于分类问题的思考、词袋模型、逻辑回归</p>
+        <p>这篇文章旨在用文字简要讲清楚CNN、RNN、LSTM是什么。主要面向的场景是面试时面试官的提问。</p>
 <a id="more"></a>
-<h4 id="交叉校验-Cross-Validation"><a href="#交叉校验-Cross-Validation" class="headerlink" title="交叉校验 Cross Validation"></a>交叉校验 Cross Validation</h4><p>交叉校验，就是把数据集分成训练集和测试集，用训练集来训练模型，测试集来评估模型的好坏；然后再把数据重新打乱，重新选择训练集和测试集，重复这个步骤。这样我们就可以从一个数据集中得到多个不同的训练集和测试集组合，进行多次实验。由于本次用来训练的样本下一次可能被用来测试，这就是所谓的“交叉”。</p>
-<p>常用的交叉校验方法是K折交叉校验。我们把数据集平均分成K份，每次使用其中的一份来做测试集，其余的用来做训练集；重复K次使得每一份都被拿来当成测试集过。然后用这 K 次实验效果的平均值来评估模型的效果。</p>
-<p>此外，还有留一交叉校验、自助法（bootstrapping）。</p>
-<p>留一法是k折交叉校验的特殊情况，把设数据的样本数为n，留一法就是把其中n-1个数据当成训练集，只留一个样本当成测试集。适用于样本数很少的情况。</p>
-<p>bootstrapping 自助法是通过有放回地随机采样m个样本当成训练集，没有被采集到的样本当成测试集。接着这样进行交叉校验。</p>
-<h4 id="随机梯度下降法的改进"><a href="#随机梯度下降法的改进" class="headerlink" title="随机梯度下降法的改进"></a>随机梯度下降法的改进</h4><ul>
-<li>动量法：引入上一个梯度，作为“惯性”</li>
-<li>AdaGrad：感知“环境”。出现得更频繁的特征的参数更新幅度变低，更不频繁的 更新幅度增加。</li>
-</ul>
-<h4 id="评估指标"><a href="#评估指标" class="headerlink" title="评估指标"></a>评估指标</h4><p>F1：综合评估精确率和召回率。</p>
-<p>精确率：确实为正/预测为正</p>
-<p>召回率：正确地预测为正/所有正</p>
-<h4 id="关于分类问题"><a href="#关于分类问题" class="headerlink" title="关于分类问题"></a>关于分类问题</h4><p>如果使用准确率的话，假设负样本占99%，那么把所有样本预测为负样本的准确率也有99%。当不同类别的样本比例非常不均衡的时候，占比大的类别往往称为影响准确率的最主要因素。</p>
-<p><strong>PR曲线</strong>：精确率为y轴，召回率为x轴画出来的曲线。越靠近右上越好。</p>
-<p><strong>RoC曲线</strong>：真阳性率为y轴，假阳性率为x轴画出来的曲线。越靠近左上越好。</p>
-<p><strong>AUC</strong>：ROC曲线下的面积</p>
-<h4 id="词袋模型"><a href="#词袋模型" class="headerlink" title="词袋模型"></a>词袋模型</h4><p>词袋模型就是将所有样本的单词不重复地都装到一个袋子里。这个袋子的大小就是词袋向量的长度；每一维都映射到一个单词；对于每个样本来说，该维度的值就是样本中对应单词出现的次数。所以每个样本对应的词袋向量是对其包含的所有单词的计数。</p>
-<h4 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h4><p>逻辑回归是一种分类算法。形式上可以看成是在线性回归的基础上，使用一个函数将结果再做一次映射。使得结果在属于某一区间的时候是一种类别，属于另一个区间的时候是另一种类别。</p>
-<p>二元逻辑回归最常使用的这个映射函数是sigmoid函数。经过sigmoid函数的映射之后模型的输出是属于某一分类的概率。二元逻辑回归的损失函数一般使用极大似然法推出来。一般使用梯度下降法求优。</p>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p>葫芦书</p>
-<p><a href="https://www.cnblogs.com/pinard/" target="_blank" rel="noopener">刘建平博客</a></p>
+<h4 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h4><p>CNN中文全称叫做卷积神经网络。与一般的深度神经网络相比，CNN主要是在隐藏层中加入了卷积层和池化层。</p>
+<p>卷积层做的操作是，通过一个卷积核来提取数据中的特征，这个过程叫做卷积。一般来说，不同的卷积核可以提取出不同的特征。</p>
+<p>卷积的具体实现是，假设我们的输入数据是一个NxN的矩阵，那么卷积核一般是是一个nxn的矩阵，满足n &lt; N。从输入矩阵的左上角开始，我们可以想象把卷积核覆盖在输入矩阵上面，卷积核与被它覆盖住的范围是大小相同的矩阵，将这两个矩阵上的元素对应相乘然后相加，就是一次卷积操作的结果。然后将卷积核向右移动步长范围，重复卷积操作。当同一层的卷积操作都执行完之后，卷积核向下移动步长的长度，重复卷积操作。将每次卷积的结果按顺序拼成矩阵，就得到卷积层的输出。卷积层的输出会经过一个ReLU激活函数再进入下一层。可以看出卷积层的输出会明显比输入小。</p>
+<p>我们容易从对二维矩阵的卷积推广道对于张量的卷积，区别只是卷积核的维度应该跟输入张量一样。</p>
+<p>池化层做的操作是，按照一个固定大小对输入张量进行压缩。比如对输入矩阵的压缩，nxn的池化就是将矩阵的每nxn个元素变成一个元素。一般是取nxn个元素的最大值或者nxn个元素的平均值作为池化结果。</p>
+<p>在CNN中，一般的组合是卷积层+ReLU+池化层，这个组合可以重复出现多次。</p>
+<h4 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h4><p>RNN中文全称叫做循环神经网络。RNN一般用来处理DNN和CNN无法很好处理的序列数据。序列数据有比较强的连续关系，而且长短不一，比较难拆分成一个个独立的个体来通过DNN和CNN训练。</p>
+<p>对于序列数据，假设根据时刻分为 $x_1, x_2, x_3, …, x_t$ RNN按照序列的顺序将它们输入网络。当前时刻的输出 $h_i$ 不仅仅取决于当前时刻的输入 $x_i$ ，还取决于上一时刻的输出$h_{i-1}$。也就是说我们将前一时刻模型的输出又作为后一时刻模型的输入循环利用。对于任一时刻的输出$h_i$，我们可以得到对应的预测结果$o_i$，以及对应的真实值y和损失函数，于是可以通过类似DNN的方法来训练模型。</p>
+<h4 id="LSTM"><a href="#LSTM" class="headerlink" title="LSTM"></a>LSTM</h4><p>LSTM是RNN模型的改进。由于RNN存在梯度消失的问题，不能够很好地处理长序列，LSTM在一定程度上解决了这个问题。</p>
+<p>相比起RNN，LSTM主要引入了三种结构：遗忘门、输入门和输出门。对于当前时刻t的输入，除了上一时刻的输出 $h_{t-1}$和当前时刻的输入$x_t$，还有上一时刻的细胞状态(cell state) $c_{t-1}$。</p>
+<p>LSTM使用三种门控结构来控制这三个输入。<strong>遗忘门</strong>的输入是 $h_{t-1}$ 和 $x_t$，经过线性计算之后通过一个sigmoid激活函数得到遗忘门的输出。遗忘门的输出主要用来控制遗忘上一层的细胞状态的概率：</p>
+<script type="math/tex; mode=display">f^{(t)} = \sigma(W_fh^{(t-1)} +U_fx^{(t)} + b_f)</script><p>其中$W_f, U_f, b_f$为线性关系的系数和偏倚，和RNN中的类似。</p>
+<p><strong>输入门</strong>负责当前序列的输入。输入门的输入也是$h_{t-1}$ 和 $x_t$，线性计算之后分别经过sigmoid激活函数和tanh激活函数，再进行相乘然后用于更新当前时刻的细胞状态。</p>
+<script type="math/tex; mode=display">i^{(t)} = \sigma(W_ih^{(t-1)} +U_ix^{(t)} + b_i)</script><script type="math/tex; mode=display">a^{(t)} =tanh(W_ah^{(t-1)} +U_ax^{(t)} + b_a)</script><p>其中$W_i, U_i, b_i, W_a, U_a, b_a,$为线性关系的系数和偏倚。</p>
+<p>遗忘门和输入门的输出用于更新当前时刻的细胞状态。当前时刻的细胞状态由两部分组成。一部分是遗忘门和$c_{t-1}$的乘积，另一部分是输入门的两个输出的乘积。</p>
+<script type="math/tex; mode=display">C^{(t)} = C^{(t-1)} \odot f^{(t)}+i^{(t)}\odot a^{(t)}</script><p>其中，$\odot$为Hadamard积。</p>
+<p><strong>输出门</strong>负责当前时刻的输出$h_t$。输出门接受两部分的输入。一部分是是$h_{t-1}$ 和 $x_t$线性组合之后经过sigmoid激活函数的值，另一部分是当前时刻的细胞状态经过tanh函数后的值。</p>
+<script type="math/tex; mode=display">o^{(t)} = \sigma(W_oh^{(t-1)} +U_ox^{(t)} + b_o)</script><script type="math/tex; mode=display">h^{(t)} = o^{(t)} \odot tanh(C^{(t)})</script><h5 id="关于LSTM为什么能够避免RNN上出现的梯度消失"><a href="#关于LSTM为什么能够避免RNN上出现的梯度消失" class="headerlink" title="关于LSTM为什么能够避免RNN上出现的梯度消失"></a>关于LSTM为什么能够避免RNN上出现的梯度消失</h5><p>个人感觉是由于RNN在反向传播的过程中比较容易出现接近0的项，而LSTM经过调整结构，使得在反向传播的时候，导数的每一项会比较大，减少出现接近0的项，使梯度不会剧烈下降。</p>
 
       
     </div>
@@ -383,7 +391,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag"># 神经网络</a>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
           
         </div>
       
@@ -396,8 +406,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/18/linear-regression/" rel="next" title="线性回归">
-                <i class="fa fa-chevron-left"></i> 线性回归
+              <a href="/2020/03/22/DNN/" rel="next" title="DNN">
+                <i class="fa fa-chevron-left"></i> DNN
               </a>
             
           </div>
@@ -405,10 +415,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/18/word2vec/" rel="prev" title="Word2Vec">
-                Word2Vec <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -544,7 +550,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉校验-Cross-Validation"><span class="nav-number">1.</span> <span class="nav-text">交叉校验 Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机梯度下降法的改进"><span class="nav-number">2.</span> <span class="nav-text">随机梯度下降法的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估指标"><span class="nav-number">3.</span> <span class="nav-text">评估指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于分类问题"><span class="nav-number">4.</span> <span class="nav-text">关于分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词袋模型"><span class="nav-number">5.</span> <span class="nav-text">词袋模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑回归"><span class="nav-number">6.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#CNN"><span class="nav-number">1.</span> <span class="nav-text">CNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RNN"><span class="nav-number">2.</span> <span class="nav-text">RNN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LSTM"><span class="nav-number">3.</span> <span class="nav-text">LSTM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#关于LSTM为什么能够避免RNN上出现的梯度消失"><span class="nav-number">3.1.</span> <span class="nav-text">关于LSTM为什么能够避免RNN上出现的梯度消失</span></a></li></ol></li></ol></div>
             
 
           </div>
