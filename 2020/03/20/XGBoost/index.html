@@ -87,7 +87,7 @@
 <meta property="og:description" content="通过XGBoost与GBDT的区别来简要介绍XGBoost。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-20T14:36:43.000Z">
-<meta property="article:modified_time" content="2020-03-22T09:34:17.934Z">
+<meta property="article:modified_time" content="2020-03-23T03:41:53.194Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="集成学习">
 <meta name="twitter:card" content="summary">
@@ -376,7 +376,7 @@
 <script type="math/tex; mode=display">L_t=\sum\limits_{i=1}^{m}L(y_i,f_{t-1}(x_i)+h_t(x_i))+\gamma J+\frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><p>对于损失函数，GBDT直接拟合负梯度（一阶泰勒）来优化它，二XGBoost使用的是，最小化损失函数的二阶泰勒展开来优化他。</p>
 <script type="math/tex; mode=display">L_t = \sum\limits_{i=1}^mL(y_i, f_{t-1}(x_i)+ h_t(x_i)) + \gamma J + \frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><script type="math/tex; mode=display">\approx   \sum\limits_{i=1}^m( L(y_i, f_{t-1}(x_i)) + \frac{\partial L(y_i, f_{t-1}(x_i) }{\partial f_{t-1}(x_i)}h_t(x_i) + \frac{1}{2}\frac{\partial^2 L(y_i, f_{t-1}(x_i) }{\partial f_{t-1}^2(x_i)} h_t^2(x_i)) +  \gamma J + \frac{\lambda}{2}\sum\limits_{j=1}^Jw_{tj}^2</script><p>令：</p>
 <script type="math/tex; mode=display">g_{ti} = \frac{\partial L(y_i, f_{t-1}(x_i)) }{\partial f_{t-1}(x_i)}, \; h_{ti} =\frac{\partial^2 L(y_i, f_{t-1}(x_i))}{\partial f_{t-1}^2(x_i)}</script><script type="math/tex; mode=display">G_{tj} = \sum\limits_{x_i \in R_{tj}}g_{ti},\; H_{tj} = \sum\limits_{x_i \in R_{tj}}h_{ti}</script><p>可以化简得：</p>
-<script type="math/tex; mode=display">L_t = \sum\limits_{j=1}^J [G_{tj}w_{tj} +\frac{1}{2}(H_{tj}+\lambda)w_{tj}^2] +\gamma J</script><p>根据这个损失函数的表达式，假设决策树的结构已知，我们可以通过令损失函数相对于$w_{tj}$ 的导数为9求出最小化损失函数的各个叶子结点上的预测值：</p>
+<script type="math/tex; mode=display">L_t = \sum\limits_{j=1}^J [G_{tj}w_{tj} +\frac{1}{2}(H_{tj}+\lambda)w_{tj}^2] +\gamma J</script><p>根据这个损失函数的表达式，假设决策树的结构已知，我们可以通过令损失函数相对于$w_{tj}$ 的导数为0求出最小化损失函数的各个叶子结点上的预测值：</p>
 <script type="math/tex; mode=display">w_{tj} = - \frac{G_{tj}}{H_{tj} + \lambda}</script><p>至于如何决定最优分裂点，XGBoost采用的既不是信息增益也不是基尼系数，而是选择能够最小化损失函数的分裂点！</p>
 <p>首先我们将 $w_{tj}$ 取得最优解的值代入损失函数：</p>
 <script type="math/tex; mode=display">L_t = -\frac{1}{2}\sum\limits_{j=1}^J\frac{G_{tj}^2}{H_{tj} + \lambda} +\gamma J</script><p>通过这个式子我们容易得出每次分裂之后损失函数的差值：</p>

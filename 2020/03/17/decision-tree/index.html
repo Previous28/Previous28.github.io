@@ -87,7 +87,7 @@
 <meta property="og:description" content="什么是决策树？决策树是一种自上而下的对样本数据进行分类的过程。决策树的每个非叶子节点代表一个划分条件，这个划分条件取自于样本的某些特征或者说属性；每个叶子节点代表一个类别。所有数据从根节点开始，被一层层地往下划分直到属于某个叶子节点。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-17T10:10:41.000Z">
-<meta property="article:modified_time" content="2020-03-22T09:33:06.040Z">
+<meta property="article:modified_time" content="2020-03-23T02:43:59.376Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="决策树">
 <meta property="article:tag" content="机器学习">
@@ -385,7 +385,7 @@
 <h5 id="对于CART作为分类树："><a href="#对于CART作为分类树：" class="headerlink" title="对于CART作为分类树："></a>对于CART作为分类树：</h5><p><strong>CART对于连续值的处理跟C4.5是一样的。</strong>与ID3和C4.5不同的是，CART建立的是一棵二叉树。对于离散值，CART采用的是不断二分的方法。每次都考虑根据离散特征将样本集划分成两部分的所有情况，选择基尼系数最小的划分作为这个特征的代表。如果本次划分没有把这个离散特征的取值完全分开，<strong>则这个离散特征后面可以继续参加到子节点的选择过程</strong>。</p>
 <p>由于CART每次将样本集只分成两个部分，所以基尼系数的计算更加简单了:</p>
 <script type="math/tex; mode=display">Gini(D)=\frac{|D_1|}{|D|}(1-\frac{|D_1|}{|D|})+\frac{|D_2|}{|D|}(1-\frac{|D_2|}{|D|})=2\frac{|D_1|}{|D|}(1-\frac{|D_1|}{|D|})</script><p>另外，对于缺失值的处理，CART和C4.5是一样的。</p>
-<h5 id="对于CART作为回归树："><a href="#对于CART作为回归树：" class="headerlink" title="对于CART作为回归树："></a>对于CART作为回归树：</h5><p>不是采用基尼系数来度量不同特征作为划分点的优劣，而是使用方差和的来度量。</p>
+<h5 id="对于CART作为回归树："><a href="#对于CART作为回归树：" class="headerlink" title="对于CART作为回归树："></a>对于CART作为回归树：</h5><p>不是采用基尼系数来度量不同特征作为划分点的优劣，而是使用和方差来度量。</p>
 <h4 id="决策树的剪枝"><a href="#决策树的剪枝" class="headerlink" title="决策树的剪枝"></a>决策树的剪枝</h4><p>决策树的剪枝是决策树的一个核心要点。剪枝包含预剪枝和后剪枝。</p>
 <h5 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h5><p>预剪枝是在树的生长过程中提前停止生长。常见的方法有：</p>
 <ul>
