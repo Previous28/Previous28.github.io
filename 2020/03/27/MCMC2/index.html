@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="集成学习," />
+  <meta name="keywords" content="采样,机器学习,概率统计," />
 
 
 
@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="这篇总结Adaboost、GBDT和随机森林。Adaboost和GBDT都是集成学习之Boosting思想的具体实现；随机森林是集成学习之Bagging思想的具体实现。">
+<meta name="description" content="本文接上文MCMC(马尔可夫链蒙特卡洛)(一)，主要介绍MCMC采样及其改进版M-H采样和Gibbs采样。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Adaboost、GBDT、随机森林">
-<meta property="og:url" content="http://shujh.top/2020/03/19/adaboost-GBDT/index.html">
+<meta property="og:title" content="MCMC(马尔可夫链蒙特卡洛)(二)">
+<meta property="og:url" content="http://shujh.top/2020/03/27/MCMC2/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="这篇总结Adaboost、GBDT和随机森林。Adaboost和GBDT都是集成学习之Boosting思想的具体实现；随机森林是集成学习之Bagging思想的具体实现。">
+<meta property="og:description" content="本文接上文MCMC(马尔可夫链蒙特卡洛)(一)，主要介绍MCMC采样及其改进版M-H采样和Gibbs采样。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-19T09:00:46.000Z">
-<meta property="article:modified_time" content="2020-03-22T09:33:03.432Z">
+<meta property="article:published_time" content="2020-03-27T07:29:04.000Z">
+<meta property="article:modified_time" content="2020-03-27T09:59:07.823Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="集成学习">
+<meta property="article:tag" content="采样">
+<meta property="article:tag" content="机器学习">
+<meta property="article:tag" content="概率统计">
 <meta name="twitter:card" content="summary">
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/19/adaboost-GBDT/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/27/MCMC2/"/>
 
 
 
 
 
-  <title>Adaboost、GBDT、随机森林 | 过程就是奖励</title>
+  <title>MCMC(马尔可夫链蒙特卡洛)(二) | 过程就是奖励</title>
   
 
 
@@ -253,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/19/adaboost-GBDT/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/27/MCMC2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -270,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Adaboost、GBDT、随机森林</h1>
+          <h1 class="post-title" itemprop="name headline">MCMC(马尔可夫链蒙特卡洛)(二)</h1>
         
 
         <div class="post-meta">
@@ -282,8 +284,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-19T17:00:46+08:00">
-                2020-03-19
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-27T15:29:04+08:00">
+                2020-03-27
               </time>
             
 
@@ -316,8 +318,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index">
+                    <span itemprop="name">概率统计</span>
                   </a>
                 </span>
 
@@ -353,23 +355,44 @@
       
 
       
-        <p>这篇总结Adaboost、GBDT和随机森林。Adaboost和GBDT都是集成学习之Boosting思想的具体实现；随机森林是集成学习之Bagging思想的具体实现。<br><a id="more"></a></p>
-<h4 id="Adaboost"><a href="#Adaboost" class="headerlink" title="Adaboost"></a>Adaboost</h4><p>Adaboost是一种基于集成学习思想的算法。具体地介绍如下。设我们数据集的样本数为m，则每个样本的初始权重为 $\frac{1}{m}$。利用初始训练集训练一个弱学习器，根据这个弱学习器在训练集上的误差更新样本的权重，使得误差较大的样本权重变大。并且根据所有样本的误差率计算当前弱学习器的权重。然后我们使用更新权重后的数据集训练下一个弱学习器。重复这个过程直到我们有K个弱学习器。最后K个弱学习器的带权相加就是合并后的模型。</p>
-<p>具体的，我们假设Adaboost处理的是二分类问题。所有样本的误差率为：</p>
-<script type="math/tex; mode=display">e_k=\sum_{i=1}^{m}w_{ki}I(G_k(x_i)≠y_i)</script><p>其中 $I()$ 是判别函数。当前弱学习器权重系数为：</p>
-<script type="math/tex; mode=display">a_k=\frac{1}{2}log\frac{1-e_k}{e_k}</script><p>我们使用 来更新样本权重。对于分类正确的样本：</p>
-<script type="math/tex; mode=display">w_{k+1,i}=\frac{w_{ki}}{Z_K}e^{-a_k}</script><p>对于分类错误的样本：</p>
-<script type="math/tex; mode=display">w_{k+1,i}=\frac{w_{ki}}{Z_K}e^{a_k}</script><p>$Z_K$ 是归一化因子。合并起来就是：</p>
-<script type="math/tex; mode=display">w_{k+1,i}=\frac{w_{ki}}{Z_K}e^{-a_ky_iG_k(x_i)}</script><p>得到K个弱学习器之后，最终的强分类器为：</p>
-<script type="math/tex; mode=display">f(x)=sign(\sum_{k=1}{K}a_kG_k(x))</script><h4 id="GBDT"><a href="#GBDT" class="headerlink" title="GBDT"></a>GBDT</h4><p>GBDT的基本思想是使用新的弱学习器来拟合损失函数的负梯度，然后将训练好的新的弱学习器以累加的形式结合到现有的模型中。</p>
-<p>理解GBDT主要有一个要点，就是为什么要用新的弱学习器来拟合损失函数的负梯度。首先我们知道函数沿着负梯度的方向它的值下降得最快，所以有一个常用的优化方法就是梯度下降法，通过将模型的系数沿着负梯度方向更新，可以一步步减小损失函数的值。所以在GBDT中，我们也希望通过类似的方法来优化模型的损失函数。但是GBDT使用的弱学习器是CART，CART中没有直接与模型的损失函数相关的系数。所以我们不能通过梯度下降法来优化模型。但是当我们使用一个新的弱分类器来拟合负梯度时，相当于整个模型往“负梯度”方向前进了，而负梯度方向是损失函数下降最快的方向。由于我们通过一次次增加新的弱分类器去拟合负梯度来优化模型，所以这个方法叫做“梯度提升法”。</p>
-<p>当损失函数是平方损失函数时，拟合残差相当于拟合损失函数的负梯度。<strong>但在其他情况，拟合负梯度≠拟合残差</strong>。</p>
-<h4 id="随机森林"><a href="#随机森林" class="headerlink" title="随机森林"></a>随机森林</h4><p>随机森林是一种集成学习算法。主要实现了集成学习中Bagging的思想。</p>
-<p>Bagging的主要思想是对原始数据集进行有放回采样得到不同的训练集，用这些来训练得到不同的弱学习器，因此弱学习器之间没有强相关性，最后通过一定的结合策略结合成强学习器。</p>
-<p>具体到随机森林，他主要做了两点改进。一是，它使用的弱学习器是CART这种决策树。二是，在生成CART的时候，原始CART算法是从所有特征中选择最优的分裂特征，但是随机森林的话，首先会从所有特征中随机选择一部分特征，再从这部分特征中选择最优的分裂特征。</p>
-<h4 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6133937.html" target="_blank" rel="noopener">集成学习之 Adaboost 算法原理小结</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/6140514.html" target="_blank" rel="noopener">梯度提升树(GBDT)原理小结</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/6156009.html" target="_blank" rel="noopener">Bagging与随机森林算法原理小结</a></p>
+        <p>本文接上文<a href="/2020/03/26/MCMC/">MCMC(马尔可夫链蒙特卡洛)(一)</a>，主要介绍MCMC采样及其改进版M-H采样和Gibbs采样。</p>
+<a id="more"></a>
+<h4 id="MCMC"><a href="#MCMC" class="headerlink" title="MCMC"></a>MCMC</h4><p>MCMC采样法，中文全称是马尔可夫链蒙特卡洛采样法。前面我们介绍过，蒙特卡洛法是指基于采样的数值型近似求解的方法；而马尔可夫链则用于进行采样。<strong>MCMC采样法的基本思想是：针对待采样的目标分布，构造一个马尔可夫链，使得该马尔可夫链的平稳分布就是目标分布；然后从任何一个初始状态出发，沿着马尔可夫链进行状态转移，最终得到的状态转移序列会收敛到目标分布，由此可以得到目标分布的一系列样本。基于这一系列样本用蒙特卡洛法来近似求解。</strong> </p>
+<p>由于使用到了马尔可夫链进行采样，则MCMC必须解决马尔可夫链的状态转移矩阵难找的问题。下面介绍MCMC的解决方法。</p>
+<p>MCMC采取的方法，首先基于一个前提：马尔可夫链的状态转移矩阵 $P$ 和概率分布 $π(x)$  满足细致平稳条件的话，则概率分布 $π(x)$ 是状态转移矩阵 $P$ 对应的平稳分布。</p>
+<p>马尔科夫链的细致平稳条件：</p>
+<script type="math/tex; mode=display">\pi(i)P(i,j) = \pi(j)P(j,i)</script><p>原因是由细致平稳条件的满足可以推出矩阵满足马尔可夫链的收敛性质：</p>
+<script type="math/tex; mode=display">\sum\limits_{i=1}^{\infty}\pi(i)P(i,j) = \sum\limits_{i=1}^{\infty}\pi(j)P(j,i) =\pi(j)\sum\limits_{i=1}^{\infty} P(j,i) =\pi(j)</script><p>用矩阵表示：</p>
+<script type="math/tex; mode=display">\pi P = \pi</script><p>即满足马尔可夫链的收敛性质。</p>
+<p>也就是说我们找到可以使概率分布$\pi(x)$满足细致平稳分布的矩阵$P$即可。但是如何找呢？随便一个状态转移矩阵 $Q$ 并不满足细致平稳条件：</p>
+<script type="math/tex; mode=display">\pi(i)Q(i,j) \neq \pi(j)Q(j,i)</script><p>但是如果我们在两边乘上某个数可以使得等式成立：</p>
+<script type="math/tex; mode=display">\pi(i)Q(i,j)\alpha(i,j)= \pi(j)Q(j,i)\alpha(j,i)</script><p>其中：</p>
+<script type="math/tex; mode=display">\alpha(i,j) = \pi(j)Q(j,i)</script><script type="math/tex; mode=display">\alpha(j,i) = \pi(i)Q(i,j)</script><p>即<script type="math/tex">P(i,j) = Q(i,j)\alpha(i,j)</script>。也就是说状态转移矩阵 $P$ 可以通过矩阵 $Q$ 乘以某个值得到。这个值一般称为接受率，由其计算公式可是范围在[0,1]之间。可以理解为是一个概率，即目标矩阵 $P$ 可以通过任意一个马尔可夫链状态转移矩阵 $Q$ 以一定的接受率得到。</p>
+<p>这里也用到了接受-拒绝采样的思想，以一个常见的马尔科夫链状态转移矩阵$Q$通过一定的接受-拒绝概率得到目标转移矩阵$P$。</p>
+<p>所以MCMC采样的过程是：</p>
+<p>首先给定任意一个马尔可夫链转移矩阵 $Q$ 和平稳分布 $\pi(x)$。从任意初始分布采样得 $x_0$。每次通过矩阵 $Q$ 中对应的条件概率采样得到下一个 $x$ 之后，从01均匀分布中采样一个值$z$，如果 $z$ 小于接受率，则接受转移，否则不接受转移。重复这个过程直到采样出n个样本。</p>
+<h5 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h5><p>MCMC尽管解决了寻找马尔可夫链状态转移矩阵的问题，但由于实际应用中，接受率通常很小，导致采样的速度太慢。M-H采样改进了MCMC采样的这个问题。</p>
+<h4 id="M-H采样"><a href="#M-H采样" class="headerlink" title="M-H采样"></a>M-H采样</h4><p>MCMC采样速度慢的原因是接受率太小了。回顾之前的细致平稳条件：</p>
+<script type="math/tex; mode=display">\pi(i)Q(i,j)\alpha(i,j)= \pi(j)Q(j,i)\alpha(j,i)</script><p>可以观察到我们在等式两边乘以一个放大因子并不影响细致平稳条件的成立。M-H采样的改进就是由这一点入手的。具体的，M-H采样选择让接受率较大的那一边变成1，这样可以最大程度地提升接受率。</p>
+<p>除了以上改变，M-H采样的其他步骤跟MCMC一样。</p>
+<p>解决了MCMC缺点的M-H采样，仍然由其他不足：</p>
+<ol>
+<li>对于高维数据，M-H的计算量很大</li>
+<li>很多时候数据的各个特征维度的联合分布很难的到，只能得到各个特征之间的条件分布。</li>
+</ol>
+<p>Gibbs采样解决了上面两个问题。</p>
+<h4 id="Gibbs采样"><a href="#Gibbs采样" class="headerlink" title="Gibbs采样"></a>Gibbs采样</h4><p>很多时候我们没法得到各个特征维度之间的联合分布，但是可以得到各个特征之间的条件概率分布。Gibbs采样就是使用特征之间的条件概率分布进行采样的。</p>
+<p>Gibbs采样之所以能够利用条件概率分布来进行，是基于一个发现：</p>
+<p>平面上的任意两点$E,F$，满足细致平稳条件：<script type="math/tex">\pi(E)P(E \to F) = \pi(F)P(F \to E)</script></p>
+<p>二维空间举例证明：</p>
+<p>对于位于同一直线上的两点$A(x_1^{(1)},x_2^{(1)})$和$B(x_1^{(1)},x_2^{(2)})$，有：</p>
+<script type="math/tex; mode=display">\pi(x_1^{(1)},x_2^{(1)}) \pi(x_2^{(2)} | x_1^{(1)}) =\pi(x_1^{(1)})\pi(x_2^{(1)}|x_1^{(1)}) \pi(x_2^{(2)} |x_1^{(1)})</script><script type="math/tex; mode=display">\pi(x_1^{(1)},x_2^{(2)}) \pi(x_2^{(1)} | x_1^{(1)}) =\pi(x_1^{(1)}) \pi(x_2^{(2)} |x_1^{(1)})\pi(x_2^{(1)}|x_1^{(1)})</script><p>可得：</p>
+<script type="math/tex; mode=display">\pi(x_1^{(1)},x_2^{(1)}) \pi(x_2^{(2)} | x_1^{(1)}) = \pi(x_1^{(1)},x_2^{(2)}) \pi(x_2^{(1)} | x_1^{(1)})</script><p>即：</p>
+<script type="math/tex; mode=display">\pi(A) \pi(x_2^{(2)} | x_1^{(1)})= \pi(B) \pi(x_2^{(1)} | x_1^{(1)})</script><p>上式说明，在$x_1 = x_1^{(1)}$这条直线上，如果用条件概率分布$\pi(x_2 | x_1^{(1)})$作为马尔科夫链的状态转移概率，则任意两个点之间的转移满足细致平稳条件。</p>
+<p>所以Gibbs采样的过程是，首先随机初始化状态值，假设有n维，则状态值可以表示为$(x_1^{(0)},x_2^{(0)},…,x_n^{(0)})$，固定第2维到第n维的数，从条件概率采样得到下一个状态值的第一个维度的值，然后以此类推直到我们采样了下一个状态值的n维，形成了第二个状态值。重复上面的操作直到采样到第n个状态值。</p>
+<h5 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h5><p>Gibbs 采样要求数据至少有两个维度。</p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6638955.html" target="_blank" rel="noopener">MCMC(三)MCMC采样和M-H采样</a></p>
+<p><a href="https://www.cnblogs.com/pinard/p/6645766.html" target="_blank" rel="noopener">MCMC(四)Gibbs采样</a></p>
 
       
     </div>
@@ -387,7 +410,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" rel="tag"># 集成学习</a>
+            <a href="/tags/%E9%87%87%E6%A0%B7/" rel="tag"># 采样</a>
+          
+            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
+          
+            <a href="/tags/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/" rel="tag"># 概率统计</a>
           
         </div>
       
@@ -400,8 +427,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/19/ensemble-learning/" rel="next" title="集成学习">
-                <i class="fa fa-chevron-left"></i> 集成学习
+              <a href="/2020/03/26/MCMC/" rel="next" title="MCMC(马尔可夫链蒙特卡洛)(一)">
+                <i class="fa fa-chevron-left"></i> MCMC(马尔可夫链蒙特卡洛)(一)
               </a>
             
           </div>
@@ -409,10 +436,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/20/XGBoost/" rel="prev" title="XGBoost">
-                XGBoost <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -548,7 +571,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Adaboost"><span class="nav-number">1.</span> <span class="nav-text">Adaboost</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#GBDT"><span class="nav-number">2.</span> <span class="nav-text">GBDT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机森林"><span class="nav-number">3.</span> <span class="nav-text">随机森林</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#学习资料"><span class="nav-number">4.</span> <span class="nav-text">学习资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#MCMC"><span class="nav-number">1.</span> <span class="nav-text">MCMC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#局限性"><span class="nav-number">1.1.</span> <span class="nav-text">局限性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#M-H采样"><span class="nav-number">2.</span> <span class="nav-text">M-H采样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gibbs采样"><span class="nav-number">3.</span> <span class="nav-text">Gibbs采样</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Tips"><span class="nav-number">3.1.</span> <span class="nav-text">Tips</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
