@@ -87,7 +87,7 @@
 <meta property="og:description" content="采样基本知识点。常见的采样方法。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-24T13:01:05.000Z">
-<meta property="article:modified_time" content="2020-03-28T06:30:21.954Z">
+<meta property="article:modified_time" content="2020-03-28T08:34:16.149Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="采样">
 <meta property="article:tag" content="机器学习">
@@ -362,7 +362,7 @@
 <ol>
 <li>采样可以将复杂的分布简化为离散的样本点</li>
 <li>可以用于随机模拟以进行复杂模型的近似求解或推理</li>
-<li>可以用重采样对样本集进行调整以更好地适应后期的模型学习。例如利用重采样来处理分类模型的训练样本不均衡的问题。具体可见下一篇博文的介绍。</li>
+<li>可以用重采样对样本集进行调整以更好地适应后期的模型学习。例如利用重采样来处理分类模型的训练样本不均衡的问题。具体可见<a href="/2020/03/28/resampling/">这一篇博文</a>的介绍。</li>
 </ol>
 <h3 id="常见的采样方法"><a href="#常见的采样方法" class="headerlink" title="常见的采样方法"></a>常见的采样方法</h3><h4 id="从均匀分布中采样"><a href="#从均匀分布中采样" class="headerlink" title="从均匀分布中采样"></a>从均匀分布中采样</h4><p>我们一般可以用线性同余法来生成离散均匀分布的伪随机数。（也就是各种程序语言中的random随机数的生成）:</p>
 <script type="math/tex; mode=display">x_{t+1} = ax_t + c(mod\ m)</script><p>初始值 $x_0$ 被称为随机种子，上式得到的伪随机数的区间是[0, m-1]，如果想得到[0, 1]区间上的随机数，除以$m$即可。</p>

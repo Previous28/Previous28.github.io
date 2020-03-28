@@ -270,7 +270,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2020/03/28/DBSCAN/" itemprop="url">DBSCAN</a></h1>
+                <a class="post-title-link" href="/2020/03/28/DBSCAN/" itemprop="url">DBSCAN算法</a></h1>
         
 
         <div class="post-meta">
@@ -292,6 +292,39 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -321,9 +354,14 @@
 
       
         
-          
-            
-          
+          <p>有些数据的类别是可以通过样本分布的紧密程度来区分的，密度聚类通过区分不同类别的密度来区分不同的簇。DBSCAN是一种简单且有效的基于密度聚类的算法……</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/28/DBSCAN/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -473,38 +511,14 @@
 
       
         
-          
-            <a id="more"></a>
-<p>层次聚类也是一类重要的聚类方法。其聚类产生的簇是允许重合的，更准确的说，簇与簇之间是嵌套关系。我们常常用树状图来表示层次聚类得到的簇的关系，在二维空间上，还可以使用类似Venn图的嵌套簇图来表示。</p>
-<p><img src="/2020/03/28/hierarchical-cluster/1.png" alt></p>
-<p>层次聚类有很多实现算法。根据形成过程可以分为两类。一类是“凝聚的”，表示从一个独立的数据对象作为一个簇开始，一步步合成两个最接近的簇，直到形成一个包含所有点的大簇。另一类是“分裂的”，表示从一个包含所有数据对象的簇开始，每一步分裂一个簇，直到每个单独的数据对象都形成单独的簇。</p>
-<h4 id="基本凝聚层次聚类算法"><a href="#基本凝聚层次聚类算法" class="headerlink" title="基本凝聚层次聚类算法"></a>基本凝聚层次聚类算法</h4><p>目前，凝聚类的层次聚类最常见，故本节的内容以介绍凝聚层次聚类为主。首先我们介绍最基本的凝聚层次聚类算法，其基本步骤如下：</p>
-<ol>
-<li>根据邻近性的定义，计算一个邻近度矩阵。</li>
-<li>合并最邻近的两个簇。</li>
-<li>更新邻近度矩阵。</li>
-<li>重复步骤2、3，直至只剩下一个簇。</li>
-</ol>
-<p>凝聚层次聚类主要的步骤是邻近度矩阵的计算和合并最邻近的两个簇，这需要定义簇的邻近性的概念。不同的邻近性定义将形成不同的凝聚层次聚类算法。下面我们将介绍三种常用的邻近性定义。</p>
-<ul>
-<li>MIN：层次聚类的MIN版本，亦称为单链版本，将簇的邻近性定义为两个簇中任意两个数据对象的最短距离。</li>
-<li>MAX:层次聚类的MAX版本，亦称为全链版本，将簇的邻近性定义为两个簇中任意两个数据对象的最长距离。</li>
-<li>组平均：层次聚类的组平均版本，将簇的邻近性定义为两个簇中所有数据对象两两之间距离的平均值。可以看成是MAX版本和MIN版本的中和版本。下图展示了这三个版本的定义。</li>
-</ul>
-<p><img src="/2020/03/28/hierarchical-cluster/2.png" alt></p>
-<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>优点主要有：</p>
-<ul>
-<li>不需要选择初始点，没有初始点选择问题。</li>
-<li>可以不用预先指定最终的簇的数量。</li>
-<li>可以发现数据之间的层次关系。</li>
-</ul>
-<p>缺点有：</p>
-<ul>
-<li>需要较大的计算量和存储空间。</li>
-<li>容易受噪声和离群点的影响。</li>
-</ul>
-
-          
+          <p>层次聚类也是一类重要的聚类方法。其聚类产生的簇是允许重合的，更准确的说，簇与簇之间是嵌套关系……</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/28/hierarchical-cluster/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>

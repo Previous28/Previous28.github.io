@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="聚类算法," />
 
 
 
@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="The Journey Is the Reward">
+<meta name="description" content="有些数据的类别是可以通过样本分布的紧密程度来区分的，密度聚类通过区分不同类别的密度来区分不同的簇。DBSCAN是一种简单且有效的基于密度聚类的算法……">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DBSCAN">
+<meta property="og:title" content="DBSCAN算法">
 <meta property="og:url" content="http://shujh.top/2020/03/28/DBSCAN/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="The Journey Is the Reward">
+<meta property="og:description" content="有些数据的类别是可以通过样本分布的紧密程度来区分的，密度聚类通过区分不同类别的密度来区分不同的簇。DBSCAN是一种简单且有效的基于密度聚类的算法……">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://shujh.top/2020/03/28/DBSCAN/1.png">
+<meta property="og:image" content="http://shujh.top/2020/03/28/DBSCAN/2.png">
 <meta property="article:published_time" content="2020-03-28T08:22:27.000Z">
-<meta property="article:modified_time" content="2020-03-28T08:22:27.393Z">
+<meta property="article:modified_time" content="2020-03-28T08:47:44.820Z">
 <meta property="article:author" content="Jonathan Shu">
+<meta property="article:tag" content="聚类算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shujh.top/2020/03/28/DBSCAN/1.png">
 
 
 
@@ -125,7 +129,7 @@
 
 
 
-  <title>DBSCAN | 过程就是奖励</title>
+  <title>DBSCAN算法 | 过程就是奖励</title>
   
 
 
@@ -269,7 +273,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DBSCAN</h1>
+          <h1 class="post-title" itemprop="name headline">DBSCAN算法</h1>
         
 
         <div class="post-meta">
@@ -291,6 +295,39 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -319,7 +356,46 @@
       
 
       
-        
+        <p>有些数据的类别是可以通过样本分布的紧密程度来区分的，密度聚类通过区分不同类别的密度来区分不同的簇。DBSCAN是一种简单且有效的基于密度聚类的算法……</p>
+<a id="more"></a>
+<h4 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h4><p>有些数据的类别是可以通过样本分布的紧密程度来区分的，密度聚类通过区分不同类别的密度来区分不同的簇。DBSCAN是一种简单且有效的基于密度聚类的算法，下面我们先介绍密度聚类的一些相关概念，再通过DBSCAN算法来作进一步的解释。</p>
+<h4 id="相关概念介绍"><a href="#相关概念介绍" class="headerlink" title="相关概念介绍"></a>相关概念介绍</h4><p><strong>基于中心的密度</strong></p>
+<p>密度的定义存在几种不同的方法，传统的定义是基于中心的方法。以二维空间为例子，给定一个半径$\epsilon$，某一点的密度根据在其半径$\epsilon$内的点的数量（包括自身）来估计。基于中心的密度计算法实现简单，但是点的密度大小取决于半径$\epsilon$的选取。在不同$\epsilon$下，点的密度可能很大，也可能很小。如下图，当$\epsilon$取8时，点$A$的$\epsilon$半径内点的个数为10；当$\epsilon$取3时，点$A$的$\epsilon$半径内点的个数只有3。</p>
+<p><img src="/2020/03/28/DBSCAN/1.png" style="zoom: 25%;"></p>
+<p>根据基于中心的方法，通过划分每个点的以$\epsilon$为半径的区域并给定一个阈值$minPts$，我们得到了三种不同类型的点，如下图所示。</p>
+<p><img src="/2020/03/28/DBSCAN/2.png" style="zoom:25%;"></p>
+<p><strong>核心点(core point)</strong></p>
+<p>以$\epsilon$为半径的区域内的点数量大于阈值$minPts$，这样的点称为核心点。如上图中，若$minPts$为10，则点$A$为核心点。</p>
+<p><strong>边界点(border point)</strong></p>
+<p>若一个点不是核心点，但它在某个核心点的以$\epsilon$为半径的区域内，我们称之为边界点。如上图的点$B$，显然，同一个边界点可能落在不同的核心点的邻域内。</p>
+<p><strong>噪声点(noise point)</strong></p>
+<p>不是核心点也不是边界点的点，我们称之为噪声点，如图中的点$C$。</p>
+<p>为了介绍方便，上面使用二维空间上的点作为例子，事实上，这些定义可以推广到$N$维空间。由于涉及到邻域，这里会有一个距离度量问题，一般的，在$N$维空间上的点，可以采用欧氏距离。</p>
+<h4 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h4><p>基于上面密度聚类的相关介绍，我们给出DBSCAN的算法流程:</p>
+<ol>
+<li>根据给定的半径$\epsilon$和阈值$minPts$，划分出核心点、边界点和噪声点。</li>
+<li>删除所有噪声点。</li>
+<li>如果两个核心点都在各自的邻域内，在这两点之间用边相连。</li>
+<li>随机选择一个没有类别的核心点，将这个点邻域内的点和与之相连通的所有核心点邻域内的所有点归类为一个簇。</li>
+<li>重复步骤4直至所有核心点都形成簇。</li>
+</ol>
+<p>需要说明的是，前面我们提到过一个边界点可能落在不同核心点的邻域内，如果按照以上算法流程，会出现边界点类别冲突的问题。一般的，我们可以采取先来后到的方法解决这个类别冲突问题。</p>
+<h4 id="优缺点总结"><a href="#优缺点总结" class="headerlink" title="优缺点总结"></a>优缺点总结</h4><p>最后我们来总结一下DBSCAN密度聚类算法的优缺点。</p>
+<p><strong>DBSCAN算法的主要优点有：</strong></p>
+<ol>
+<li>DBSCAN可以发现任意形状和大小的簇。</li>
+<li>可以识别出噪声点并剔除，也就是说，DBSCAN算法对噪声点不敏感。</li>
+<li>不需要选择初始点，没有初始点选择问题。</li>
+<li>不需要预先指定最终的簇的数量。 </li>
+</ol>
+<p><strong>DBSCAN算法的主要缺点有：</strong></p>
+<ol>
+<li>如果簇的密度变化较大，则DBSCAN算法聚类效果不佳。假设有簇$A$、$B$，簇$A$的密度比簇$B$的密度大，其周围噪声点的密度与簇$B$的密度相近。当我们调整参数使得算法能够识别簇$A$并正确处理$A$周围的噪声点时，簇$B$将无法被识别；当我们调整参数使得算法能够识别簇$B$时，簇$A$周围的噪声也被误认为一个簇。</li>
+<li>选择合适的半径$\epsilon$和阈值$minPts$可能比较麻烦，调参难度高于传统的K-Means之类的聚类算法。</li>
+<li>由于需要计算每个点的邻域，对于高维数据，DBSCAN算法开销较大。</li>
+</ol>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6208966.html" target="_blank" rel="noopener">DBSCAN密度聚类算法</a></p>
+
       
     </div>
     
@@ -333,6 +409,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/" rel="tag"># 聚类算法</a>
+          
+        </div>
       
 
       
@@ -403,8 +485,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -468,6 +559,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关概念介绍"><span class="nav-number">2.</span> <span class="nav-text">相关概念介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法流程"><span class="nav-number">3.</span> <span class="nav-text">算法流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点总结"><span class="nav-number">4.</span> <span class="nav-text">优缺点总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
