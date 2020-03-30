@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="聚类算法," />
+  <meta name="keywords" content="神经网络,深度学习," />
 
 
 
@@ -79,18 +79,23 @@
 
 
 
-<meta name="description" content="KMeans算法和聚类效果评估。">
+<meta name="description" content="这篇文章主要针对神经网络的梯度消失和梯度爆炸问题，结合激活函数的选择做一些讨论。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kmeans算法">
-<meta property="og:url" content="http://shujh.top/2020/03/14/kmeans/index.html">
+<meta property="og:title" content="梯度问题与激活函数的选择">
+<meta property="og:url" content="http://shujh.top/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="KMeans算法和聚类效果评估。">
+<meta property="og:description" content="这篇文章主要针对神经网络的梯度消失和梯度爆炸问题，结合激活函数的选择做一些讨论。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-14T09:39:55.000Z">
-<meta property="article:modified_time" content="2020-03-28T08:20:26.332Z">
+<meta property="og:image" content="http://shujh.top/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/1.jpg">
+<meta property="og:image" content="http://shujh.top/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/2.jpg">
+<meta property="og:image" content="http://shujh.top/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/3.jpg">
+<meta property="article:published_time" content="2020-03-29T07:33:26.000Z">
+<meta property="article:modified_time" content="2020-03-30T02:58:06.659Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="聚类算法">
+<meta property="article:tag" content="神经网络">
+<meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shujh.top/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/1.jpg">
 
 
 
@@ -120,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/14/kmeans/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/29/梯度问题与激活函数/"/>
 
 
 
 
 
-  <title>Kmeans算法 | 过程就是奖励</title>
+  <title>梯度问题与激活函数的选择 | 过程就是奖励</title>
   
 
 
@@ -253,7 +258,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/14/kmeans/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -270,7 +275,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Kmeans算法</h1>
+          <h1 class="post-title" itemprop="name headline">梯度问题与激活函数的选择</h1>
         
 
         <div class="post-meta">
@@ -282,8 +287,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-14T17:39:55+08:00">
-                2020-03-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-29T15:33:26+08:00">
+                2020-03-29
               </time>
             
 
@@ -316,8 +321,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
                   </a>
                 </span>
 
@@ -353,40 +358,62 @@
       
 
       
-        <p>KMeans算法和聚类效果评估。</p>
+        <p>这篇文章主要针对神经网络的梯度消失和梯度爆炸问题，结合激活函数的选择做一些讨论。</p>
 <a id="more"></a>
-<h4 id="Kmeans"><a href="#Kmeans" class="headerlink" title="Kmeans"></a>Kmeans</h4><p>缺点：</p>
+<h3 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h3><p>回顾一下为什么神经网络需要激活函数。激活函数一般都是非线性的，它可以把线性的数据映射为非线性，加入了激活函数之后，神经网络才能够学习更多复杂的非线性关系。</p>
+<p>（关于什么是非线性，或说所谓的非线性，就是一阶导数不为常数；或说是不满足 $f(ax+by)=af(x)+bf(y)$ 这个性质的函数；姑且采取第二种说法）</p>
+<p>如果不加激活函数，会有以下问题：</p>
 <ul>
-<li>受初值和离群点的影响比较大。因此比较不稳定，结果通常不是全局最优而是局部最优</li>
-<li>无法很好地解决数据簇分布差别比较大（如100倍）的情况</li>
-<li>不太适用于离散分类</li>
+<li>神经网络每一层都是线性变换，当输入 $x$ 很大的时候，可能经过多层神经网络的放大或者缩小之后变得非常大或者非常小，偏离了数值的正常范围。</li>
+<li>没有激活函数的神经网络相当于线性模型。难以学习复杂的关系。</li>
 </ul>
-<p>优点：</p>
-<ul>
-<li>对于大数据集也可以保持高效运行，因为其时间复杂度接近于线性</li>
-<li>实践证明，一般情况下kmeans达到的局部最优已经可以满足聚类的需求</li>
-</ul>
-<p>优化：</p>
-<ul>
-<li>由于kmeans是基于欧氏距离进行划分的，均值和方差大的维度将对聚类效果产生比较大的影响，因此需要先对数据进行归一化处理。</li>
-<li>对异常值进行预处理会比较好</li>
-<li>K值的选取：手肘法</li>
-<li>当数据簇并不呈现球形分布时，可以使用核函数将输入空间中的数据点映射到高维的特征空间中，在新的特征空间进行聚类可能达到更好的效果。</li>
-</ul>
-<p>改进的算法：</p>
-<ul>
-<li>KMeans++：优化初值的选取。首先随机选择一个点作为初始中心，然后计算所有点与其最近聚类中心的距离，选择这个距离中最大的点作为新的聚类中心。以此类推直至选取k个点。</li>
-<li>距离计算优化：可以利用三角形三边长的性质，减少一些计算距离的步骤。</li>
-<li>针对大数据集优化：mini batch KMeans：无放回采样。多跑几次选择最优，以降低没有使用全部样本所带来的准确性的损失。</li>
-</ul>
-<h4 id="聚类算法评估"><a href="#聚类算法评估" class="headerlink" title="聚类算法评估"></a>聚类算法评估</h4><p>聚类算法的评估主要是估计在数据集上进行聚类的可行性，以及聚类结果的质量。</p>
-<h5 id="估计聚类趋势"><a href="#估计聚类趋势" class="headerlink" title="估计聚类趋势"></a>估计聚类趋势</h5><p>如果数据集中的数据是随机分布的，则聚类是没有意义的。我们可以通过观察聚类类别数的增加，聚类误差有没有单调变化，如果没有明显的单调变化，则说明数据并不适合聚类，没有明显的聚集现象。</p>
-<h5 id="测定聚类质量"><a href="#测定聚类质量" class="headerlink" title="测定聚类质量"></a>测定聚类质量</h5><p>可以使用“轮廓系数”来判断聚类的质量。本质思想是根据簇内的紧凑程度和簇间的分离程度来评估。给定一个点p，我们可以计算点p到同一簇中其他点的平均距离，记为 $a(p)$，来表示簇内的紧凑程度，计算到另一个最近的不同的簇之间的点的距离，记为 $b(p)$ ，来表示簇间的分离程度。则“轮廓系数”为：</p>
-<script type="math/tex; mode=display">s(p) = \frac{b(p)-a(p)}{max(a(p),b(p))}</script><p>显然轮廓系数越大越好，我们用所有点的轮廓系数平均值来表示聚类效果。</p>
-<p>我们还可以通过数据集中所有点对之间的距离与对应簇中心之间距离的乘积的平均值，来判断聚类结果与样本的原始距离的吻合度。</p>
-<p>还可以人为地构造不同类型的数据集，观察聚类算法在这些数据集上面的效果？</p>
-<h4 id="参考学习资料："><a href="#参考学习资料：" class="headerlink" title="参考学习资料："></a>参考学习资料：</h4><p>《百面机器学习》</p>
-<p><a href="https://www.cnblogs.com/pinard/p/6164214.html" target="_blank" rel="noopener">刘建平博客</a></p>
+<h3 id="梯度消失与梯度爆炸"><a href="#梯度消失与梯度爆炸" class="headerlink" title="梯度消失与梯度爆炸"></a>梯度消失与梯度爆炸</h3><p>简单的说就是在反向传播的过程中，我们使用了求导的链式法则，每层的梯度都有一大串连乘，而且越往后连乘越多，如果：</p>
+<ol>
+<li><p>每次连乘的数小于1，则梯度会越来越小甚至逼近0。这个现象叫做梯度消失。梯度消失的时候每一层的系数更新幅度都特别小甚至没有更新，影响模型收敛。</p>
+</li>
+<li><p>每次连乘的数大于1，则梯度会越来越大。这个现象叫做梯度爆炸。</p>
+</li>
+</ol>
+<h3 id="常见的激活函数"><a href="#常见的激活函数" class="headerlink" title="常见的激活函数"></a>常见的激活函数</h3><p>下面介绍一些常见的激活函数并简单讨论他们的性质与他们跟梯度问题的关系。</p>
+<h4 id="Sigmoid"><a href="#Sigmoid" class="headerlink" title="Sigmoid"></a>Sigmoid</h4><p>sigmoid激活函数的形式及其导数如下：</p>
+<script type="math/tex; mode=display">f(z) = \frac{1}{1+e^{-z}}</script><script type="math/tex; mode=display">f'(z)=f(z)(1-f(z))</script><p>它们的曲线图如下(出处见水印)：</p>
+<p><img src="/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/1.jpg" style="zoom:70%;"></p>
+<p>sigmoid激活函数将数值从 $(-∞, +∞)$ 压缩到 $(0, 1)$ 区间内。sigmoid函数有平滑、导数简单等优点。</p>
+<p>sigmoid函数主要有以下缺点：</p>
+<ol>
+<li>当 $z$ 的值很大或者很小的时候，sigmoid的梯度接近于0，而且sigmoid函数的梯度最高也才0.25，这使得sigmoid函数很容易引起梯度消失问题。</li>
+<li>sigmoid函数的输出不是以零为均值的。这可能会改变数据的原始分布。</li>
+<li>作为激活函数计算量比较大。因为前向和反向传播都涉及到除法和幂运算。</li>
+</ol>
+<h4 id="tanh"><a href="#tanh" class="headerlink" title="tanh"></a>tanh</h4><p>tanh激活函数的形式及其导数如下：</p>
+<script type="math/tex; mode=display">f(z) = tanh(z) = \frac{e^z-e^{-z}}{e^z+e^{-z}}</script><script type="math/tex; mode=display">f'(z)=1-(f(z))^2</script><p>它们的曲线图如下(出处见水印)：</p>
+<p><img src="/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/2.jpg" style="zoom:70%;"></p>
+<p>tanh激活函数将数值从 $(-∞, +∞)$ 压缩到 $(-1, 1)$ 区间内。可以看作是sigmoid函数向下平移拉伸后的结果。</p>
+<p>tanh函数的输出是以零为均值的，弥补了sigmoid函数的缺点。但是幂运算和除法运算的问题仍然存在。导数范围在(0, 1)之间，相比起sigmoid函数，梯度消失问题会有一定的缓解，但当 $z$ 的值很大或者很小的时候，梯度消失的问题仍然存在。</p>
+<h4 id="ReLU"><a href="#ReLU" class="headerlink" title="ReLU"></a>ReLU</h4><p>ReLU激活函数的公式及其导数的形式如下：</p>
+<script type="math/tex; mode=display">f(z) = ReLU(z) = max(0,\ z)</script><script type="math/tex; mode=display">f'(z)= \begin{cases} 1, \ {if\ z > 0 } \\ 0, \ {if \ z < 0} \end{cases}</script><p>它们的曲线图如下(出处见水印)：</p>
+<p><img src="/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/3.jpg" style="zoom:70%;"></p>
+<p>ReLU的优点是：</p>
+<ol>
+<li>在输入为正数的时候，不会因为激活函数的导数而引起梯度下降。</li>
+<li>没有sigmoid和tanh的幂次方和除法的计算，计算速度快。</li>
+<li>ReLU的单侧抑制提供了网络的系数表达能力。</li>
+</ol>
+<p>缺点是：</p>
+<ol>
+<li>由于输入为正数时激活函数的导数是1，那么梯度会更大程度地取决于系数的乘积，如果系数比较大的话，容易产生梯度爆炸问题。可行的解决方法是控制系数的范围在(0, 1)之间；或者是做梯度裁剪，大于某个阈值的时候直接设置为某个阈值。</li>
+<li>ReLU也是非零均值的，这可能会改变数据的原始分布。</li>
+<li>神经元“死亡”问题。当神经元的输出小于等于0的时候，由于其梯度为0，会得不到更新，无法继续学习。</li>
+</ol>
+<h4 id="LReLU"><a href="#LReLU" class="headerlink" title="LReLU"></a>LReLU</h4><p>为了解决ReLU的神经元“死亡”的问题，人们提出了很多ReLU的变种。其中，LReLU函数为：</p>
+<script type="math/tex; mode=display">LReLU(z)= \begin{cases} 1, \ {if\ z > 0 } \\ az, \ {if \ z ≤ 0} \end{cases}</script><p>LReLU函数在输入小于等于0的时候，没有直接将它变成0，而是乘上一个系数使其向零靠近却又不等于0。相应的梯度是 $a$，防止了神经元死亡的问题。又保留了单侧抑制的作用。但是 $a$ 本身需要调参。PReLU把 $a$ 作为一个可学习的参数。</p>
+<h3 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h3><p>重点放在Batch Normalization为什么可以缓解梯度消失问题。</p>
+<p>当在神经网络中使用饱和激活函数的时候，随着模型训练的进行，很容易陷入梯度饱和区。Batch Normalization的思路是，让激活函数的输入尽可能保持在一个稳定的状态来避免进入饱和区。Batch Normalization的做法是对当前训练批次的每一个特征维度都进行一次标准化。这一步是为了让激活函数的输入不集中在梯度饱和区。然后再进行一次缩放和平移来尽可能保持上一层神经元学习到的内容。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://zhuanlan.zhihu.com/p/73214810" target="_blank" rel="noopener">激活函数总结（持续更新）</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/80730031" target="_blank" rel="noopener">深度学习中【激活函数】存在的意义是什么？</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/33173246" target="_blank" rel="noopener">详解深度学习中的Normalization，BN/LN/WN</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">Batch Normalization原理与实战</a></p>
+<p><a href="https://www.zhihu.com/question/38102762/answer/607815171" target="_blank" rel="noopener">https://www.zhihu.com/question/38102762/answer/607815171</a></p>
 
       
     </div>
@@ -404,7 +431,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95/" rel="tag"># 聚类算法</a>
+            <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag"># 神经网络</a>
+          
+            <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 深度学习</a>
           
         </div>
       
@@ -417,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/13/sort-algo/" rel="next" title="9个基本的排序算法简单总结">
-                <i class="fa fa-chevron-left"></i> 9个基本的排序算法简单总结
+              <a href="/2020/03/28/%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0%E5%86%8D%E6%8E%A2/" rel="next" title="集成学习再探">
+                <i class="fa fa-chevron-left"></i> 集成学习再探
               </a>
             
           </div>
@@ -426,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/15/notes-on-probabilistic-graphical-model/" rel="prev" title="概率图模型学习笔记">
-                概率图模型学习笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -565,7 +590,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kmeans"><span class="nav-number">1.</span> <span class="nav-text">Kmeans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚类算法评估"><span class="nav-number">2.</span> <span class="nav-text">聚类算法评估</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#估计聚类趋势"><span class="nav-number">2.1.</span> <span class="nav-text">估计聚类趋势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#测定聚类质量"><span class="nav-number">2.2.</span> <span class="nav-text">测定聚类质量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考学习资料："><span class="nav-number">3.</span> <span class="nav-text">参考学习资料：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#激活函数"><span class="nav-number">1.</span> <span class="nav-text">激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#梯度消失与梯度爆炸"><span class="nav-number">2.</span> <span class="nav-text">梯度消失与梯度爆炸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的激活函数"><span class="nav-number">3.</span> <span class="nav-text">常见的激活函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Sigmoid"><span class="nav-number">3.1.</span> <span class="nav-text">Sigmoid</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tanh"><span class="nav-number">3.2.</span> <span class="nav-text">tanh</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReLU"><span class="nav-number">3.3.</span> <span class="nav-text">ReLU</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LReLU"><span class="nav-number">3.4.</span> <span class="nav-text">LReLU</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-Normalization"><span class="nav-number">4.</span> <span class="nav-text">Batch Normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
