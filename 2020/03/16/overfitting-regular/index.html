@@ -88,7 +88,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://shujh.top/2020/03/16/overfitting-regular/1.png">
 <meta property="article:published_time" content="2020-03-16T01:34:04.000Z">
-<meta property="article:modified_time" content="2020-03-16T02:29:53.986Z">
+<meta property="article:modified_time" content="2020-03-30T08:33:09.830Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="正则化">
@@ -376,6 +376,7 @@
 <p>正则化相当于给了模型训练一个约束。本来模型训练的目标是最小化误差，现在同时还要最小化系数。也就是说我们不仅仅要最小化蓝色区域，也要最小化红色区域，往往在两个区域的交点处可以取到最优值。我们可以看到，L1正则项对应的区域更容易在数轴的地方与蓝色区域碰撞，对应的，取得最优解时的系数有一些是0。而L2则没有这个特点。</p>
 <p>简单来说就是：</p>
 <p>L1正则化就是在模型的损失函数后面加上所有系数的绝对值之和，L2正则化就是在模型的损失函数后面加上所有系数的平方和。加上L1正则项之后容易得到稀疏解，也就是为0的系数比较多，这样就能够降低模型的复杂度；加入L2正则项之后，不会得到稀疏解，但是同样可以得到系数比较小的解，这样对应的解比较平滑，也可以降低模型的复杂度。</p>
+<p>[2020.3.30 补充]可以尝试从梯度的角度来解释为什么L1容易使系数变成0而L2不会：L1的图像在0附近的导数还是很大，变化大，因此比较容易变成0；而L2的图像在0附近的导数比较小，变化比较平滑。</p>
 <h4 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h4><p>[1] <a href="https://charlesliuyx.github.io/2017/10/03/%E3%80%90%E7%9B%B4%E8%A7%82%E8%AF%A6%E8%A7%A3%E3%80%91%E4%BB%80%E4%B9%88%E6%98%AF%E6%AD%A3%E5%88%99%E5%8C%96/" target="_blank" rel="noopener">直观解释什么是正则化</a></p>
 <p>[2] <a href="https://www.zhihu.com/question/20700829/answer/119314862" target="_blank" rel="noopener">吴恩达课件的解释</a></p>
 <p>[3] 葫芦书</p>
