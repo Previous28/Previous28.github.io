@@ -86,11 +86,13 @@
 <meta property="og:site_name" content="过程就是奖励">
 <meta property="og:description" content="KMeans算法和聚类效果评估。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://shujh.top/2020/03/14/kmeans/1.png">
 <meta property="article:published_time" content="2020-03-14T09:39:55.000Z">
-<meta property="article:modified_time" content="2020-03-28T08:20:26.332Z">
+<meta property="article:modified_time" content="2020-03-30T07:48:41.291Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="聚类算法">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://shujh.top/2020/03/14/kmeans/1.png">
 
 
 
@@ -355,7 +357,17 @@
       
         <p>KMeans算法和聚类效果评估。</p>
 <a id="more"></a>
-<h4 id="Kmeans"><a href="#Kmeans" class="headerlink" title="Kmeans"></a>Kmeans</h4><p>缺点：</p>
+<h3 id="Kmeans"><a href="#Kmeans" class="headerlink" title="Kmeans"></a>Kmeans</h3><h4 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h4><p>K-Means的原理很简单，对于给定的数据集和 $k$ 值，按照数据对象之间的距离大小，将数据集分成 $k$ 个簇，使得每个簇内的数据对象之间的距离尽可能小。K-Means聚类一般用于 $n$ 维连续空间中的对象。除此之外，它还可以用于许多类型的数据，如文档和时间序列。</p>
+<p>设$k$为期望的簇的个数，K-Means算法的基本步骤如下：</p>
+<ol>
+<li>选择$k$个初始点作为质心，计算数据集中每个点跟这$k$个质心的距离，进行第一次归类。归类的依据是，每个点属于与其距离最近的质心的类型。同属一个质心的点的集合为一个簇。</li>
+<li>根据已经分好数据，计算每个簇所有数据对象的平均值，作为对应的新的质心。</li>
+<li>计算每个数据对象到所有新质心的距离，根据距离大小重新进行数据对象的归类。</li>
+<li>重复归类和更新质心的步骤，直到没有质心发生变化，或者是所有数据对象所属的簇都没有发生改变。</li>
+</ol>
+<p><img src="/2020/03/14/kmeans/1.png" alt></p>
+<p>上图演示了$k$=2时，在二维空间上使用K-Means对点聚类的过程。图中(a)-(c)为初步归类；(d)表示根据所形成的簇更新质心；(e)表示计算每个点到新的质心的距离之后，根据距离最近的质心更新每个点的所属簇；根据新形成的簇更新质心，再更新每个点所属的簇，发现没有任何变化；至此，K-Means算法执行完毕，最终结果如(f)所示。实际运行K-Means算法时，(d)和(e)所代表的步骤可能会多次运行。</p>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>缺点：</p>
 <ul>
 <li>受初值和离群点的影响比较大。因此比较不稳定，结果通常不是全局最优而是局部最优</li>
 <li>无法很好地解决数据簇分布差别比较大（如100倍）的情况</li>
@@ -366,7 +378,7 @@
 <li>对于大数据集也可以保持高效运行，因为其时间复杂度接近于线性</li>
 <li>实践证明，一般情况下kmeans达到的局部最优已经可以满足聚类的需求</li>
 </ul>
-<p>优化：</p>
+<h4 id="改进算法"><a href="#改进算法" class="headerlink" title="改进算法"></a>改进算法</h4><p>优化：</p>
 <ul>
 <li>由于kmeans是基于欧氏距离进行划分的，均值和方差大的维度将对聚类效果产生比较大的影响，因此需要先对数据进行归一化处理。</li>
 <li>对异常值进行预处理会比较好</li>
@@ -379,9 +391,9 @@
 <li>距离计算优化：可以利用三角形三边长的性质，减少一些计算距离的步骤。</li>
 <li>针对大数据集优化：mini batch KMeans：无放回采样。多跑几次选择最优，以降低没有使用全部样本所带来的准确性的损失。</li>
 </ul>
-<h4 id="聚类算法评估"><a href="#聚类算法评估" class="headerlink" title="聚类算法评估"></a>聚类算法评估</h4><p>聚类算法的评估主要是估计在数据集上进行聚类的可行性，以及聚类结果的质量。</p>
-<h5 id="估计聚类趋势"><a href="#估计聚类趋势" class="headerlink" title="估计聚类趋势"></a>估计聚类趋势</h5><p>如果数据集中的数据是随机分布的，则聚类是没有意义的。我们可以通过观察聚类类别数的增加，聚类误差有没有单调变化，如果没有明显的单调变化，则说明数据并不适合聚类，没有明显的聚集现象。</p>
-<h5 id="测定聚类质量"><a href="#测定聚类质量" class="headerlink" title="测定聚类质量"></a>测定聚类质量</h5><p>可以使用“轮廓系数”来判断聚类的质量。本质思想是根据簇内的紧凑程度和簇间的分离程度来评估。给定一个点p，我们可以计算点p到同一簇中其他点的平均距离，记为 $a(p)$，来表示簇内的紧凑程度，计算到另一个最近的不同的簇之间的点的距离，记为 $b(p)$ ，来表示簇间的分离程度。则“轮廓系数”为：</p>
+<h3 id="聚类算法评估"><a href="#聚类算法评估" class="headerlink" title="聚类算法评估"></a>聚类算法评估</h3><p>聚类算法的评估主要是估计在数据集上进行聚类的可行性，以及聚类结果的质量。</p>
+<h4 id="估计聚类趋势"><a href="#估计聚类趋势" class="headerlink" title="估计聚类趋势"></a>估计聚类趋势</h4><p>如果数据集中的数据是随机分布的，则聚类是没有意义的。我们可以通过观察聚类类别数的增加，聚类误差有没有单调变化，如果没有明显的单调变化，则说明数据并不适合聚类，没有明显的聚集现象。</p>
+<h4 id="测定聚类质量"><a href="#测定聚类质量" class="headerlink" title="测定聚类质量"></a>测定聚类质量</h4><p>可以使用“轮廓系数”来判断聚类的质量。本质思想是根据簇内的紧凑程度和簇间的分离程度来评估。给定一个点p，我们可以计算点p到同一簇中其他点的平均距离，记为 $a(p)$，来表示簇内的紧凑程度，计算到另一个最近的不同的簇之间的点的距离，记为 $b(p)$ ，来表示簇间的分离程度。则“轮廓系数”为：</p>
 <script type="math/tex; mode=display">s(p) = \frac{b(p)-a(p)}{max(a(p),b(p))}</script><p>显然轮廓系数越大越好，我们用所有点的轮廓系数平均值来表示聚类效果。</p>
 <p>我们还可以通过数据集中所有点对之间的距离与对应簇中心之间距离的乘积的平均值，来判断聚类结果与样本的原始距离的吻合度。</p>
 <p>还可以人为地构造不同类型的数据集，观察聚类算法在这些数据集上面的效果？</p>
@@ -565,7 +577,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kmeans"><span class="nav-number">1.</span> <span class="nav-text">Kmeans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚类算法评估"><span class="nav-number">2.</span> <span class="nav-text">聚类算法评估</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#估计聚类趋势"><span class="nav-number">2.1.</span> <span class="nav-text">估计聚类趋势</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#测定聚类质量"><span class="nav-number">2.2.</span> <span class="nav-text">测定聚类质量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考学习资料："><span class="nav-number">3.</span> <span class="nav-text">参考学习资料：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kmeans"><span class="nav-number">1.</span> <span class="nav-text">Kmeans</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本原理"><span class="nav-number">1.1.</span> <span class="nav-text">基本原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点"><span class="nav-number">1.2.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#改进算法"><span class="nav-number">1.3.</span> <span class="nav-text">改进算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#聚类算法评估"><span class="nav-number">2.</span> <span class="nav-text">聚类算法评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#估计聚类趋势"><span class="nav-number">2.1.</span> <span class="nav-text">估计聚类趋势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测定聚类质量"><span class="nav-number">2.2.</span> <span class="nav-text">测定聚类质量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考学习资料："><span class="nav-number">2.3.</span> <span class="nav-text">参考学习资料：</span></a></li></ol></li></ol></div>
             
 
           </div>
