@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="记录一些比较散乱的知识点。按学习内容更新。 目前已有：Cross Validation、随机梯度下降法的改进、评估指标、关于分类问题的思考、词袋模型、逻辑回归">
+<meta name="description" content="蓄水池抽样这种题一般是给你的总数很大，每次只能读取一个数，要求随机选择k个数，每个数被选择的概率相等。由于总数n很大，我们不可能把全部的数都放入内存中。我们选择存k个数。这题的重点是如何证明我们保存的这k个数就是最后随机抽取到的k个数。 首先把前k个数存起来。遇到第k+1个数的时候，我们在目前已经遍历了的k+1个数中选择它的概率是 $\frac{k}{k+1}$ ，之前保存的k个数中，每个数被保留">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学习笔记">
-<meta property="og:url" content="http://shujh.top/2020/03/18/short-notes/index.html">
+<meta property="og:title" content="“海量数据”系列面试题 &amp; 蓄水池抽样">
+<meta property="og:url" content="http://shujh.top/2020/03/31/topk-question/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="记录一些比较散乱的知识点。按学习内容更新。 目前已有：Cross Validation、随机梯度下降法的改进、评估指标、关于分类问题的思考、词袋模型、逻辑回归">
+<meta property="og:description" content="蓄水池抽样这种题一般是给你的总数很大，每次只能读取一个数，要求随机选择k个数，每个数被选择的概率相等。由于总数n很大，我们不可能把全部的数都放入内存中。我们选择存k个数。这题的重点是如何证明我们保存的这k个数就是最后随机抽取到的k个数。 首先把前k个数存起来。遇到第k+1个数的时候，我们在目前已经遍历了的k+1个数中选择它的概率是 $\frac{k}{k+1}$ ，之前保存的k个数中，每个数被保留">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-18T06:30:43.000Z">
-<meta property="article:modified_time" content="2020-03-23T03:21:39.666Z">
+<meta property="article:published_time" content="2020-03-31T05:57:12.000Z">
+<meta property="article:modified_time" content="2020-03-31T09:54:10.848Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/18/short-notes/"/>
+  <link rel="canonical" href="http://shujh.top/2020/03/31/topk-question/"/>
 
 
 
 
 
-  <title>学习笔记 | 过程就是奖励</title>
+  <title>“海量数据”系列面试题 & 蓄水池抽样 | 过程就是奖励</title>
   
 
 
@@ -253,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/18/short-notes/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/31/topk-question/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">学习笔记</h1>
+          <h1 class="post-title" itemprop="name headline">“海量数据”系列面试题 & 蓄水池抽样</h1>
         
 
         <div class="post-meta">
@@ -282,8 +282,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-18T14:30:43+08:00">
-                2020-03-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-31T13:57:12+08:00">
+                2020-03-31
               </time>
             
 
@@ -342,30 +342,27 @@
       
 
       
-        <p>记录一些比较散乱的知识点。按学习内容更新。</p>
-<p>目前已有：Cross Validation、随机梯度下降法的改进、评估指标、关于分类问题的思考、词袋模型、逻辑回归</p>
-<a id="more"></a>
-<h4 id="交叉校验-Cross-Validation"><a href="#交叉校验-Cross-Validation" class="headerlink" title="交叉校验 Cross Validation"></a>交叉校验 Cross Validation</h4><p>交叉校验，就是把数据集分成训练集和测试集，用训练集来训练模型，测试集来评估模型的好坏；然后再把数据重新打乱，重新选择训练集和测试集，重复这个步骤。这样我们就可以从一个数据集中得到多个不同的训练集和测试集组合，进行多次实验。由于本次用来训练的样本下一次可能被用来测试，这就是所谓的“交叉”。</p>
-<p>常用的交叉校验方法是K折交叉校验。我们把数据集平均分成K份，每次使用其中的一份来做测试集，其余的用来做训练集；重复K次使得每一份都被拿来当成测试集过。然后用这 K 次实验效果的平均值来评估模型的效果。</p>
-<p>此外，还有留一交叉校验、自助法（bootstrapping）。</p>
-<p>留一法是k折交叉校验的特殊情况，把设数据的样本数为n，留一法就是把其中n-1个数据当成训练集，只留一个样本当成测试集。适用于样本数很少的情况。</p>
-<p>bootstrapping 自助法是通过有放回地随机采样m个样本当成训练集，没有被采集到的样本当成测试集。接着这样进行交叉校验。</p>
-<h4 id="随机梯度下降法的改进"><a href="#随机梯度下降法的改进" class="headerlink" title="随机梯度下降法的改进"></a>随机梯度下降法的改进</h4><ul>
-<li>动量法：引入上一个梯度，作为“惯性”</li>
-<li>AdaGrad：感知“环境”。出现得更频繁的特征的参数更新幅度变低，更不频繁的 更新幅度增加。</li>
-</ul>
-<h4 id="评估指标"><a href="#评估指标" class="headerlink" title="评估指标"></a>评估指标</h4><p>F1：综合评估精确率和召回率。</p>
-<p>精确率：确实为正/预测为正</p>
-<p>召回率：正确地预测为正/所有正</p>
-<h4 id="关于分类问题"><a href="#关于分类问题" class="headerlink" title="关于分类问题"></a>关于分类问题</h4><p>如果使用准确率的话，假设负样本占99%，那么把所有样本预测为负样本的准确率也有99%。当不同类别的样本比例非常不均衡的时候，占比大的类别往往称为影响准确率的最主要因素。</p>
-<p><strong>PR曲线</strong>：精确率为y轴，召回率为x轴画出来的曲线。越靠近右上越好。</p>
-<p><strong>RoC曲线</strong>：真阳性率为y轴，假阳性率为x轴画出来的曲线。越靠近左上越好。</p>
-<p><strong>AUC</strong>：ROC曲线下的面积</p>
-<h4 id="词袋模型"><a href="#词袋模型" class="headerlink" title="词袋模型"></a>词袋模型</h4><p>词袋模型就是将所有样本的单词不重复地都装到一个袋子里。这个袋子的大小就是词袋向量的长度；每一维都映射到一个单词；对于每个样本来说，该维度的值就是样本中对应单词出现的次数。所以每个样本对应的词袋向量是对其包含的所有单词的计数。</p>
-<h4 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h4><p>逻辑回归是一种分类算法。形式上可以看成是在线性回归的基础上，使用一个函数将结果再做一次映射。使得结果在属于某一区间的时候是一种类别，属于另一个区间的时候是另一种类别。</p>
-<p>二元逻辑回归最常使用的这个映射函数是sigmoid函数。经过sigmoid函数的映射之后模型的输出是属于某一分类的概率。二元逻辑回归的损失函数一般使用极大似然法推出来。一般使用梯度下降法求优。</p>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p>葫芦书</p>
-<p><a href="https://www.cnblogs.com/pinard/" target="_blank" rel="noopener">刘建平博客</a></p>
+        <h4 id="蓄水池抽样"><a href="#蓄水池抽样" class="headerlink" title="蓄水池抽样"></a>蓄水池抽样</h4><p>这种题一般是给你的总数很大，每次只能读取一个数，要求随机选择k个数，每个数被选择的概率相等。由于总数n很大，我们不可能把全部的数都放入内存中。我们选择存k个数。这题的重点是如何证明我们保存的这k个数就是最后随机抽取到的k个数。</p>
+<p>首先把前k个数存起来。遇到第k+1个数的时候，我们在目前已经遍历了的k+1个数中选择它的概率是 $\frac{k}{k+1}$ ，之前保存的k个数中，每个数被保留（不被新选择的数替换）的概率为 $\frac{k}{k+1-1}<em>(1-\frac{k}{k+1}</em> \frac{1}{k})=\frac{k}{k+1}$。同理，遇到第k+i个数的时候，我们在目前已经遍历了的k+i个数中选择它的概率是 $\frac{k}{k+i}$ ，之前保存的k个数中，每个数被保留（不被新选择的数替换）的概率是 $\frac{k}{k+i-1}<em>(1-\frac{k}{k+i}</em> \frac{1}{k})=\frac{k}{k+i}$。</p>
+<p>一直到n，k个数中每个数保留下来的概率都是 $\frac{k}{n}$</p>
+<h4 id="海量日志数据，提取出某日访问百度次数最多的那个IP"><a href="#海量日志数据，提取出某日访问百度次数最多的那个IP" class="headerlink" title="海量日志数据，提取出某日访问百度次数最多的那个IP"></a>海量日志数据，提取出某日访问百度次数最多的那个IP</h4><p>思路：可以用 ip % 1024 将ip地址分配到1024个小文件中。然后利用哈希表统计每个小文件数量最多的ip，最后比较这些数量最多的ip，找出数量最多的ip。</p>
+<h4 id="最热门的10个查询串"><a href="#最热门的10个查询串" class="headerlink" title="最热门的10个查询串"></a>最热门的10个查询串</h4><p>问题：</p>
+<p>搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。假设目前有一千万个记录（这些查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个。一个查询串的重复度越高，说明查询它的用户越多，也就是越热门。），请你统计最热门的10个查询串，要求使用的内存不能超过1G。</p>
+<p>思路：</p>
+<p>先利用哈希表统计出每个字符串出现的次数，时间复杂度O(n)，然后再利用最小堆得到出现次数top k的字符串，时间复杂度O(mlogk) m&lt;n。</p>
+<h4 id="有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词"><a href="#有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词" class="headerlink" title="有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词"></a>有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词</h4><p>思路：可以将1G的大文件分成多个可以放入内存的小文件。如利用单词的哈希值模一个数比如5000得到多个小文件。然后在每个小文件中利用哈希表统计频数最高的100个词，最后将这5000个文件对应的频数最高的100个词作归并得到频数最高的100个词。</p>
+<h4 id="给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"><a href="#给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？" class="headerlink" title="给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"></a>给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</h4><p>思路：对a中的url使用hash值取模的方法分别存储到多个（如1k个）不同的小文件，对b中的url做同样的操作也得到1k个不同的小文件，共同的url只存在与对应编号的ab小文件中，根据ab小文件对寻找共同的url就行。把a小文件中的url用一个哈希表存起来，遍历b的时候看看有没有保存就行。</p>
+<h4 id="在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数"><a href="#在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数" class="headerlink" title="在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数"></a>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</h4><p>思路：使用位图bitmap。初始化00表示没有出现。出现一次则置为01，多次则置为10。11没意义。遍历一次之后，再遍历一次bitmap，找出01对应的数就是了。</p>
+<h4 id="腾讯面试题：给40亿个不重复的unsigned-int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？"><a href="#腾讯面试题：给40亿个不重复的unsigned-int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？" class="headerlink" title="腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？"></a>腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</h4><p>思路：首先根据最高位将40亿个数分成两部分，最高位为1和为0。然后根据待查找的数的最高位选择其中之一继续查找，重复这个过程。效率logn</p>
+<h4 id="怎么在海量数据中找出重复次数最多的一个？"><a href="#怎么在海量数据中找出重复次数最多的一个？" class="headerlink" title="怎么在海量数据中找出重复次数最多的一个？"></a>怎么在海量数据中找出重复次数最多的一个？</h4><p>哈希分组。然后每组找频数最高的数，最后比较这些数得出结果。</p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><ol>
+<li>对于海量数据寻找出现次数最多的top k个元素，这种是需要先统计出每个元素出现的次数的。一般无法一次性统计所有元素出现的次数，所以必须将他们分成多个小文件，分别统计多个小文件上的top k，最后合并起来。分成多个小文件可以用hash(x) % m。小文件中统计频次可以用hash map。用最小堆统计每个文件的top k。</li>
+<li>关于TopK问题，有四个方法：1直接完全排序2冒泡排序排前n个 这两种其实都不符合面试官的预期。3是利用大小为k的小根堆 4是快排那种分治思想。分到刚好有k个这样。</li>
+<li>对于取交集的问题。用相同的哈希划分方法把他们都分为子文件。然后相同的元素肯定在对应的子文件里面。</li>
+<li>位图的话，其实就是做题一直在用的bins嘛，出现置为1，没出现的还是0这样。位-bit图-map，就是map+用bit记录的思想。位图一般是用两个bit来记录的。00表示没出现，01表示出现了一次，10表示多次出现，11没意义。然后根据需要找 00 or 01 or 10 对应的数就行。</li>
+<li>学会用<strong>划分</strong>来将问题规模倍数缩小化。如上面腾讯那道题，直接用最高位的值二分就很强。<strong>划分</strong>之后在某个子集上继续处理问题就行 或者 <strong>划分</strong>之后分布式处理问题。</li>
+</ol>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://blog.csdn.net/v_JULY_v/article/details/6279498" target="_blank" rel="noopener">https://blog.csdn.net/v_JULY_v/article/details/6279498</a></p>
 
       
     </div>
@@ -396,8 +393,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/18/linear-regression/" rel="next" title="线性回归">
-                <i class="fa fa-chevron-left"></i> 线性回归
+              <a href="/2020/03/29/%E6%A2%AF%E5%BA%A6%E9%97%AE%E9%A2%98%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/" rel="next" title="梯度问题与激活函数的选择">
+                <i class="fa fa-chevron-left"></i> 梯度问题与激活函数的选择
               </a>
             
           </div>
@@ -405,10 +402,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/18/word2vec/" rel="prev" title="Word2Vec">
-                Word2Vec <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -544,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉校验-Cross-Validation"><span class="nav-number">1.</span> <span class="nav-text">交叉校验 Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机梯度下降法的改进"><span class="nav-number">2.</span> <span class="nav-text">随机梯度下降法的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估指标"><span class="nav-number">3.</span> <span class="nav-text">评估指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于分类问题"><span class="nav-number">4.</span> <span class="nav-text">关于分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词袋模型"><span class="nav-number">5.</span> <span class="nav-text">词袋模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑回归"><span class="nav-number">6.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#蓄水池抽样"><span class="nav-number">1.</span> <span class="nav-text">蓄水池抽样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#海量日志数据，提取出某日访问百度次数最多的那个IP"><span class="nav-number">2.</span> <span class="nav-text">海量日志数据，提取出某日访问百度次数最多的那个IP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最热门的10个查询串"><span class="nav-number">3.</span> <span class="nav-text">最热门的10个查询串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词"><span class="nav-number">4.</span> <span class="nav-text">有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"><span class="nav-number">5.</span> <span class="nav-text">给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数"><span class="nav-number">6.</span> <span class="nav-text">在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#腾讯面试题：给40亿个不重复的unsigned-int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？"><span class="nav-number">7.</span> <span class="nav-text">腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#怎么在海量数据中找出重复次数最多的一个？"><span class="nav-number">8.</span> <span class="nav-text">怎么在海量数据中找出重复次数最多的一个？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结："><span class="nav-number">9.</span> <span class="nav-text">总结：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">10.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
