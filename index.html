@@ -288,7 +288,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-31T21:27:53+08:00">
+                2020-03-31
+              </time>
             
           </span>
 
@@ -343,33 +355,14 @@
 
       
         
-          
-            <h4 id="蓄水池抽样"><a href="#蓄水池抽样" class="headerlink" title="蓄水池抽样"></a>蓄水池抽样</h4><p>这种题一般是给你的总数很大，每次只能读取一个数，要求随机选择k个数，每个数被选择的概率相等。由于总数n很大，我们不可能把全部的数都放入内存中。我们选择存k个数。这题的重点是如何证明我们保存的这k个数就是最后随机抽取到的k个数。</p>
-<p>首先把前k个数存起来。遇到第k+1个数的时候，我们在目前已经遍历了的k+1个数中选择它的概率是 $\frac{k}{k+1}$ ，之前保存的k个数中，每个数被保留（不被新选择的数替换）的概率为 $\frac{k}{k+1-1}<em>(1-\frac{k}{k+1}</em> \frac{1}{k})=\frac{k}{k+1}$。同理，遇到第k+i个数的时候，我们在目前已经遍历了的k+i个数中选择它的概率是 $\frac{k}{k+i}$ ，之前保存的k个数中，每个数被保留（不被新选择的数替换）的概率是 $\frac{k}{k+i-1}<em>(1-\frac{k}{k+i}</em> \frac{1}{k})=\frac{k}{k+i}$。</p>
-<p>一直到n，k个数中每个数保留下来的概率都是 $\frac{k}{n}$</p>
-<h4 id="海量日志数据，提取出某日访问百度次数最多的那个IP"><a href="#海量日志数据，提取出某日访问百度次数最多的那个IP" class="headerlink" title="海量日志数据，提取出某日访问百度次数最多的那个IP"></a>海量日志数据，提取出某日访问百度次数最多的那个IP</h4><p>思路：可以用 ip % 1024 将ip地址分配到1024个小文件中。然后利用哈希表统计每个小文件数量最多的ip，最后比较这些数量最多的ip，找出数量最多的ip。</p>
-<h4 id="最热门的10个查询串"><a href="#最热门的10个查询串" class="headerlink" title="最热门的10个查询串"></a>最热门的10个查询串</h4><p>问题：</p>
-<p>搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。假设目前有一千万个记录（这些查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个。一个查询串的重复度越高，说明查询它的用户越多，也就是越热门。），请你统计最热门的10个查询串，要求使用的内存不能超过1G。</p>
-<p>思路：</p>
-<p>先利用哈希表统计出每个字符串出现的次数，时间复杂度O(n)，然后再利用最小堆得到出现次数top k的字符串，时间复杂度O(mlogk) m&lt;n。</p>
-<h4 id="有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词"><a href="#有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词" class="headerlink" title="有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词"></a>有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16字节，内存限制大小是1M。返回频数最高的100个词</h4><p>思路：可以将1G的大文件分成多个可以放入内存的小文件。如利用单词的哈希值模一个数（哈希映射）比如5000得到多个小文件。然后在每个小文件中利用哈希表统计频数最高的100个词，最后将这5000个文件对应的频数最高的100个词作归并得到频数最高的100个词。</p>
-<h4 id="给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"><a href="#给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？" class="headerlink" title="给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？"></a>给定a、b两个文件，各存放50亿个url，每个url各占64字节，内存限制是4G，让你找出a、b文件共同的url？</h4><p>思路：对a中的url使用hash值取模的方法分别存储到多个（如1k个）不同的小文件，对b中的url做同样的操作也得到1k个不同的小文件，共同的url只存在与对应编号的ab小文件中，根据ab小文件对寻找共同的url就行。把a小文件中的url用一个哈希表存起来，遍历b的时候看看有没有保存就行。</p>
-<h4 id="在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数"><a href="#在2-5亿个整数中找出不重复的整数，注，内存不足以容纳这2-5亿个整数" class="headerlink" title="在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数"></a>在2.5亿个整数中找出不重复的整数，注，内存不足以容纳这2.5亿个整数</h4><p>思路：使用位图bitmap。初始化00表示没有出现。出现一次则置为01，多次则置为10。11没意义。遍历一次之后，再遍历一次bitmap，找出01对应的数就是了。</p>
-<h4 id="腾讯面试题：给40亿个不重复的unsigned-int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？"><a href="#腾讯面试题：给40亿个不重复的unsigned-int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？" class="headerlink" title="腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？"></a>腾讯面试题：给40亿个不重复的unsigned int的整数，没排过序的，然后再给一个数，如何快速判断这个数是否在那40亿个数当中？</h4><p>思路：首先根据最高位将40亿个数分成两部分，最高位为1和为0。然后根据待查找的数的最高位选择其中之一继续查找，重复这个过程。效率logn</p>
-<h4 id="怎么在海量数据中找出重复次数最多的一个？"><a href="#怎么在海量数据中找出重复次数最多的一个？" class="headerlink" title="怎么在海量数据中找出重复次数最多的一个？"></a>怎么在海量数据中找出重复次数最多的一个？</h4><p>哈希映射分组。然后每组找频数最高的数，最后比较这些数得出结果。</p>
-<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><ol>
-<li>对于海量数据寻找出现次数最多的top k个元素，这种是需要先统计出每个元素出现的次数的。一般无法一次性统计所有元素出现的次数，所以必须将他们分成多个小文件，分别统计多个小文件上的top k，最后合并起来。分成多个小文件可以用hash(x) % m。小文件中统计频次可以用hash map。用最小堆统计每个文件的top k。</li>
-<li>关于TopK问题，有四个方法：1直接完全排序2冒泡排序排前n个 这两种其实都不符合面试官的预期。3是利用大小为k的小根堆 4是快排那种分治思想。分到刚好有k个这样。</li>
-<li>对于取交集的问题。用相同的哈希映射划分方法把他们都分为子文件。然后相同的元素肯定在对应的子文件里面。</li>
-<li>位图的话，其实就是做题一直在用的bins嘛，出现置为1，没出现的还是0这样。位-bit图-map，就是map+用bit记录的思想。位图一般是用两个bit来记录的。00表示没出现，01表示出现了一次，10表示多次出现，11没意义。然后根据需要找 00 or 01 or 10 对应的数就行。</li>
-<li>学会用<strong>划分</strong>来将问题规模倍数缩小化。如上面腾讯那道题，直接用最高位的值二分就很强。<strong>划分</strong>之后在某个子集上继续处理问题就行 或者 <strong>划分</strong>之后分布式处理问题。</li>
-<li>如果题目中的数据是散落在不同的机器中的，则要考虑会出现相同的数散落在不同的机器中。这种要么分别统计后相加，要么遍历一遍全数据，重新分配一下，让相同的数落在相同的机器中。</li>
-<li>一个非常常用的方法：分而治之/hash映射 + hash统计 + 堆/快速/归并排序</li>
-</ol>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://blog.csdn.net/v_JULY_v/article/details/6279498" target="_blank" rel="noopener">https://blog.csdn.net/v_JULY_v/article/details/6279498</a></p>
-<p><a href="https://www.cnblogs.com/timchen5858/p/3652553.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="noopener">https://www.cnblogs.com/timchen5858/p/3652553.html?utm_source=tuicool&amp;utm_medium=referral</a></p>
-
-          
+          <h4 id="蓄水池抽样"><a href="#蓄水池抽样" class="headerlink" title="蓄水池抽样"></a>蓄水池抽样</h4><p>这种题一般是给你的总数很大，每次只能读取一个数，要求随机选择k个数，每个数被选择的概率相等。由于总数n很大，我们不可能把全部的数都放入内存中。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/03/31/topk-question/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -453,7 +446,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-30T10:58:06+08:00">
+                2020-03-30
+              </time>
             
           </span>
 
@@ -610,7 +615,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-29T10:55:32+08:00">
+                2020-03-29
+              </time>
             
           </span>
 
@@ -767,7 +784,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-28T16:47:44+08:00">
+                2020-03-28
+              </time>
             
           </span>
 
@@ -924,7 +953,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-28T16:36:20+08:00">
+                2020-03-28
+              </time>
             
           </span>
 
@@ -1081,7 +1122,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-28T15:21:05+08:00">
+                2020-03-28
+              </time>
             
           </span>
 
@@ -1238,7 +1291,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-27T18:22:18+08:00">
+                2020-03-27
+              </time>
             
           </span>
 
@@ -1395,7 +1460,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-27T15:19:10+08:00">
+                2020-03-27
+              </time>
             
           </span>
 
@@ -1553,7 +1630,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-28T16:34:16+08:00">
+                2020-03-28
+              </time>
             
           </span>
 
@@ -1710,7 +1799,19 @@
             
 
             
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Updated on&#58;</span>
+              
+              <time title="Updated on" itemprop="dateModified" datetime="2020-03-23T16:02:52+08:00">
+                2020-03-23
+              </time>
             
           </span>
 
