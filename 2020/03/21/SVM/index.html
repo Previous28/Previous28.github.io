@@ -87,7 +87,7 @@
 <meta property="og:description" content="支持向量机数学推导。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-21T03:57:59.000Z">
-<meta property="article:modified_time" content="2020-03-22T09:34:12.060Z">
+<meta property="article:modified_time" content="2020-04-01T06:11:47.693Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="SVM">
@@ -300,8 +300,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-03-22T17:34:12+08:00">
-                2020-03-22
+              <time title="Updated on" itemprop="dateModified" datetime="2020-04-01T14:11:47+08:00">
+                2020-04-01
               </time>
             
           </span>
@@ -374,7 +374,7 @@
 <p>首先我们定义超平面为 $w^Tx + b = 0$ ，对于任意一个数据点 $(x_i, y_i)$，如果 $y_i = 1$，则有 $w^Tx_i + b &gt; 0$，如果$y_i = -1$，则有 $w^Tx_i + b &lt; 0$，将这两种情况合并一下就是：</p>
 <script type="math/tex; mode=display">y_i(w^Tx_i + b) > 0</script><p>将点到直线的距离推广到超平面，我们可以得到点$(x_i, y_i)$到超平面的距离是：</p>
 <script type="math/tex; mode=display">\frac{y_i(w^Tx_i + b)}{||w||_2}</script><p>SVM的目标是所有数据点中，到超平面的距离最短最大化：</p>
-<script type="math/tex; mode=display">\underset{w,b}{max}\; \underset{x}{min}\frac{y_i(w^Tx_i + b)}{||w||_2}</script><p>对于任何一个超平面，两遍总是存在距离它最近的数据点，我们把这种数据点称为支持向量。那么上式实际上等价于支持向量到超平面距离的最大化：</p>
+<script type="math/tex; mode=display">\underset{w,b}{max}\; \underset{x}{min}\frac{y_i(w^Tx_i + b)}{||w||_2}</script><p>对于任何一个超平面，两边总是存在距离它最近的数据点，我们把这种数据点称为支持向量。那么上式实际上等价于支持向量到超平面距离的最大化：</p>
 <script type="math/tex; mode=display">\underset{w,b}{max} \frac{y(w^Tx + b)}{||w||_2}</script><p>这个式子的分子是支持向量所在的超平面到我们所求的超平面之间的距离，由于不同距离之间只是一个倍数关系，所以我们直接令这个距离为1。因为我们只是关心当这个函数取得最优解时的参数值，并不关心函数最优解的值，所以这么做是符合目标的。</p>
 <p>因此最优化目标变成了：</p>
 <script type="math/tex; mode=display">\underset{w}{max} \frac{1}{||w||_2}</script><p>求解上式的最优解等价于求解下式的最优解：</p>
@@ -432,7 +432,7 @@
 <p>假设$\phi$是一个从低维的输入空间$\chi$（欧式空间的子集或者离散集合）到高维的希尔伯特空间的$\mathcal{H}$映射。那么如果存在函数$K(x,z)$，对于任意$x, z \in \chi$，都有：<script type="math/tex">K(x, z) = \phi(x) \bullet \phi(z)</script></p>
 <p>那么我们就称$K(x, z)$为核函数。</p>
 </blockquote>
-<p>这个核函数是什么起作用的呢？首先我们的目的是将低维的数据映射到高维使得数据线性可分，于是有了映射函数 $\phi(x)$，如果要求解映射后的数据的SVM最优化问题，必须进行恐怖的高维向量计算，但是核函数，将这两个低维向量作为输入，在低维进行计算，一样可以得到我们在高维计算的结果。也就是说，通过核函数，我们在低维就可以计算高维的结果。核函数不是什么低维到高维的映射函数，他仅仅使用低维向量的计算结果恰好等于向量映射到高维之后的计算结果。换句话说，核函数并没有对模型本身有什么影响，只不过是对计算过程进行了优化。</p>
+<p>这个核函数是什么起作用的呢？首先我们的目的是将低维的数据映射到高维使得数据线性可分，于是有了映射函数 $\phi(x)$，如果要求解映射后的数据的SVM最优化问题，必须进行恐怖的高维向量计算，但是核函数，将这两个低维向量作为输入，在低维进行计算，一样可以得到我们在高维计算的结果。也就是说，通过核函数，我们在低维就可以计算高维的结果。核函数不是什么低维到高维的映射函数，他仅仅是使用低维向量的计算结果恰好等于向量映射到高维之后的计算结果。换句话说，核函数并没有对模型本身有什么影响，只不过是对计算过程进行了优化。</p>
 <p>引入核函数之后，我们的优化目标就变成了：</p>
 <script type="math/tex; mode=display">\underset{\alpha}{min}\frac{1}{2}\sum\limits_{i=1,j=1}^{m}\alpha_i\alpha_jy_iy_jK(x_i, x_j) - \sum\limits_{i=1}^{m}\alpha_i</script><script type="math/tex; mode=display">s.t. \; \sum\limits_{i=1}^{m}\alpha_iy_i = 0</script><script type="math/tex; mode=display">0 \leq \alpha_i \leq C</script><p>同样可以使用SMO算法求解。</p>
 <h4 id="SVM算法小结"><a href="#SVM算法小结" class="headerlink" title="SVM算法小结"></a>SVM算法小结</h4><p>优点：</p>
@@ -582,7 +582,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -604,7 +604,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

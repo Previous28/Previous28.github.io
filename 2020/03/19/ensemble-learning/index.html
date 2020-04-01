@@ -87,7 +87,7 @@
 <meta property="og:description" content="集成学习的思想简单来说就是对于训练数据，我们训练出若干个个体学习器，并通过一定结合策略达到博采众长的目的，可以得到一个强学习器。 一般来说个体学习器的效果都是比较差的，这样可以防止过拟合。我们通过将多个弱学习器结合起来提高效果，形成一个强学习器。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-19T04:47:53.000Z">
-<meta property="article:modified_time" content="2020-03-22T09:33:10.647Z">
+<meta property="article:modified_time" content="2020-04-01T05:23:10.486Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="集成学习">
 <meta name="twitter:card" content="summary">
@@ -298,8 +298,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-03-22T17:33:10+08:00">
-                2020-03-22
+              <time title="Updated on" itemprop="dateModified" datetime="2020-04-01T13:23:10+08:00">
+                2020-04-01
               </time>
             
           </span>
@@ -370,9 +370,9 @@
 <a id="more"></a>
 <p>关于集成学习有两个要点，一是如何训练个体学习器，二是个体学习器之间的结合策略是什么。</p>
 <h4 id="个体学习器"><a href="#个体学习器" class="headerlink" title="个体学习器"></a>个体学习器</h4><p>首先个体学习器可以分为同质和异质。异质指的是学习器之间使用的模型是不同的；同质是指相同的。一般来说，现在同质学习器使用的比较多。此外，对于个体学习器之间的关系也分两种。一种是个体学习器之间互相独立，可以并行训练，这种思想也叫做bagging，代表模型是随机森林；另一种是个体学习器之间强相关，后一个个体学习器训练的数据需要根据前一个个体学习器的结果得到，不同学习器之间的训练需要串行进行，这种思想叫做boosting，代表模型是Adaboost和GBDT。</p>
-<h4 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h4><p>Bagging是思想是，对原始数据集进行有放回采样得到不同的训练集，用这些来训练得到不同的个体学习器，再通过一定的结合策略结合成强学习器。</p>
+<h4 id="Bagging"><a href="#Bagging" class="headerlink" title="Bagging"></a>Bagging</h4><p>Bagging的思想是，对原始数据集进行有放回采样得到不同的训练集，用这些来训练得到不同的个体学习器，再通过一定的结合策略结合成强学习器。</p>
 <p>Bagging使用的随机采样一般是bootstrap自助法，是通过有放回的随机采样出m个样本作为训练集。</p>
-<h4 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h4><p>boosting的思想是，首先使用权重一样的原始数据集训练得到一个个体学习器，然后根据这个个体学习器的表现来更新样本的权重，使得这个弱学习器误差高的样本权重变大。然后用更新后的数据集去训练下一个个体学习器。最后得到一定数量的个体学习器，通过结合策略合成强学习器。</p>
+<h4 id="Boosting"><a href="#Boosting" class="headerlink" title="Boosting"></a>Boosting</h4><p>boosting的思想是，首先使用权重一样的原始数据集训练得到一个个体学习器，然后根据这个个体学习器的表现来更新样本的权重，使得这个弱学习器误差高的样本权重变大。然后用更新后的数据集去训练下一个个体学习器。重复这个过程最后得到一定数量的个体学习器，通过结合策略合成强学习器。</p>
 <h4 id="结合策略"><a href="#结合策略" class="headerlink" title="结合策略"></a>结合策略</h4><ul>
 <li>对于数值类的回归预测问题，一般使用的是平均法或者加权平均法。</li>
 <li>对于分类问题，一般使用的是投票法或者加权投票法。</li>
@@ -501,7 +501,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -523,7 +523,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
