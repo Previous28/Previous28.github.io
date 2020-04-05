@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="采样,机器学习,概率统计," />
+  <meta name="keywords" content="机器学习,分类算法,最大熵," />
 
 
 
@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="采样基本知识点。常见的采样方法。">
+<meta name="description" content="最大熵模型的原理是，在所有可能的概率模型中，熵最大的模型是最好的模型。因为熵最大保证了最大的不确定性，使得模型保留较大的泛化能力。当然这个模型是建立在已有的数据集上的，所以它要满足特定数据集的情况。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="采样">
-<meta property="og:url" content="http://shujh.top/2020/03/24/sampling/index.html">
+<meta property="og:title" content="最大熵模型">
+<meta property="og:url" content="http://shujh.top/2020/04/04/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="采样基本知识点。常见的采样方法。">
+<meta property="og:description" content="最大熵模型的原理是，在所有可能的概率模型中，熵最大的模型是最好的模型。因为熵最大保证了最大的不确定性，使得模型保留较大的泛化能力。当然这个模型是建立在已有的数据集上的，所以它要满足特定数据集的情况。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-24T13:01:05.000Z">
-<meta property="article:modified_time" content="2020-03-28T08:34:16.149Z">
+<meta property="article:published_time" content="2020-04-04T13:40:34.000Z">
+<meta property="article:modified_time" content="2020-04-05T07:54:11.355Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="采样">
 <meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="概率统计">
+<meta property="article:tag" content="分类算法">
+<meta property="article:tag" content="最大熵">
 <meta name="twitter:card" content="summary">
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/24/sampling/"/>
+  <link rel="canonical" href="http://shujh.top/2020/04/04/最大熵模型/"/>
 
 
 
 
 
-  <title>采样 | 过程就是奖励</title>
+  <title>最大熵模型 | 过程就是奖励</title>
   
 
 
@@ -255,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/24/sampling/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/04/04/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -272,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">采样</h1>
+          <h1 class="post-title" itemprop="name headline">最大熵模型</h1>
         
 
         <div class="post-meta">
@@ -284,8 +284,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T21:01:05+08:00">
-                2020-03-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-04T21:40:34+08:00">
+                2020-04-04
               </time>
             
 
@@ -300,8 +300,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-03-28T16:34:16+08:00">
-                2020-03-28
+              <time title="Updated on" itemprop="dateModified" datetime="2020-04-05T15:54:11+08:00">
+                2020-04-05
               </time>
             
           </span>
@@ -330,8 +330,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index">
-                    <span itemprop="name">概率统计</span>
+                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
                   </a>
                 </span>
 
@@ -367,28 +367,27 @@
       
 
       
-        <p>采样基本知识点。常见的采样方法。</p>
-<a id="more"></a>
-<h3 id="采样的概念与应用"><a href="#采样的概念与应用" class="headerlink" title="采样的概念与应用"></a>采样的概念与应用</h3><p>从特定的概率分布中抽取相应的样本点的过程叫做采样。</p>
-<p>采样有哪些应用？</p>
-<ol>
-<li>采样可以将复杂的分布简化为离散的样本点</li>
-<li>可以用于随机模拟以进行复杂模型的近似求解或推理</li>
-<li>可以用重采样对样本集进行调整以更好地适应后期的模型学习。例如利用重采样来处理分类模型的训练样本不均衡的问题。具体可见<a href="/2020/03/28/resampling/">这一篇博文</a>的介绍。</li>
-</ol>
-<h3 id="常见的采样方法"><a href="#常见的采样方法" class="headerlink" title="常见的采样方法"></a>常见的采样方法</h3><h4 id="从均匀分布中采样"><a href="#从均匀分布中采样" class="headerlink" title="从均匀分布中采样"></a>从均匀分布中采样</h4><p>我们一般可以用线性同余法来生成离散均匀分布的伪随机数。（也就是各种程序语言中的random随机数的生成）:</p>
-<script type="math/tex; mode=display">x_{t+1} = ax_t + c(mod\ m)</script><p>初始值 $x_0$ 被称为随机种子，上式得到的伪随机数的区间是[0, m-1]，如果想得到[0, 1]区间上的随机数，除以$m$即可。</p>
-<p>由于下一个随机数是根据当前的随机数来产生的，线性同余法得到的随机数并不是相互独立的。此外，理论上这个式子只能得到不同的m个随机数，但是实际上对于一些种子，很多数会无法取到。如果进行多次操作，可能会过早进入循环。所以一个好的线性同余随机数生成器要让其循环周期尽可能接近m。</p>
-<p>至于线性同余法为什么能够模拟随机数的产生，其原理好像会涉及到费马小定理和欧拉定理这些数论相关的知识，由于我也不是很会，在这里就不展开了。</p>
-<h4 id="逆变换采样"><a href="#逆变换采样" class="headerlink" title="逆变换采样"></a>逆变换采样</h4><p>如果目标分布 $p(x)$ 不容易采样，可以构造一个变换 $u=\varphi(x)$，使得从变换后的分布中采样 $u$ 比较容易，这样可以通过先对 $u$ 采样然后通过反函数 $x=\varphi^{-1}(u)$ 来间接得到 $x$。</p>
-<p>但是如果待采样的目标分布的逆函数无法求或者不容易求解，则不适用于这种方法。</p>
-<h4 id="接受-拒绝采样"><a href="#接受-拒绝采样" class="headerlink" title="接受-拒绝采样"></a>接受-拒绝采样</h4><p>对于很难直接采样的分布 $p(x)$，我们选择一个常见的分布 $q(x)$ 以及常量k，使得 $p(x)$ 总是在 $kq(x)$ 的下面。然后我们从 $q(x)$ 采样得到一个样本，设为$z_0$，然后从均匀分布$(0, kq(z_0))$ 中采样得到一个值，如果这个值位于 $p(x)$的上面，则拒绝这次采样，否则接受这次采样。</p>
-<h5 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h5><p>接受-拒绝采样有以下局限性：</p>
-<ol>
-<li>对于高维分布来说，我们比较难得到其联合分布的一般形式，所以很难使用接受拒绝采样。</li>
-<li>一些高维的复杂分布要找到合适的 $q(x)$ 和 $k$ 也非常困难。</li>
-</ol>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>葫芦书</p>
+        <p>最大熵模型的原理是，在所有可能的概率模型中，熵最大的模型是最好的模型。因为熵最大保证了最大的不确定性，使得模型保留较大的泛化能力。当然这个模型是建立在已有的数据集上的，所以它要满足特定数据集的情况。<a id="more"></a>最大熵模型中，将这些情况视为模型的约束，我们要做的就是求出在这些约束下熵最大的模型。</p>
+<p>满足数据集的约束条件 -&gt; 拟合这个数据集</p>
+<p>熵最大 -&gt; 保留了最大的泛化能力</p>
+<p>我们一个个来具体分析。</p>
+<h4 id="满足约束条件"><a href="#满足约束条件" class="headerlink" title="满足约束条件"></a>满足约束条件</h4><p>在最大熵模型中，我们定义，对于一个特征x和标签值y，如果他们满足某个条件，则他们的特征函数的值为1，否则为0。也就是说：</p>
+<script type="math/tex; mode=display">f(x,y)=\begin{cases}1\ {x与y满足某个关系}\\0\ {否则}\end{cases}</script><p>一般来说，我们期望模型能够拟合数据的真实分布。但是我们没有办法得到数据的真实分布，所以一般是使用一个数据集来近似真实数据的分布。那么我们要做的就是让模型尽量拟合数据集的分布情况。我们从数据集中得到的 x 和 y 的联合分布称为经验分布：$\overline{P}(X,Y)$ 。根据条件概率的公式我们知道这个分布可以表示条件分布$P(Y|X)$和分布${P}(X)$ 相乘的结果。由于X的真实分布我们也不知道，只能通过它的经验分布去近似。</p>
+<p>综合特征函数和经验分布，我们可以得到，特征函数$f(x,y)$关于经验分布$\overline{P}(X,Y)$的期望值，可以用$E_{\overline{P}}(f)$表示为:</p>
+<script type="math/tex; mode=display">E_{\overline{P}}(f) = \sum\limits_{x,y}\overline{P}(x,y)f(x,y)</script><p>特征函数$f(x,y)$关于条件分布$P(Y|X)$和经验分布$\overline{P}(X)$的期望值，可以用$E_{P}(f)$表示为:</p>
+<script type="math/tex; mode=display">E_{P}(f) = \sum\limits_{x,y}\overline{P}(x)P(y|x)f(x,y)</script><p>我们期望观察到的特征函数是正确的，所以我们希望这两个期望尽可能相等，这样模型就更能学习到数据集的分布特点。也就是：</p>
+<script type="math/tex; mode=display">E_{\overline{P}}(f) = E_{P}(f)</script><p>这就是最大熵模型的约束条件。假设我们有m个样本，我们可以认为一个样本就对应一个特征函数，则总的约束条件为：</p>
+<script type="math/tex; mode=display">E_{\overline{P}}(f_i) = E_{P}(f_i)\ (i=0,1,2,...,m)</script><h4 id="保证熵最大"><a href="#保证熵最大" class="headerlink" title="保证熵最大"></a>保证熵最大</h4><p>先说一下两个概念，熵和条件熵。某个随机变量的熵衡量了随机变量的不确定性。它等于随机变量每个取值的概率乘以这个概率的对数值然后求和取负：</p>
+<script type="math/tex; mode=display">H(x) = -\sum\limits_{i=1}^{n}p_ilogp_i</script><p>条件熵衡量了Y在知道X之后随机变量剩下的不确定性。它等于通过X的不同取值将数据集分成不同的部分，每一份对应的随机变量Y的熵的加权和。</p>
+<script type="math/tex; mode=display">H(Y|X) = \sum\limits_{j=1}^{n}p(x_j)H(Y|x_j) = -\sum\limits_{i=1}^{n}p(x_i,y_i)logp(y_i|x_i)</script><p>最大熵模型就是要求出，在满足前面提到的约束条件下，条件熵最大的模型：</p>
+<script type="math/tex; mode=display">E_{\overline{P}}(f_i) = E_{P}(f_i)\ (i=0,1,2,...,m)</script><script type="math/tex; mode=display">H(y|x) = -\sum\limits_{x,y}\overline{P}(x)P(y|x)logP(y|x)</script><p>求出满足要求的条件分布，就是我们要的结果。<a href="https://www.cnblogs.com/pinard/p/6093948.html" target="_blank" rel="noopener">具体过程可见</a>。</p>
+<h4 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h4><p>优点：</p>
+<p>可以灵活地设置约束条件，根据约束条件的多少可以调节模型对已知数据的拟合程度和对未知数据的泛化能力。</p>
+<p>缺点：</p>
+<p>约束条件随着数据集的增加而增加，当数据集比较大的时候，效率不高。实际使用困难。</p>
+<h4 id="最大熵模型和LR-的关系"><a href="#最大熵模型和LR-的关系" class="headerlink" title="最大熵模型和LR 的关系"></a>最大熵模型和LR 的关系</h4><p><a href="https://zhuanlan.zhihu.com/p/59519202" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/59519202</a></p>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6093948.html" target="_blank" rel="noopener">https://www.cnblogs.com/pinard/p/6093948.html</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/59519202" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/59519202</a></p>
 
       
     </div>
@@ -406,11 +405,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%87%87%E6%A0%B7/" rel="tag"># 采样</a>
-          
             <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
           
-            <a href="/tags/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/" rel="tag"># 概率统计</a>
+            <a href="/tags/%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/" rel="tag"># 分类算法</a>
+          
+            <a href="/tags/%E6%9C%80%E5%A4%A7%E7%86%B5/" rel="tag"># 最大熵</a>
           
         </div>
       
@@ -423,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/23/CNN-RNN-LSTM/" rel="next" title="CNN、RNN、LSTM简述">
-                <i class="fa fa-chevron-left"></i> CNN、RNN、LSTM简述
+              <a href="/2020/04/01/%E5%85%B3%E4%BA%8ELR%E7%9A%84%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E6%80%BB%E7%BB%93/" rel="next" title="关于LR的一些面试题的总结">
+                <i class="fa fa-chevron-left"></i> 关于LR的一些面试题的总结
               </a>
             
           </div>
@@ -432,10 +431,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/26/MCMC/" rel="prev" title="MCMC(马尔可夫链蒙特卡洛)(一)">
-                MCMC(马尔可夫链蒙特卡洛)(一) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -571,7 +566,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#采样的概念与应用"><span class="nav-number">1.</span> <span class="nav-text">采样的概念与应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见的采样方法"><span class="nav-number">2.</span> <span class="nav-text">常见的采样方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#从均匀分布中采样"><span class="nav-number">2.1.</span> <span class="nav-text">从均匀分布中采样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逆变换采样"><span class="nav-number">2.2.</span> <span class="nav-text">逆变换采样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接受-拒绝采样"><span class="nav-number">2.3.</span> <span class="nav-text">接受-拒绝采样</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#局限性"><span class="nav-number">2.3.1.</span> <span class="nav-text">局限性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#满足约束条件"><span class="nav-number">1.</span> <span class="nav-text">满足约束条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#保证熵最大"><span class="nav-number">2.</span> <span class="nav-text">保证熵最大</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优缺点"><span class="nav-number">3.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最大熵模型和LR-的关系"><span class="nav-number">4.</span> <span class="nav-text">最大熵模型和LR 的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
