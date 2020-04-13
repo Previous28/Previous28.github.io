@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="从LR的一些相关面试题引发的思考。">
+<meta name="description" content="从LR的一些相关面试题引发的思考。 关于LR逻辑回归：逻辑回归假设数据服从伯努利分布，通过极大化似然函数的方法，运用梯度下降来求解参数，来达到将数据二分类的目的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于LR的一些面试题的总结">
 <meta property="og:url" content="http://shujh.top/2020/04/01/%E5%85%B3%E4%BA%8ELR%E7%9A%84%E4%B8%80%E4%BA%9B%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9A%84%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="从LR的一些相关面试题引发的思考。">
+<meta property="og:description" content="从LR的一些相关面试题引发的思考。 关于LR逻辑回归：逻辑回归假设数据服从伯努利分布，通过极大化似然函数的方法，运用梯度下降来求解参数，来达到将数据二分类的目的。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-01T08:19:48.000Z">
-<meta property="article:modified_time" content="2020-04-02T06:48:57.820Z">
+<meta property="article:modified_time" content="2020-04-13T14:02:53.070Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="逻辑回归">
@@ -299,8 +299,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-04-02T14:48:57+08:00">
-                2020-04-02
+              <time title="Updated on" itemprop="dateModified" datetime="2020-04-13T22:02:53+08:00">
+                2020-04-13
               </time>
             
           </span>
@@ -367,8 +367,8 @@
 
       
         <p>从LR的一些相关面试题引发的思考。</p>
+<p>关于LR逻辑回归：逻辑回归假设数据服从伯努利分布，通过极大化似然函数的方法，运用梯度下降来求解参数，来达到将数据二分类的目的。</p>
 <a id="more"></a>
-<p>关于LR逻辑回归：逻辑回归假设数据服从伯努利分布,通过极大化似然函数的方法，运用梯度下降来求解参数，来达到将数据二分类的目的。</p>
 <h4 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a>交叉熵</h4><p><strong>解释一下交叉熵以及为什么LR要使用交叉熵作为损失函数。</strong></p>
 <p>在分类问题中，我们希望模型学到的数据分布跟真实分布一致。但是我们无法得到真实分布，只能假设训练集的分布与真实的分布相近。我们希望模型尽可能拟合训练集的分布。衡量两个分布之间的不同一般用的是KL散度。最小化两个分布之间的不同相当于使KL散度最小。KL散度等于交叉熵减去熵。对于一个已知的训练集，它的熵是确定的。所以优化KL散度等价于优化交叉熵。而且交叉熵的计算更加简单。</p>
 <p>逻辑回归使用交叉熵作为损失函数而不用平方损失，一是因为使用交叉熵可以保证目标函数是凸函数，使用平方损失无法保证；二是使用平方损失的话会出现当输出值接近1或者0的时候，梯度非常小，不容易学习。</p>
@@ -400,6 +400,15 @@
 </ul>
 </li>
 </ul>
+<h4 id="LR如何做多分类？"><a href="#LR如何做多分类？" class="headerlink" title="LR如何做多分类？"></a>LR如何做多分类？</h4><p>有三种方法可以将LR从二分类扩展成多分类。</p>
+<p>第一种方法是One VS Rest，简称OvR。OvR的思想是把一个多分类的问题变成多个二分类的问题。对于每一类，把它当成正类然后把其余所有类别当成负类，训练二元逻辑回归模型。假设有k个类别，则会训练出k个二元逻辑回归模型。对于一个输入样本x，所有的k个模型中，概率最高的类别是对它的类别的预测。</p>
+<p>这种方法的缺点是容易造成类别不平衡。特别是在类别数量比较多的情况下。</p>
+<p>第二种方法是One VS One，简称OvO。OvO的思想是，所有类别两两组合形成多个二分类任务。训练出$\frac{n(n-1)}{2}$ 个二元逻辑回归模型。对于一个输入样本x，对所有分类器的预测结果进行一次投票来决定其预测分类。</p>
+<p>这种方法的优点了避免了OvR中出现的类别不平衡问题。缺点是需要训练的逻辑回归模型更多了。</p>
+<p>第三种方法是Softmax回归。对于k个类别的分类问题，Softmax回归本质上，其实就是训练k个线性回归，然后将这k个线性回归的输出使用Softmax函数映射：</p>
+<script type="math/tex; mode=display">\frac{e^{\theta^T_c \ x^{(i)}}}{\sum^{k}_{j=1}e^{\theta^T_j \ x^{(i)}}}</script><p>经过Softmax函数映射之后的输出值在0到1之间，这就是模型对所有类别概率的预测。概率最大的类别就是当前预测的类别。多元逻辑回归的损失函数是交叉熵损失函数在多个类别变量时的形式。其推导过程跟二元逻辑回归一样，都是似然函数的负对数值。跟二元逻辑回归一样，多元逻辑回归也可以使用梯度下降法进行训练，用损失函数的负梯度值来更新模型的参数。</p>
+<p>综合对比一下上面三种方法。一般来说如果需要查看任意两类之间的区分，可以使用OvO。如果一个样本可能同时属于多个类别，可以使用OvR，单独判断它是否属于某个类别。如果一个样本只属于一个类别，那么使用Softmax回归。</p>
+<h4 id="LR如何处理千万级别的数据？"><a href="#LR如何处理千万级别的数据？" class="headerlink" title="LR如何处理千万级别的数据？"></a>LR如何处理千万级别的数据？</h4><p>处理大规模数据的话，主要是使用并行化来提高效率。一个可以想到的方法就是在计算损失函数的时候不同样本之间可以并行计算。</p>
 <h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/ModifyRong/p/7739955.html" target="_blank" rel="noopener">https://www.cnblogs.com/ModifyRong/p/7739955.html</a></p>
 <p><a href="https://www.zhihu.com/question/41252833" target="_blank" rel="noopener">https://www.zhihu.com/question/41252833</a></p>
 <p><a href="https://www.zhihu.com/question/65288314" target="_blank" rel="noopener">https://www.zhihu.com/question/65288314</a> @微调 的回答</p>
@@ -530,7 +539,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -585,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉熵"><span class="nav-number">1.</span> <span class="nav-text">交叉熵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LR跟SVM的区别"><span class="nav-number">2.</span> <span class="nav-text">LR跟SVM的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LR优缺点"><span class="nav-number">3.</span> <span class="nav-text">LR优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉熵"><span class="nav-number">1.</span> <span class="nav-text">交叉熵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LR跟SVM的区别"><span class="nav-number">2.</span> <span class="nav-text">LR跟SVM的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LR优缺点"><span class="nav-number">3.</span> <span class="nav-text">LR优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LR如何做多分类？"><span class="nav-number">4.</span> <span class="nav-text">LR如何做多分类？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LR如何处理千万级别的数据？"><span class="nav-number">5.</span> <span class="nav-text">LR如何处理千万级别的数据？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
