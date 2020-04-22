@@ -87,7 +87,7 @@
 <meta property="og:description" content="这篇文章旨在用文字简要讲清楚CNN、RNN、LSTM是什么。主要面向的场景是面试时面试官的提问。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-23T06:16:26.000Z">
-<meta property="article:modified_time" content="2020-03-23T08:02:52.733Z">
+<meta property="article:modified_time" content="2020-04-22T10:31:59.691Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="神经网络">
 <meta property="article:tag" content="深度学习">
@@ -299,8 +299,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-03-23T16:02:52+08:00">
-                2020-03-23
+              <time title="Updated on" itemprop="dateModified" datetime="2020-04-22T18:31:59+08:00">
+                2020-04-22
               </time>
             
           </span>
@@ -371,7 +371,7 @@
 <h4 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h4><p>CNN中文全称叫做卷积神经网络。与一般的深度神经网络相比，CNN主要是在隐藏层中加入了卷积层和池化层。</p>
 <p>卷积层做的操作是，通过一个卷积核来提取数据中的特征，这个过程叫做卷积。一般来说，不同的卷积核可以提取出不同的特征。</p>
 <p>卷积的具体实现是，假设我们的输入数据是一个NxN的矩阵，那么卷积核一般是是一个nxn的矩阵，满足n &lt; N。从输入矩阵的左上角开始，我们可以想象把卷积核覆盖在输入矩阵上面，卷积核与被它覆盖住的范围是大小相同的矩阵，将这两个矩阵上的元素对应相乘然后相加，就是一次卷积操作的结果。然后将卷积核向右移动步长范围，重复卷积操作。当同一层的卷积操作都执行完之后，卷积核向下移动步长的长度，重复卷积操作。将每次卷积的结果按顺序拼成矩阵，就得到卷积层的输出。卷积层的输出会经过一个ReLU激活函数再进入下一层。可以看出卷积层的输出会明显比输入小。</p>
-<p>我们容易从对二维矩阵的卷积推广道对于张量的卷积，区别只是卷积核的维度应该跟输入张量一样。</p>
+<p>我们容易从对二维矩阵的卷积推广到对于张量的卷积，区别只是卷积核的维度应该跟输入张量一样。</p>
 <p>池化层做的操作是，按照一个固定大小对输入张量进行压缩。比如对输入矩阵的压缩，nxn的池化就是将矩阵的每nxn个元素变成一个元素。一般是取nxn个元素的最大值或者nxn个元素的平均值作为池化结果。</p>
 <p>在CNN中，一般的组合是卷积层+ReLU+池化层，这个组合可以重复出现多次。</p>
 <h4 id="RNN"><a href="#RNN" class="headerlink" title="RNN"></a>RNN</h4><p>RNN中文全称叫做循环神经网络。RNN一般用来处理DNN和CNN无法很好处理的序列数据。序列数据有比较强的连续关系，而且长短不一，比较难拆分成一个个独立的个体来通过DNN和CNN训练。</p>
@@ -511,7 +511,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -522,7 +522,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -533,7 +533,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
