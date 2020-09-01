@@ -88,7 +88,7 @@
 <meta property="og:description" content="Word2Vec是一种神经网络模型。它主要是基于两种神经网络结构，分别是CBOW和skip-gram。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-18T08:36:26.000Z">
-<meta property="article:modified_time" content="2020-03-19T01:58:52.982Z">
+<meta property="article:modified_time" content="2020-09-01T07:42:26.682Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="NLP">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-03-19T09:58:52+08:00">
-                2020-03-19
+              <time title="Updated on" itemprop="dateModified" datetime="2020-09-01T15:42:26+08:00">
+                2020-09-01
               </time>
             
           </span>
@@ -381,7 +381,7 @@
 <h3 id="Skip-gram"><a href="#Skip-gram" class="headerlink" title="Skip-gram"></a>Skip-gram</h3><p>Skip-gram的输入是当前所关注的词，输出是上下文单词的生成概率。模型的优化目标就是上下文单词的生成概率最大化。</p>
 <p>同样的，输入层到隐藏层的系数矩阵为N x K，隐藏层到输出层的系数矩阵为K x N。模型训练完之后，我们可以选择其中一个系数矩阵来表示N个词的维度为k的词向量。</p>
 <h3 id="Word2Vec"><a href="#Word2Vec" class="headerlink" title="Word2Vec"></a>Word2Vec</h3><p>Word2Vec对上面两个神经网络的结构进行了优化。有两个优化的方法，分别是基于分层softmax和基于Negative Sampling的。</p>
-<h4 id="分层softmax"><a href="#分层softmax" class="headerlink" title="分层softmax"></a>分层softmax</h4><p>在这个方法中，Word2Vec使用一棵哈夫曼树来代替神经网络。哈夫曼树的根节点接受模型的输入。哈夫曼树的叶子节点相当于神经网络输出层的神经元，叶子数量是词汇表的大小。这样子每个词从根到叶子节点的路径都不同，其对应的softmax就是沿着树形结构进行计算的。每个非叶子节点都是一个sigmoid函数，将词向量作为sigmoid函数的输入，根据概率值来判断应该往哪个方向走。从根节点走到某个叶子节点的概率等于经过的每个非叶子节点计算出来的概率的乘积。</p>
+<h4 id="分层softmax"><a href="#分层softmax" class="headerlink" title="分层softmax"></a>分层softmax</h4><p>在这个方法中，Word2Vec使用一棵哈夫曼树来代替神经网络。哈夫曼树的根节点接受模型的输入。哈夫曼树的叶子节点相当于神经网络输出层的神经元，叶子数量是词汇表的大小。这样子每个词从根到叶子节点的路径都不同，其对应的softmax就是沿着树形结构进行计算的。每个非叶子节点都是一个二元逻辑回归，将词向量作为二元逻辑回归的输入，根据概率值来判断应该往哪个方向走。从根节点走到某个叶子节点的概率等于经过的每个非叶子节点计算出来的概率的乘积。</p>
 <h5 id="CBOW-1"><a href="#CBOW-1" class="headerlink" title="CBOW"></a>CBOW</h5><p>对于CBOW模型，输入是词w上下文的k个词向量，对这k个词向量求和后取平均输入到哈夫曼树的根节点。然后我们期望从根节点走到词w对应的叶子结点的路径，计算出来的softmax尽可能大。由于这个概率值是一系列概率的乘积，我们可以使用对其取对数，然后通过梯度上升法来最大化这个概率。</p>
 <p>需要注意的是，每一次我们计算完梯度之后，更新的是对应路径非叶子节点的sigmoid函数的系数，以及上下文k个词的词向量。</p>
 <p>一轮迭代包括把所有词都当成过中心点进行训练。</p>
@@ -527,7 +527,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -549,7 +549,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
