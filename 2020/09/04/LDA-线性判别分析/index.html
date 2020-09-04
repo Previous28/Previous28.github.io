@@ -69,7 +69,7 @@
 
 
 
-  <meta name="keywords" content="采样,机器学习,概率统计," />
+  <meta name="keywords" content="特征工程,降维," />
 
 
 
@@ -80,19 +80,18 @@
 
 
 
-<meta name="description" content="本文接上文MCMC(马尔可夫链蒙特卡洛)(一)，主要介绍MCMC采样及其改进版M-H采样和Gibbs采样。">
+<meta name="description" content="LDA是Linear Discriminant Analysis的缩写，中文名为线性判别分析。是一种经典的有监督降维方法。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MCMC(马尔可夫链蒙特卡洛)(二)">
-<meta property="og:url" content="http://shujh.top/2020/03/27/MCMC2/index.html">
+<meta property="og:title" content="LDA(线性判别分析)">
+<meta property="og:url" content="http://shujh.top/2020/09/04/LDA-%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="过程就是奖励">
-<meta property="og:description" content="本文接上文MCMC(马尔可夫链蒙特卡洛)(一)，主要介绍MCMC采样及其改进版M-H采样和Gibbs采样。">
+<meta property="og:description" content="LDA是Linear Discriminant Analysis的缩写，中文名为线性判别分析。是一种经典的有监督降维方法。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-27T07:29:04.000Z">
-<meta property="article:modified_time" content="2020-03-27T10:22:18.382Z">
+<meta property="article:published_time" content="2020-09-04T11:04:45.000Z">
+<meta property="article:modified_time" content="2020-09-04T12:16:59.498Z">
 <meta property="article:author" content="Jonathan Shu">
-<meta property="article:tag" content="采样">
-<meta property="article:tag" content="机器学习">
-<meta property="article:tag" content="概率统计">
+<meta property="article:tag" content="特征工程">
+<meta property="article:tag" content="降维">
 <meta name="twitter:card" content="summary">
 
 
@@ -123,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://shujh.top/2020/03/27/MCMC2/"/>
+  <link rel="canonical" href="http://shujh.top/2020/09/04/LDA-线性判别分析/"/>
 
 
 
 
 
-  <title>MCMC(马尔可夫链蒙特卡洛)(二) | 过程就是奖励</title>
+  <title>LDA(线性判别分析) | 过程就是奖励</title>
   
 
 
@@ -256,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/03/27/MCMC2/">
+    <link itemprop="mainEntityOfPage" href="http://shujh.top/2020/09/04/LDA-%E7%BA%BF%E6%80%A7%E5%88%A4%E5%88%AB%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jonathan Shu">
@@ -273,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MCMC(马尔可夫链蒙特卡洛)(二)</h1>
+          <h1 class="post-title" itemprop="name headline">LDA(线性判别分析)</h1>
         
 
         <div class="post-meta">
@@ -285,8 +284,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-27T15:29:04+08:00">
-                2020-03-27
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-04T19:04:45+08:00">
+                2020-09-04
               </time>
             
 
@@ -301,8 +300,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-03-27T18:22:18+08:00">
-                2020-03-27
+              <time title="Updated on" itemprop="dateModified" datetime="2020-09-04T20:16:59+08:00">
+                2020-09-04
               </time>
             
           </span>
@@ -320,19 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
-                    <span itemprop="name">算法</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/" itemprop="url" rel="index">
-                    <span itemprop="name">概率统计</span>
+                  <a href="/categories/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">特征工程</span>
                   </a>
                 </span>
 
@@ -373,47 +361,23 @@
       
 
       
-        <p>本文接上文<a href="/2020/03/26/MCMC/">MCMC(马尔可夫链蒙特卡洛)(一)</a>，主要介绍MCMC采样及其改进版M-H采样和Gibbs采样。</p>
-<a id="more"></a>
-<h4 id="MCMC"><a href="#MCMC" class="headerlink" title="MCMC"></a>MCMC</h4><p>MCMC采样法，中文全称是马尔可夫链蒙特卡洛采样法。前面我们介绍过，蒙特卡洛法是指基于采样的数值型近似求解的方法；而马尔可夫链则用于进行采样。<strong>MCMC采样法的基本思想是：针对待采样的目标分布，构造一个马尔可夫链，使得该马尔可夫链的平稳分布就是目标分布；然后从任何一个初始状态出发，沿着马尔可夫链进行状态转移，最终得到的状态转移序列会收敛到目标分布，由此可以得到目标分布的一系列样本。基于这一系列样本用蒙特卡洛法来近似求解。</strong> </p>
-<p>由于使用到了马尔可夫链进行采样，则MCMC必须解决马尔可夫链的状态转移矩阵难找的问题。下面介绍MCMC的解决方法。</p>
-<p>MCMC采取的方法，首先基于一个前提：马尔可夫链的状态转移矩阵 $P$ 和概率分布 $π(x)$  满足细致平稳条件的话，则概率分布 $π(x)$ 是状态转移矩阵 $P$ 对应的平稳分布。</p>
-<p>马尔科夫链的细致平稳条件：</p>
-<script type="math/tex; mode=display">\pi(i)P(i,j) = \pi(j)P(j,i)</script><p>原因是由细致平稳条件的满足可以推出矩阵满足马尔可夫链的收敛性质：</p>
-<script type="math/tex; mode=display">\sum\limits_{i=1}^{\infty}\pi(i)P(i,j) = \sum\limits_{i=1}^{\infty}\pi(j)P(j,i) =\pi(j)\sum\limits_{i=1}^{\infty} P(j,i) =\pi(j)</script><p>用矩阵表示：</p>
-<script type="math/tex; mode=display">\pi P = \pi</script><p>即满足马尔可夫链的收敛性质。</p>
-<p>也就是说我们找到可以使概率分布$\pi(x)$满足细致平稳分布的矩阵$P$即可。但是如何找呢？随便一个状态转移矩阵 $Q$ 并不满足细致平稳条件：</p>
-<script type="math/tex; mode=display">\pi(i)Q(i,j) \neq \pi(j)Q(j,i)</script><p>但是如果我们在两边乘上某个数可以使得等式成立：</p>
-<script type="math/tex; mode=display">\pi(i)Q(i,j)\alpha(i,j)= \pi(j)Q(j,i)\alpha(j,i)</script><p>其中：</p>
-<script type="math/tex; mode=display">\alpha(i,j) = \pi(j)Q(j,i)</script><script type="math/tex; mode=display">\alpha(j,i) = \pi(i)Q(i,j)</script><p>即<script type="math/tex">P(i,j) = Q(i,j)\alpha(i,j)</script>。也就是说状态转移矩阵 $P$ 可以通过矩阵 $Q$ 乘以某个值得到。这个值一般称为接受率，由其计算公式可是范围在[0,1]之间。可以理解为是一个概率，即目标矩阵 $P$ 可以通过任意一个马尔可夫链状态转移矩阵 $Q$ 以一定的接受率得到。</p>
-<p>这里也用到了接受-拒绝采样的思想，以一个常见的马尔科夫链状态转移矩阵$Q$通过一定的接受-拒绝概率得到目标转移矩阵$P$。</p>
-<p>所以MCMC采样的过程是：</p>
-<p>首先给定任意一个马尔可夫链转移矩阵 $Q$ 和平稳分布 $\pi(x)$。从任意初始分布采样得 $x_0$。每次通过矩阵 $Q$ 中对应的条件概率采样得到下一个 $x$ 之后，从01均匀分布中采样一个值$z$，如果 $z$ 小于接受率，则接受转移，否则不接受转移。重复这个过程直到采样出n个样本。</p>
-<h5 id="局限性"><a href="#局限性" class="headerlink" title="局限性"></a>局限性</h5><p>MCMC尽管解决了寻找马尔可夫链状态转移矩阵的问题，但由于实际应用中，接受率通常很小，导致采样的速度太慢。M-H采样改进了MCMC采样的这个问题。</p>
-<h4 id="M-H采样"><a href="#M-H采样" class="headerlink" title="M-H采样"></a>M-H采样</h4><p>MCMC采样速度慢的原因是接受率太小了。回顾之前的细致平稳条件：</p>
-<script type="math/tex; mode=display">\pi(i)Q(i,j)\alpha(i,j)= \pi(j)Q(j,i)\alpha(j,i)</script><p>可以观察到我们在等式两边乘以一个放大因子并不影响细致平稳条件的成立。M-H采样的改进就是由这一点入手的。具体的，M-H采样选择让接受率较大的那一边变成1，这样可以最大程度地提升接受率。</p>
-<p>除了以上改变，M-H采样的其他步骤跟MCMC一样。</p>
-<p>解决了MCMC缺点的M-H采样，仍然由其他不足：</p>
-<ol>
-<li>对于高维数据，M-H的计算量很大</li>
-<li>很多时候数据的各个特征维度的联合分布很难的到，只能得到各个特征之间的条件分布。</li>
-</ol>
-<p>Gibbs采样解决了上面两个问题。</p>
-<h4 id="Gibbs采样"><a href="#Gibbs采样" class="headerlink" title="Gibbs采样"></a>Gibbs采样</h4><p>很多时候我们没法得到各个特征维度之间的联合分布，但是可以得到各个特征之间的条件概率分布。Gibbs采样就是使用特征之间的条件概率分布进行采样的。</p>
-<p>Gibbs采样之所以能够利用条件概率分布来进行，是基于一个发现：</p>
-<p>平面上的任意两点$E,F$，满足细致平稳条件：<script type="math/tex">\pi(E)P(E \to F) = \pi(F)P(F \to E)</script></p>
-<p>二维空间举例证明：</p>
-<p>对于位于同一直线上的两点$A(x_1^{(1)},x_2^{(1)})$和$B(x_1^{(1)},x_2^{(2)})$，有：</p>
-<script type="math/tex; mode=display">\pi(x_1^{(1)},x_2^{(1)}) \pi(x_2^{(2)} | x_1^{(1)}) =\pi(x_1^{(1)})\pi(x_2^{(1)}|x_1^{(1)}) \pi(x_2^{(2)} |x_1^{(1)})</script><script type="math/tex; mode=display">\pi(x_1^{(1)},x_2^{(2)}) \pi(x_2^{(1)} | x_1^{(1)}) =\pi(x_1^{(1)}) \pi(x_2^{(2)} |x_1^{(1)})\pi(x_2^{(1)}|x_1^{(1)})</script><p>可得：</p>
-<script type="math/tex; mode=display">\pi(x_1^{(1)},x_2^{(1)}) \pi(x_2^{(2)} | x_1^{(1)}) = \pi(x_1^{(1)},x_2^{(2)}) \pi(x_2^{(1)} | x_1^{(1)})</script><p>即：</p>
-<script type="math/tex; mode=display">\pi(A) \pi(x_2^{(2)} | x_1^{(1)})= \pi(B) \pi(x_2^{(1)} | x_1^{(1)})</script><p>上式说明，在$x_1 = x_1^{(1)}$这条直线上，如果用条件概率分布$\pi(x_2 | x_1^{(1)})$作为马尔科夫链的状态转移概率，则任意两个点之间的转移满足细致平稳条件。</p>
-<p>所以Gibbs采样的过程是，首先随机初始化状态值，假设有n维，则状态值可以表示为$(x_1^{(0)},x_2^{(0)},…,x_n^{(0)})$，固定第2维到第n维的数，从条件概率采样得到下一个状态值的第一个维度的值，然后以此类推直到我们采样了下一个状态值的n维，形成了第二个状态值。重复上面的操作直到采样到第n个状态值。</p>
-<h5 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h5><p>Gibbs 采样要求数据至少有两个维度。</p>
-<h4 id="一点思考"><a href="#一点思考" class="headerlink" title="一点思考"></a>一点思考</h4><p>学习的过程中的一点小疑问，在葫芦书中有说明：</p>
-<p>MCMC系的这几种采样法，由于都是基于马尔可夫链的，采样得到的样本之间其实不独立，因为后一个样本是由前一个样本根据特定的转移概率得到的，或者有一定概率就是前一个样本（转移被拒绝）。不过采样并不需要样本之间相互独立，所以问题不大。如果需要采样出独立同分布的样本，可以每次从任意初始分布中采样一个新样本，由转移矩阵得到一个新的服从平稳分布的样本。或者每个几个样本才选取一个，这样近似独立。</p>
-<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a href="https://www.cnblogs.com/pinard/p/6638955.html" target="_blank" rel="noopener">MCMC(三)MCMC采样和M-H采样</a></p>
-<p><a href="https://www.cnblogs.com/pinard/p/6645766.html" target="_blank" rel="noopener">MCMC(四)Gibbs采样</a></p>
-<p>葫芦书</p>
+        <p>LDA是Linear Discriminant Analysis的缩写，中文名为线性判别分析。是一种经典的有监督降维方法。<br><a id="more"></a></p>
+<h3 id="LDA的基本思想"><a href="#LDA的基本思想" class="headerlink" title="LDA的基本思想"></a>LDA的基本思想</h3><p>LDA降维一般用于有类别标签的数据。利用LDA进行降维的中心思想是最大化类间距离和最小化类内距离。即：我们希望降维之后类之间的距离尽可能大，而每一类中样本的分布尽可能集中。</p>
+<h3 id="LDA算法的数学分析"><a href="#LDA算法的数学分析" class="headerlink" title="LDA算法的数学分析"></a>LDA算法的数学分析</h3><p><strong>(博主注：以下内容基本上来自于葫芦书[1]相关章节的摘抄，极少数地方加上了自己的一些笔记)</strong></p>
+<p>基于LDA的中心思想，我们可以用一个数学表达式来表示其目标，这里以二分类问题为例：</p>
+<script type="math/tex; mode=display">\underset{\omega }{max}\ J(\omega )=\frac{||\omega ^T(\mu_1-\mu_2)||_{2}^{2}}{D_1+D_2}</script><p>其中，分子表示两个类别的中心点投影之后的距离；分母表示两个类别的样本点投影之后各自类别内的方差之和。</p>
+<p>$\mu_1, \mu_2$ 表示投影前两类样本的中心点；$\omega $ 为投影操作；$D_1,D_2$ 表示两类投影后的方差。</p>
+<script type="math/tex; mode=display">D_1=\sum_\limits{x\in C_1}(\omega ^Tx-\omega ^T\mu_1)^2=\sum\limits_{x\in C_1}\omega ^T(x-\mu_1)(x-\mu_1)^T\omega</script><script type="math/tex; mode=display">D_2=\sum\limits_{x\in C_2}\omega ^T(x-\mu_2)(x-\mu_2)\omega</script><p>所以 $J(\omega )$ 可以写成：</p>
+<script type="math/tex; mode=display">J(\omega )=\frac{\omega ^T(\mu_1-\mu_2)(\mu_1-\mu_2)^T\omega }{\sum_{x\in C_i}\omega ^T(x-\mu_i)(x-\mu_i)^T\omega }</script><p>如果我们定义类间散度矩阵和类内散度矩阵为：</p>
+<script type="math/tex; mode=display">S_B=(\mu_1-\mu_2)(\mu_1-\mu_2)^T</script><script type="math/tex; mode=display">S_w=\sum\limits_{x\in C_i}(x-\mu_i)(x-\mu_i)^T</script><p>则可以将 $J(\omega )$ 写成：</p>
+<script type="math/tex; mode=display">J(\omega )=\frac{\omega ^TS_B\omega }{\omega ^TS_w\omega }</script><p>我们要最大化 $J(\omega )$，只需要对 $\omega $ 求偏导，并令导数等于零：</p>
+<script type="math/tex; mode=display">\frac{\partial\ J(\omega)}{\partial\ \omega} = \frac{(\frac{\partial\ \omega^TS_B\omega }{\partial\ \omega}\omega^TS_w\omega-\frac{\partial\ \omega^TS_w \omega}{\partial\ \omega}\omega^TS_B\omega)}{(\omega^TS_w\omega)^2}=0</script><p>可以得出：</p>
+<script type="math/tex; mode=display">(\omega^TS_w\omega)S_B\omega=(\omega^TS_B\omega)S_w\omega</script><p>由于在简化的二分类问题中 $\omega ^TS_w\omega $ 和 $\omega ^TS_B\omega $ 是两个数，我们令 $\lambda=J(\omega )=\frac{\omega ^TS_B\omega }{\omega ^TS_w\omega }$，于是可以把上面的式子 $(\omega^TS_w\omega)S_B\omega=(\omega^TS_B\omega)S_w\omega$ 写成：</p>
+<script type="math/tex; mode=display">S_B\omega=\lambda S_w\omega</script><p>整理得：</p>
+<script type="math/tex; mode=display">S^{-1}_{w}S_B\omega=\lambda \omega</script><p>也就是说，我们最大化的目标对应了一个矩阵的特征值，浴室LDA降维变成了一个求矩阵特征向量的问题。$J(\omega )$ 就对应了矩阵 $S^{-1}_{w}S_B$ 最大的特征值，而投影方向就是这个特征值对应的特征向量。</p>
+<p>对于二分类这个问题，由于$S_B=(\mu_1-\mu_2)(\mu_1-\mu_2)^T$ ，因此 $S_B\omega$ 的方向始终与 $(\mu_1-\mu_2)$ 一致，如果只考虑 $\omega$ 的方向而不考虑其长度，可以得到 $\omega=S^{-1}_{w}(\mu_1-\mu_2)$。<strong>也就是说，我们只需要求样本的均值和类内方差，就可以马上得出最佳得投影方向 $\omega$ </strong>。</p>
+<h3 id="LDA其他一些讨论"><a href="#LDA其他一些讨论" class="headerlink" title="LDA其他一些讨论"></a>LDA其他一些讨论</h3><p>LDA相比PCA来说更擅长对有类别信息的数据进行降维处理，但它对数据的分布做了一些很强的假设，<strong>例如每个类数据都是高斯分布、各个类的协方差相等等</strong>。尽管这些条件在有时候并不一定完全满足，但是LDA已经被证明是一种非常有效的降维方法。（常用于图像识别数据）。主要是因为线性模型对噪声的鲁棒性比较好，但由于模型简单，表达能力有一定的局限性，我们可以通过引入核函数扩展LDA方法以处理分布较为复杂的数据。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>[1]《百面机器学习》——4.3 线性判别分析</p>
 
       
     </div>
@@ -431,11 +395,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E9%87%87%E6%A0%B7/" rel="tag"># 采样</a>
+            <a href="/tags/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B/" rel="tag"># 特征工程</a>
           
-            <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag"># 机器学习</a>
-          
-            <a href="/tags/%E6%A6%82%E7%8E%87%E7%BB%9F%E8%AE%A1/" rel="tag"># 概率统计</a>
+            <a href="/tags/%E9%99%8D%E7%BB%B4/" rel="tag"># 降维</a>
           
         </div>
       
@@ -448,8 +410,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/26/MCMC/" rel="next" title="MCMC(马尔可夫链蒙特卡洛)(一)">
-                <i class="fa fa-chevron-left"></i> MCMC(马尔可夫链蒙特卡洛)(一)
+              <a href="/2020/09/01/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%89%E7%A7%8D%E9%81%8D%E5%8E%86-%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0/" rel="next" title="二叉树的三种遍历(非递归实现)">
+                <i class="fa fa-chevron-left"></i> 二叉树的三种遍历(非递归实现)
               </a>
             
           </div>
@@ -457,10 +419,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/28/resampling/" rel="prev" title="类别不平衡问题">
-                类别不平衡问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -601,7 +559,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#MCMC"><span class="nav-number">1.</span> <span class="nav-text">MCMC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#局限性"><span class="nav-number">1.1.</span> <span class="nav-text">局限性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#M-H采样"><span class="nav-number">2.</span> <span class="nav-text">M-H采样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gibbs采样"><span class="nav-number">3.</span> <span class="nav-text">Gibbs采样</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Tips"><span class="nav-number">3.1.</span> <span class="nav-text">Tips</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一点思考"><span class="nav-number">4.</span> <span class="nav-text">一点思考</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#LDA的基本思想"><span class="nav-number">1.</span> <span class="nav-text">LDA的基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LDA算法的数学分析"><span class="nav-number">2.</span> <span class="nav-text">LDA算法的数学分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LDA其他一些讨论"><span class="nav-number">3.</span> <span class="nav-text">LDA其他一些讨论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
