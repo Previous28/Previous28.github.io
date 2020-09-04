@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://shujh.top/2020/03/09/PCA/</loc>
+    <lastmod>2020-09-04</lastmod>
+  </url>  <url>
+    <loc>http://shujh.top/2020/03/21/SVM/</loc>
+    <lastmod>2020-09-02</lastmod>
+  </url>  <url>
     <loc>http://shujh.top/2020/03/18/word2vec/</loc>
     <lastmod>2020-09-01</lastmod>
   </url>  <url>
@@ -31,9 +37,6 @@
     <loc>http://shujh.top/2020/03/13/sort-algo/</loc>
     <lastmod>2020-04-14</lastmod>
   </url>  <url>
-    <loc>http://shujh.top/2020/03/09/PCA/</loc>
-    <lastmod>2020-04-14</lastmod>
-  </url>  <url>
     <loc>http://shujh.top/2020/03/19/ensemble-learning/</loc>
     <lastmod>2020-04-14</lastmod>
   </url>  <url>
@@ -45,9 +48,6 @@
   </url>  <url>
     <loc>http://shujh.top/2020/04/04/%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/</loc>
     <lastmod>2020-04-05</lastmod>
-  </url>  <url>
-    <loc>http://shujh.top/2020/03/21/SVM/</loc>
-    <lastmod>2020-04-01</lastmod>
   </url>  <url>
     <loc>http://shujh.top/2020/03/19/adaboost-GBDT/</loc>
     <lastmod>2020-04-01</lastmod>
