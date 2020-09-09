@@ -89,7 +89,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://shujh.top/2020/03/18/short-notes/1.png">
 <meta property="article:published_time" content="2020-03-18T06:30:43.000Z">
-<meta property="article:modified_time" content="2020-04-19T08:05:54.428Z">
+<meta property="article:modified_time" content="2020-09-09T08:56:51.481Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2020-04-19T16:05:54+08:00">
-                2020-04-19
+              <time title="Updated on" itemprop="dateModified" datetime="2020-09-09T16:56:51+08:00">
+                2020-09-09
               </time>
             
           </span>
@@ -368,7 +368,7 @@
 <h4 id="交叉校验-Cross-Validation"><a href="#交叉校验-Cross-Validation" class="headerlink" title="交叉校验 Cross Validation"></a>交叉校验 Cross Validation</h4><p>交叉校验，就是把数据集分成训练集和测试集，用训练集来训练模型，测试集来评估模型的好坏；然后再把数据重新打乱，重新选择训练集和测试集，重复这个步骤。这样我们就可以从一个数据集中得到多个不同的训练集和测试集组合，进行多次实验。由于本次用来训练的样本下一次可能被用来测试，这就是所谓的“交叉”。</p>
 <p>常用的交叉校验方法是K折交叉校验。我们把数据集平均分成K份，每次使用其中的一份来做测试集，其余的用来做训练集；重复K次使得每一份都被拿来当成测试集过。然后用这 K 次实验效果的平均值来评估模型的效果。</p>
 <p>此外，还有留一交叉校验、自助法（bootstrapping）。</p>
-<p>留一法是k折交叉校验的特殊情况，把设数据的样本数为n，留一法就是把其中n-1个数据当成训练集，只留一个样本当成测试集。适用于样本数很少的情况。</p>
+<p>留一法是k折交叉校验的特殊情况，设数据的样本数为n，留一法就是把其中n-1个数据当成训练集，只留一个样本当成测试集。适用于样本数很少的情况。</p>
 <p>bootstrapping 自助法是通过有放回地随机采样m个样本当成训练集，没有被采集到的样本当成测试集。接着这样进行交叉校验。</p>
 <h4 id="随机梯度下降法的改进"><a href="#随机梯度下降法的改进" class="headerlink" title="随机梯度下降法的改进"></a>随机梯度下降法的改进</h4><ul>
 <li>动量法：引入上一个梯度，作为“惯性”</li>
@@ -379,8 +379,6 @@
 <p>假阳性率：预测为正实际为负/总负数</p>
 <p>真阳性率：预测为正确实为正/总正数 == recall</p>
 <p>F1：综合评估精确率和召回率。是精确率和召回率的调和平均值。</p>
-<p>精确率：确实为正/预测为正</p>
-<p>召回率：正确地预测为正/所有正</p>
 <p>多分类：</p>
 <ul>
 <li>micro：分子相加/分母相加</li>
@@ -391,8 +389,6 @@
 <p><strong>RoC曲线</strong>：真阳性率为y轴，假阳性率为x轴画出来的曲线。越靠近左上越好。</p>
 <p><strong>AUC</strong>：ROC曲线下的面积</p>
 <h4 id="词袋模型"><a href="#词袋模型" class="headerlink" title="词袋模型"></a>词袋模型</h4><p>词袋模型就是将所有样本的单词不重复地都装到一个袋子里。这个袋子的大小就是词袋向量的长度；每一维都映射到一个单词；对于每个样本来说，该维度的值就是样本中对应单词出现的次数。所以每个样本对应的词袋向量是对其包含的所有单词的计数。</p>
-<h4 id="逻辑回归"><a href="#逻辑回归" class="headerlink" title="逻辑回归"></a>逻辑回归</h4><p>逻辑回归是一种分类算法。形式上可以看成是在线性回归的基础上，使用一个函数将结果再做一次映射。使得结果在属于某一区间的时候是一种类别，属于另一个区间的时候是另一种类别。</p>
-<p>二元逻辑回归最常使用的这个映射函数是sigmoid函数。经过sigmoid函数的映射之后模型的输出是属于某一分类的概率。二元逻辑回归的损失函数一般使用极大似然法推出来。一般使用梯度下降法求优。</p>
 <h4 id="极大似然"><a href="#极大似然" class="headerlink" title="极大似然"></a>极大似然</h4><p>极大似然法是利用已知的样本结果信息，反推最有可能导致这些样本结果出现的模型参数值（模型已定，参数未知）。</p>
 <h4 id="条件熵"><a href="#条件熵" class="headerlink" title="条件熵"></a>条件熵</h4><p>为什么条件熵的计算式子为：</p>
 <script type="math/tex; mode=display">H(Y|X) = -\sum\limits_{i=1}^{n}p(x_i,y_i)logp(y_i|x_i) = \sum\limits_{j=1}^{n}p(x_j)H(Y|x_j)</script><p>从1到3很容易理解，那么2只是从3推导出来的。如下图：</p>
@@ -582,7 +578,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉校验-Cross-Validation"><span class="nav-number">1.</span> <span class="nav-text">交叉校验 Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机梯度下降法的改进"><span class="nav-number">2.</span> <span class="nav-text">随机梯度下降法的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估指标"><span class="nav-number">3.</span> <span class="nav-text">评估指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于分类问题"><span class="nav-number">4.</span> <span class="nav-text">关于分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词袋模型"><span class="nav-number">5.</span> <span class="nav-text">词袋模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑回归"><span class="nav-number">6.</span> <span class="nav-text">逻辑回归</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#极大似然"><span class="nav-number">7.</span> <span class="nav-text">极大似然</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件熵"><span class="nav-number">8.</span> <span class="nav-text">条件熵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">9.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#交叉校验-Cross-Validation"><span class="nav-number">1.</span> <span class="nav-text">交叉校验 Cross Validation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#随机梯度下降法的改进"><span class="nav-number">2.</span> <span class="nav-text">随机梯度下降法的改进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评估指标"><span class="nav-number">3.</span> <span class="nav-text">评估指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于分类问题"><span class="nav-number">4.</span> <span class="nav-text">关于分类问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词袋模型"><span class="nav-number">5.</span> <span class="nav-text">词袋模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#极大似然"><span class="nav-number">6.</span> <span class="nav-text">极大似然</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#条件熵"><span class="nav-number">7.</span> <span class="nav-text">条件熵</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
