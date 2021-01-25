@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://shujh.top/2021/01/25/AUC/2.png">
 <meta property="og:image" content="http://shujh.top/2021/01/25/AUC/3.png">
 <meta property="article:published_time" content="2021-01-25T14:53:50.000Z">
-<meta property="article:modified_time" content="2021-01-25T16:27:22.291Z">
+<meta property="article:modified_time" content="2021-01-25T16:28:13.647Z">
 <meta property="article:author" content="Jonathan Shu">
 <meta property="article:tag" content="机器学习">
 <meta property="article:tag" content="评价指标">
@@ -304,7 +304,7 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2021-01-26T00:27:22+08:00">
+              <time title="Updated on" itemprop="dateModified" datetime="2021-01-26T00:28:13+08:00">
                 2021-01-26
               </time>
             
@@ -383,7 +383,7 @@
 </ol>
 <p>当然这个例子只能说明PRE是对类别不平衡敏感的，不能说明TPR和FPR对类别不平衡不敏感，但是为什么这两个概念对类别不平衡不敏感，我觉得从前面的条件概率那边应该很好理解。<br>（或者是从下面自己的一点其他思考来切入）</p>
 <h4 id="自己的一个待数学验证的想法"><a href="#自己的一个待数学验证的想法" class="headerlink" title="自己的一个待数学验证的想法"></a>自己的一个待数学验证的想法</h4><p>待验证：TPR和FPR的值会受到不同类别之间的比例的变化而变化，但是由于TPR和FPR是一组互相对应的概念（其计算公式的思路上本质上是一样的），这种变化导致的他们的值的变化会相互抵消，所以最后，AUC的值反而不会受到影响。而F1的话，PRE和REC之间不是相互对应的概念（计算公式的思路本质上是不一样的），所以由于类别之间的比例的变化导致的变化是没法相互抵消的，所以F1对类别不平衡敏感。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><strong>一句话总结：从条件概率的角度去理解+直接举例子理解。</strong>不要想太多，只空想不做数学证明很容易陷入误区，而且就算想清楚了也容易忘记。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><strong>一句话总结：从条件概率的角度去理解+直接举例子理解。</strong>不要想太多，想得太复杂，只空想而不做严谨的数学证明很容易陷入误区，而且就算想清楚了也容易忘记。</p>
 <h4 id="顺便记录一下今天关于precision和recall的一些笔记"><a href="#顺便记录一下今天关于precision和recall的一些笔记" class="headerlink" title="顺便记录一下今天关于precision和recall的一些笔记"></a>顺便记录一下今天关于precision和recall的一些笔记</h4><p>若更重视precision：把阈值调高，让分类器的结果更有把握。<br>若更重视recall：把阈值调低，预测出更多正例。</p>
 <p>recall是相对于真是答案而言的；precision是相对你的模型而言的，是模型预测一个样本为正的“自信心”或者说“正确率”。</p>
 <h4 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h4><p><a href="https://www.zhihu.com/question/30643044/answer/224360465" target="_blank" rel="noopener">https://www.zhihu.com/question/30643044/answer/224360465</a><br><a href="https://www.zhihu.com/question/30643044/answer/510317055" target="_blank" rel="noopener">https://www.zhihu.com/question/30643044/answer/510317055</a></p>
