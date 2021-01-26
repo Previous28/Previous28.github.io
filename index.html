@@ -299,7 +299,7 @@
               
                 <span class="post-meta-item-text">Updated on&#58;</span>
               
-              <time title="Updated on" itemprop="dateModified" datetime="2021-01-26T14:30:46+08:00">
+              <time title="Updated on" itemprop="dateModified" datetime="2021-01-26T14:32:04+08:00">
                 2021-01-26
               </time>
             
@@ -356,31 +356,14 @@
 
       
         
-          
-            <a id="more"></a>
-<h4 id="问题提出：为什么AUC对类别不平衡不敏感？F1对类别不平衡敏感吗？"><a href="#问题提出：为什么AUC对类别不平衡不敏感？F1对类别不平衡敏感吗？" class="headerlink" title="问题提出：为什么AUC对类别不平衡不敏感？F1对类别不平衡敏感吗？"></a>问题提出：为什么AUC对类别不平衡不敏感？F1对类别不平衡敏感吗？</h4><h4 id="使用混淆矩阵解释"><a href="#使用混淆矩阵解释" class="headerlink" title="使用混淆矩阵解释"></a>使用混淆矩阵解释</h4><p>首先列出混淆矩阵：</p>
-<p><img src="/2021/01/25/AUC/1.png" style="zoom: 27%;"></p>
-<p>AUC 与TPR 和 FPR有关，这两个概念的公式分别是：</p>
-<script type="math/tex; mode=display">TPR = \frac{TP}{TP+FN}</script><script type="math/tex; mode=display">FPR = \frac{FP}{FP+TN}</script><p>对应到混淆矩阵中分别是：<br><img src="/2021/01/25/AUC/2.png" style="zoom: 50%;"></p>
-<p>我们可以看到TPR的计算仅仅与实际标签为1的样本集有关，而FPR的计算仅仅与实际标签为0的样本集有关。由于这两个概念都与相反标签的样本集合无关，那么无论样本是否平衡，都不会受到影响。因为他们只考虑当前所在标签的全量，不考虑当前所在标签的全量占总体的比例。</p>
-<p>F1与PRE 和 REC 有关，REC跟前面的TPR是一个意思。这里主要看看PRE，PRE的计算公式是：</p>
-<script type="math/tex; mode=display">PRE = \frac{TP}{TP+FP}</script><p>对应到混淆矩阵中是：<br><img src="/2021/01/25/AUC/3.png" style="zoom: 50%;"></p>
-<p>我们可以看到PRE的计算与实际标签为1和0的样本都有关。他的计算跨了实际标签不同的两种样本，所以天然地会受到类别比例的影响。<br>所以结论是：<strong>F1会对类别不平衡敏感</strong>。</p>
-<h4 id="从条件概率的角度看来"><a href="#从条件概率的角度看来" class="headerlink" title="从条件概率的角度看来"></a>从条件概率的角度看来</h4><p>我们也可以从条件概率的角度来考虑这个问题。设Y为真实值，pred为预测值，那么这三个概念的条件概率可以分别表示成：</p>
-<script type="math/tex; mode=display">PRE = P(Y=1 | pred=1)</script><script type="math/tex; mode=display">TPR = P(pred=1 | Y=1)</script><script type="math/tex; mode=display">FPR = 1 - P(pred=0 | Y=0)</script><p>可以看到 TPR和FPR都是条件于真实值Y的，即无论Y的真实概率是多少都不影响，因为Y在他们那里都已经是“全量”了。但是PRE是条件于预测值pred的，会随着测试集里面正反样本的比例的变化而变化。<br>不理解的话可以看下面举的例子。</p>
-<h4 id="举例子来理解"><a href="#举例子来理解" class="headerlink" title="举例子来理解"></a>举例子来理解</h4><p>我们也可以举例子来理解。假设现在测试集有100个样本，我们讨论一种极端的情况，将100个样本预测为正，当测试集实际上：</p>
-<ol>
-<li>正负样本比例是50:50，此时50个样本是TP，50个样本是FP，TPR和FPR都是1，而PRE是0.5</li>
-<li>正负样本比例是99:1，此时99个样本是TP，1个样本是FP，TPR和FPR仍然都是1，而PRE是0.99<br>由此可见，当模型进行了同样的预测时，使用PRE这个评价指标，得到的结果好坏跟测试集中正负样本的比例是有很大关系的。</li>
-</ol>
-<p>当然这个例子只能说明PRE是对类别不平衡敏感的，不能说明TPR和FPR对类别不平衡不敏感，但是为什么这两个概念对类别不平衡不敏感，我觉得从前面的条件概率那边应该很好理解。<br>（或者是从下面自己的一点其他思考来切入）</p>
-<h4 id="自己的一个待数学验证的想法"><a href="#自己的一个待数学验证的想法" class="headerlink" title="自己的一个待数学验证的想法"></a>自己的一个待数学验证的想法</h4><p>待验证：TPR和FPR的值会受到不同类别之间的比例的变化而变化，但是由于TPR和FPR是一组互相对应的概念（其计算公式的思路上本质上是一样的），这种变化导致的他们的值的变化会相互抵消，所以最后，AUC的值反而不会受到影响。而F1的话，PRE和REC之间不是相互对应的概念（计算公式的思路本质上是不一样的），所以由于类别之间的比例的变化导致的变化是没法相互抵消的，所以F1对类别不平衡敏感。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p><strong>一句话总结：从条件概率的角度去理解+直接举例子理解。</strong>不要想太多，想得太复杂，只空想而不做严谨的数学证明很容易陷入误区，而且就算想清楚了也容易忘记。</p>
-<h4 id="顺便记录一下今天关于precision和recall的一些笔记"><a href="#顺便记录一下今天关于precision和recall的一些笔记" class="headerlink" title="顺便记录一下今天关于precision和recall的一些笔记"></a>顺便记录一下今天关于precision和recall的一些笔记</h4><p>若更重视precision：把阈值调高，让分类器的结果更有把握。<br>若更重视recall：把阈值调低，预测出更多正例。</p>
-<p>recall是相对于真是答案而言的；precision是相对你的模型而言的，是模型预测一个样本为正的“自信心”或者说“正确率”。</p>
-<h4 id="参考内容"><a href="#参考内容" class="headerlink" title="参考内容"></a>参考内容</h4><p><a href="https://www.zhihu.com/question/30643044/answer/224360465" target="_blank" rel="noopener">https://www.zhihu.com/question/30643044/answer/224360465</a><br><a href="https://www.zhihu.com/question/30643044/answer/510317055" target="_blank" rel="noopener">https://www.zhihu.com/question/30643044/answer/510317055</a><br><a href="https://www.zhihu.com/question/30643044" target="_blank" rel="noopener">https://www.zhihu.com/question/30643044</a></p>
-
-          
+          <p>无预览。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2021/01/25/AUC/" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
